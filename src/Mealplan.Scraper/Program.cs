@@ -32,9 +32,10 @@ if (oneShot is not null)
     return await oneShot.RunAsync(app.Services, logger);
 }
 
-// Local only: the dashboard has no authentication, and the container is not
-// meant to be reachable from outside the compose network.
-app.UseHangfireDashboard("/jobs");
+app.UseHangfireDashboard("/jobs", new DashboardOptions
+{
+    Authorization = [app.Services.GetRequiredService<BasicAuthDashboardFilter>()],
+});
 app.MapHealthChecks("/health");
 
 await app.Services.ScheduleSourceCrawlsAsync();

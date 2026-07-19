@@ -51,8 +51,10 @@ its scheduled night - HelloFresh crawls Sunday 03:00 UTC and Gousto Wednesday
 existing database starts nothing, because the sources already have successful
 runs. Set `Sources__<slug>__CrawlOnStartup=false` to deploy quiet.
 
-Normalising runs hourly per source, independently of crawling. Watch both at
-<http://localhost:5206/jobs>.
+Normalising runs hourly per source, independently of crawling. Watch both on the
+Hangfire dashboard at `/jobs`, which is behind basic auth: `JOBS_USER` and
+`JOBS_PASSWORD` from `.env`. Deployed it is routed by the Coolify proxy and is
+not published on the host; locally it is <http://localhost:5206/jobs>.
 
 Day to day development and the test suite need neither the VPN nor credentials.
 

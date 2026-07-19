@@ -21,6 +21,19 @@ public static class ScraperHostExtensions
             ?? throw new InvalidOperationException(
                 "Connection string 'Mealplan' is not configured.");
 
+        // Validated on start: the dashboard answers on a public domain, so a
+        // missing credential must stop the host rather than leave it open.
+        services.AddOptions<JobsDashboardOptions>()
+            .Bind(configuration.GetSection(JobsDashboardOptions.SectionName))
+            .Validate(
+                options => !string.IsNullOrWhiteSpace(options.Username)
+                    && !string.IsNullOrWhiteSpace(options.Password),
+                $"{JobsDashboardOptions.SectionName}:Username and "
+                    + $"{JobsDashboardOptions.SectionName}:Password are both required.")
+            .ValidateOnStart();
+
+        services.AddSingleton<BasicAuthDashboardFilter>();
+
         services.AddHangfire(config => config
             .SetDataCompatibilityLevel(CompatibilityLevel.Version_180)
             .UseSimpleAssemblyNameTypeSerializer()
