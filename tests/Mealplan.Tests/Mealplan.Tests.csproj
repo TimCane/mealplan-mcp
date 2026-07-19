@@ -19,6 +19,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\Mealplan.Infrastructure.HelloFresh\Mealplan.Infrastructure.HelloFresh.csproj" />
     <ProjectReference Include="..\..\src\Mealplan.Infrastructure.Gousto\Mealplan.Infrastructure.Gousto.csproj" />
+    <ProjectReference Include="..\..\src\Mealplan.Scraper\Mealplan.Scraper.csproj" />
   </ItemGroup>
 
 </Project>
