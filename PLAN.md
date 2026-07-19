@@ -255,6 +255,12 @@ Cloudflare already scores those exits.
 Normalising runs hourly for every source, independently of crawling, so a failed
 crawl still gets whatever it stored turned into recipes.
 
+A source with no completed crawl is queued at startup. Without it a fresh
+deployment serves nothing until its scheduled night, which is up to a week away.
+The test is on runs rather than rows: a redeploy against an existing database
+finds a successful run and starts nothing, while a first attempt that failed or
+was cancelled is retried and resumes from its cursor.
+
 ### VPN
 
 All scraper egress goes through a `gluetun` container holding the ProtonVPN

@@ -37,7 +37,7 @@ if (oneShot is not null)
 app.UseHangfireDashboard("/jobs");
 app.MapHealthChecks("/health");
 
-app.Services.ScheduleSourceCrawls();
+await app.Services.ScheduleSourceCrawlsAsync();
 
 await app.RunAsync();
 

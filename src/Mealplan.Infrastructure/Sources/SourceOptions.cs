@@ -59,4 +59,11 @@ public class SourceOptions
 
     /// <summary>Set false to leave a source out of the recurring schedule.</summary>
     public bool Enabled { get; set; } = true;
+
+    /// <summary>
+    /// Crawl at startup when this source has never completed one. A fresh
+    /// deployment otherwise serves no recipes until its scheduled night, which
+    /// can be most of a week away. Set false to deploy quiet.
+    /// </summary>
+    public bool CrawlOnStartup { get; set; } = true;
 }
