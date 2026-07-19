@@ -56,4 +56,20 @@ public class ScrapeRunStore(ScrapeDbContext db, TimeProvider clock) : IScrapeRun
             .OrderByDescending(r => r.StartedAt)
             .FirstOrDefaultAsync(ct);
     }
+
+    public async Task<int> CancelAbandonedAsync(CancellationToken ct = default)
+    {
+        var finishedAt = clock.GetUtcNow();
+
+        // Cancelled rather than Failed: the cursor is intact, so this reads as an
+        // interrupted run and the next crawl resumes from it.
+        return await db.Runs
+            .Where(r => r.Status == ScrapeRunStatus.Running)
+            .ExecuteUpdateAsync(
+                s => s
+                    .SetProperty(r => r.Status, ScrapeRunStatus.Cancelled)
+                    .SetProperty(r => r.FinishedAt, finishedAt)
+                    .SetProperty(r => r.Error, "The scraper restarted while this run was in flight."),
+                ct);
+    }
 }
