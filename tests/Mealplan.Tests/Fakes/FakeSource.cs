@@ -69,4 +69,8 @@ public class FakeSchema(string source = "fake") : ISourceSchema
 
     public SourceCapabilities Capabilities { get; } =
         new(HasIngredientQuantities: true, HasPantryItems: false, HasNutrition: true, [2, 4]);
+
+    public string RecipeViewSql => "SELECT NULL WHERE false";
+
+    public string RecipeIngredientViewSql => "SELECT NULL WHERE false";
 }
