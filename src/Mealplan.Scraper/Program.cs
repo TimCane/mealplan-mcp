@@ -2,6 +2,7 @@ using Hangfire;
 using Mealplan.Infrastructure;
 using Mealplan.Infrastructure.Persistence;
 using Mealplan.Scraper;
+using Microsoft.AspNetCore.HttpOverrides;
 
 var oneShot = OneShotCommand.Parse(args);
 
@@ -9,6 +10,19 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddMealplanInfrastructure(builder.Configuration);
 builder.Services.AddHealthChecks();
+
+// The proxy terminates TLS and forwards plain HTTP, so without these the app
+// takes every request for http:// on an internal host and any absolute URL it
+// builds - the dashboard's redirects included - points somewhere unreachable.
+// The allowlist is cleared because the proxy's address on the Docker network is
+// not stable, and nothing off the compose network can reach this port to
+// spoof the headers.
+builder.Services.Configure<ForwardedHeadersOptions>(options =>
+{
+    options.ForwardedHeaders = ForwardedHeaders.XForwardedProto | ForwardedHeaders.XForwardedHost;
+    options.KnownIPNetworks.Clear();
+    options.KnownProxies.Clear();
+});
 
 // Hangfire is only needed for the scheduled server, not a one-shot run.
 if (oneShot is null)
@@ -31,6 +45,10 @@ if (oneShot is not null)
 
     return await oneShot.RunAsync(app.Services, logger);
 }
+
+// First in the pipeline: everything downstream reads the corrected scheme and
+// host off the request.
+app.UseForwardedHeaders();
 
 app.UseHangfireDashboard("/jobs", new DashboardOptions
 {
