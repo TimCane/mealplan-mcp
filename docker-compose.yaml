@@ -14,12 +14,18 @@ services:
       - NET_ADMIN
     devices:
       - /dev/net/tun:/dev/net/tun
-    ports:
-      # Published here rather than on the scraper: a container sharing another's
-      # network namespace cannot publish its own ports.
-      - "${SCRAPER_PORT:-5206}:5206"
+    expose:
+      # The scraper's port, declared here rather than on the scraper: a container
+      # sharing another's network namespace has no ports of its own. Exposed and
+      # not published, so the Coolify proxy is the only way to the dashboard.
+      - "5206"
     environment:
       TZ: Etc/UTC
+      # Binds the scraper's domain to this container, because this is where port
+      # 5206 lives. Coolify turns it into the Traefik labels that route the host;
+      # without it nothing matches and every path 404s. The domain is set in
+      # Coolify, not here.
+      SERVICE_FQDN_SCRAPER_5206: /
       VPN_SERVICE_PROVIDER: protonvpn
       VPN_TYPE: wireguard
       WIREGUARD_PRIVATE_KEY: ${WIREGUARD_PRIVATE_KEY:?required}
@@ -57,7 +63,7 @@ services:
       retries: 5
 
   # Crawls the source APIs and normalises what it stores. Owns the migrations.
-  # Hangfire dashboard on 5206, published by gluetun.
+  # Hangfire dashboard on 5206, exposed by gluetun and routed by the proxy.
   scraper:
     build:
       context: .
@@ -68,6 +74,10 @@ services:
     environment:
       TZ: Etc/UTC
       ASPNETCORE_URLS: http://0.0.0.0:5206
+      # The dashboard can start and stop crawls, so it is not left open. The host
+      # refuses to start if either value is missing.
+      JobsDashboard__Username: ${JOBS_USER:?required}
+      JobsDashboard__Password: ${JOBS_PASSWORD:?required}
       # By IP, not by name. gluetun replaces Docker's embedded resolver with its
       # own DNS-over-TLS, so internal names do not resolve in this namespace.
       # Turning DoT off would fix that by sending every public lookup through the
