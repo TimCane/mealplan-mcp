@@ -44,8 +44,15 @@ The scraper shares gluetun's network namespace, so if the tunnel drops it has no
 network at all rather than falling back to your real IP. The MCP server is on the
 normal bridge network and never touches the VPN.
 
-Crawls then run themselves: each source is crawled weekly and normalised hourly,
-per `Sources:<slug>` config. Watch them at <http://localhost:5206/jobs>.
+Crawls then run themselves. A source with no completed crawl is queued
+immediately, so a fresh deployment fills itself rather than serving nothing until
+its scheduled night - HelloFresh crawls Sunday 03:00 UTC and Gousto Wednesday
+03:00 UTC, so the wait would otherwise be up to a week. A redeploy against an
+existing database starts nothing, because the sources already have successful
+runs. Set `Sources__<slug>__CrawlOnStartup=false` to deploy quiet.
+
+Normalising runs hourly per source, independently of crawling. Watch both at
+<http://localhost:5206/jobs>.
 
 Day to day development and the test suite need neither the VPN nor credentials.
 
