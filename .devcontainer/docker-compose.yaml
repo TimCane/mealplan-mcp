@@ -1,0 +1,45 @@
+name: mealplan-mcp
+
+services:
+  # Dev workspace - VS Code attaches here; the MCP server and scraper worker run
+  # in-container as processes.
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: sleep infinity
+    ports:
+      # 5205 MCP server, 5206 Hangfire dashboard.
+      - "5205:5205"
+      - "5206:5206"
+    volumes:
+      - ../..:/workspaces:cached
+    networks:
+      - backend
+
+  # Postgres for local dev - throwaway data, dev-only creds.
+  db:
+    image: postgres:16
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    environment:
+      TZ: Etc/UTC
+      POSTGRES_USER: mealplanmcp
+      POSTGRES_PASSWORD: mealplanmcp
+      POSTGRES_DB: mealplanmcp
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    networks:
+      - backend
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U mealplanmcp"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+networks:
+  backend:
+
+volumes:
+  db-data:
