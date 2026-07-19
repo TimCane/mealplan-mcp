@@ -22,6 +22,15 @@
     <Using Include="Xunit" />
   </ItemGroup>
 
+  <!--
+    Real payloads captured from the source APIs, so normalisers are tested
+    against what the endpoints actually return. Exempt from the ASCII rule -
+    recipe names carry accents.
+  -->
+  <ItemGroup>
+    <None Include="Fixtures\**\*.json" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\..\src\Mealplan.Mcp\Mealplan.Mcp.csproj" />
     <ProjectReference Include="..\..\src\Mealplan.Scraper\Mealplan.Scraper.csproj" />
