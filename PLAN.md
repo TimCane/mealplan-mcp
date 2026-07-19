@@ -180,10 +180,19 @@ CREATE VIEW public.v_recipe AS
   SELECT 'gousto', ... FROM gousto.recipe JOIN gousto.recipe_yield ...;
 ```
 
-Views default to 2 portions unless a portion count is requested. Text search uses
-a generated `tsvector` over name, headline and description with a GIN index, plus
-a `pg_trgm` similarity fallback for typos. Adding a source adds one `UNION ALL`
-clause per view and nothing else.
+Views default to 2 portions unless a portion count is requested.
+
+The views are not written into a migration. Each source contributes its own
+`SELECT` through `ISourceSchema`, and the views are rebuilt from every registered
+source at MCP startup. A migration would have to be edited for each new source -
+exactly the coupling per-source schemas exist to avoid. Adding a source therefore
+costs nothing here at all.
+
+Text search runs `to_tsvector` over the view's `search_text`, with a `pg_trgm`
+word-similarity fallback for typos. The original plan called for a stored
+generated `tsvector` column with a GIN index per source; at a few thousand
+recipes the computed version is fast enough and keeps the source schemas simpler.
+Add the stored column and index when the row count makes it worth it.
 
 ## MCP surface
 

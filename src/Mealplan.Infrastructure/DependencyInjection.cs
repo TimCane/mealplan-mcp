@@ -1,6 +1,7 @@
 using Mealplan.Domain.Scraping;
 using Mealplan.Infrastructure.Jobs;
 using Mealplan.Infrastructure.Persistence;
+using Mealplan.Infrastructure.Reading;
 using Mealplan.Infrastructure.Sources;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -36,6 +37,8 @@ public static class DependencyInjection
 
         services.AddScoped<CrawlJob>();
         services.AddScoped<NormalizeJob>();
+        services.AddScoped<RecipeQueryService>();
+        services.AddSingleton<UnionViewBuilder>();
 
         // Collected after the source modules have run, so a source's context is
         // migrated without the host naming it.
