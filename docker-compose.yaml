@@ -87,10 +87,18 @@ services:
       context: .
       dockerfile: src/Mealplan.Mcp/Dockerfile
     restart: unless-stopped
-    ports:
-      - "${MCP_PORT:-5205}:5205"
+    # Reached by the Coolify proxy over the compose network, not published on the
+    # host: a published port would answer on the public IP directly, skipping
+    # Traefik and the TLS that terminates there.
+    expose:
+      - "5205"
     environment:
       TZ: Etc/UTC
+      # Tells Coolify which service and container port the domain routes to; it
+      # generates the Traefik labels from this name. Without it Traefik has no
+      # router for the host and every path falls through to a 404 on its default
+      # self-signed cert. The domain itself is set in Coolify, not here.
+      SERVICE_FQDN_MCP_5205: /
       ASPNETCORE_URLS: http://0.0.0.0:5205
       # By IP like the scraper. Short service names are not reliably resolvable:
       # a host resolv.conf carrying ndots:0 and a search domain turns "db" into
