@@ -17,7 +17,7 @@ services:
     ports:
       # Published here rather than on the scraper: a container sharing another's
       # network namespace cannot publish its own ports.
-      - "5206:5206"
+      - "${SCRAPER_PORT:-5206}:5206"
     environment:
       TZ: Etc/UTC
       VPN_SERVICE_PROVIDER: protonvpn
@@ -46,7 +46,10 @@ services:
     volumes:
       - db-data:/var/lib/postgresql/data
     networks:
-      - backend
+      backend:
+        # Fixed address so the scraper can reach Postgres by IP. Inside gluetun's
+        # namespace there is no Docker DNS to resolve "db" - see the scraper.
+        ipv4_address: ${DB_IP:-172.28.0.10}
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-mealplanmcp}"]
       interval: 10s
@@ -65,8 +68,12 @@ services:
     environment:
       TZ: Etc/UTC
       ASPNETCORE_URLS: http://0.0.0.0:5206
+      # By IP, not by name. gluetun replaces Docker's embedded resolver with its
+      # own DNS-over-TLS, so internal names do not resolve in this namespace.
+      # Turning DoT off would fix that by sending every public lookup through the
+      # host resolver instead, outside the tunnel.
       ConnectionStrings__Mealplan: >-
-        Host=db;Port=5432;Database=${POSTGRES_DB:-mealplanmcp};Username=${POSTGRES_USER:-mealplanmcp};Password=${POSTGRES_PASSWORD:?required}
+        Host=${DB_IP:-172.28.0.10};Port=5432;Database=${POSTGRES_DB:-mealplanmcp};Username=${POSTGRES_USER:-mealplanmcp};Password=${POSTGRES_PASSWORD:?required}
     depends_on:
       db:
         condition: service_healthy
@@ -81,12 +88,15 @@ services:
       dockerfile: src/Mealplan.Mcp/Dockerfile
     restart: unless-stopped
     ports:
-      - "5205:5205"
+      - "${MCP_PORT:-5205}:5205"
     environment:
       TZ: Etc/UTC
       ASPNETCORE_URLS: http://0.0.0.0:5205
+      # By IP like the scraper. Short service names are not reliably resolvable:
+      # a host resolv.conf carrying ndots:0 and a search domain turns "db" into
+      # "db.<search-domain>" and NXDOMAIN.
       ConnectionStrings__Mealplan: >-
-        Host=db;Port=5432;Database=${POSTGRES_DB:-mealplanmcp};Username=${POSTGRES_USER:-mealplanmcp};Password=${POSTGRES_PASSWORD:?required}
+        Host=${DB_IP:-172.28.0.10};Port=5432;Database=${POSTGRES_DB:-mealplanmcp};Username=${POSTGRES_USER:-mealplanmcp};Password=${POSTGRES_PASSWORD:?required}
     networks:
       - backend
     depends_on:
