@@ -38,7 +38,16 @@ public static class ScraperHostExtensions
             .SetDataCompatibilityLevel(CompatibilityLevel.Version_180)
             .UseSimpleAssemblyNameTypeSerializer()
             .UseRecommendedSerializerSettings()
-            .UsePostgreSqlStorage(postgres => postgres.UseNpgsqlConnection(connectionString)));
+            .UsePostgreSqlStorage(
+                postgres => postgres.UseNpgsqlConnection(connectionString),
+                new PostgreSqlStorageOptions
+                {
+                    // A crawl runs for hours; on the fixed timeout a job still
+                    // being worked goes back on offer after 30 minutes. Sliding
+                    // keeps it invisible while its worker is alive, and a killed
+                    // worker's job is re-fetched once the heartbeat lapses.
+                    UseSlidingInvisibilityTimeout = true,
+                }));
 
         // Two servers, one worker each, rather than one server with two workers:
         // a single server lets any worker take any queued job, so the second
@@ -91,6 +100,7 @@ public static class ScraperHostExtensions
         var recurring = scope.ServiceProvider.GetRequiredService<IRecurringJobManager>();
         var background = scope.ServiceProvider.GetRequiredService<IBackgroundJobClient>();
         var runs = scope.ServiceProvider.GetRequiredService<IScrapeRunStore>();
+        var monitoring = scope.ServiceProvider.GetRequiredService<JobStorage>().GetMonitoringApi();
         var logger = scope.ServiceProvider
             .GetRequiredService<ILoggerFactory>()
             .CreateLogger("Mealplan.Scraper.Schedule");
@@ -148,6 +158,17 @@ public static class ScraperHostExtensions
 
             if (!StartupCrawl.ShouldSeed(latest))
             {
+                continue;
+            }
+
+            // The run table says interrupted, but the interrupted job itself
+            // survives in Hangfire and resumes on its own. Seeding next to it
+            // ran the same crawl twice - once per restart.
+            if (PendingCrawl.ExistsFor(monitoring, source))
+            {
+                logger.LogInformation(
+                    "Skipped seeding {Source}: a crawl is already queued or running",
+                    source);
                 continue;
             }
 
