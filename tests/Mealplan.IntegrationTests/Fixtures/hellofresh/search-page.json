@@ -1,0 +1,1996 @@
+{
+  "items": [
+    {
+      "active": true,
+      "allergens": [
+        {
+          "id": "57962a07b7e8697d4b3052fa",
+          "name": "Milk",
+          "type": "milk",
+          "slug": "milk",
+          "iconLink": "https://d3hvwccx09j84u.cloudfront.net/0,0/allergens/57962a07b7e8697d4b3052fa-be127d3f.png",
+          "iconPath": "/allergens/57962a07b7e8697d4b3052fa-be127d3f.png",
+          "triggersTracesOf": false,
+          "tracesOf": false
+        },
+        {
+          "id": "57962a07b7e8697d4b3052f9",
+          "name": "Soya",
+          "type": "soya",
+          "slug": "soya",
+          "iconLink": "https://d3hvwccx09j84u.cloudfront.net/0,0/allergens/57962a07b7e8697d4b3052f9-feb8e168.png",
+          "iconPath": "/allergens/57962a07b7e8697d4b3052f9-feb8e168.png",
+          "triggersTracesOf": false,
+          "tracesOf": false
+        },
+        {
+          "id": "57962a07b7e8697d4b3052f5",
+          "name": "Cereals containing gluten",
+          "type": "gluten",
+          "slug": "cereals-containing-gluten",
+          "iconLink": "https://d3hvwccx09j84u.cloudfront.net/0,0/allergens/57962a07b7e8697d4b3052f5-e20d9ca4.png",
+          "iconPath": "/allergens/57962a07b7e8697d4b3052f5-e20d9ca4.png",
+          "triggersTracesOf": false,
+          "tracesOf": false
+        },
+        {
+          "id": "60368d89cdbdf450236ad8cd",
+          "name": "Wheat",
+          "type": "wheat",
+          "slug": "wheat",
+          "iconPath": null,
+          "triggersTracesOf": false,
+          "tracesOf": false
+        },
+        {
+          "id": "57962a07b7e8697d4b3052f6",
+          "name": "Egg",
+          "type": "egg",
+          "slug": "egg",
+          "iconLink": "https://d3hvwccx09j84u.cloudfront.net/0,0/allergens/57962a07b7e8697d4b3052f6-63afd198.png",
+          "iconPath": "/allergens/57962a07b7e8697d4b3052f6-63afd198.png",
+          "triggersTracesOf": false,
+          "tracesOf": false
+        },
+        {
+          "id": "57962a07b7e8697d4b3052f4",
+          "name": "Crustaceans",
+          "type": "crustaceans",
+          "slug": "crustaceans",
+          "iconLink": "https://d3hvwccx09j84u.cloudfront.net/0,0/allergens/57962a07b7e8697d4b3052f4-feb8e168.png",
+          "iconPath": "/allergens/57962a07b7e8697d4b3052f4-feb8e168.png",
+          "triggersTracesOf": false,
+          "tracesOf": false
+        },
+        {
+          "id": "5b0532aaae08b52eb9420552",
+          "name": "Soya",
+          "type": "traces-of-soya",
+          "slug": "traces-of-soya",
+          "iconPath": null,
+          "triggersTracesOf": false,
+          "tracesOf": true
+        },
+        {
+          "id": "5de91d27f4c17e42c17aef94",
+          "name": "Mustard",
+          "type": "traces-of-mustard",
+          "slug": "traces-of-mustard",
+          "iconPath": null,
+          "triggersTracesOf": false,
+          "tracesOf": true
+        },
+        {
+          "id": "57962a07b7e8697d4b3052f3",
+          "name": "May contain traces of allergens",
+          "type": "maycontaintracesofallergens",
+          "slug": "may-contain-traces-of-allergens",
+          "iconPath": null,
+          "triggersTracesOf": true,
+          "tracesOf": true
+        }
+      ],
+      "averageRating": 3.4,
+      "canonical": "697739c92460c72e4c6d9f2b",
+      "canonicalLink": "https://www.hellofresh.co.uk/recipes/green-chilli-rigatoni-697739c92460c72e4c6d9f2b",
+      "cardLink": "https://www.hellofresh.co.uk/recipecards/card/6a05bf18204de353958f582d-en-GB.pdf",
+      "category": {
+        "id": "5bd6f0ef19c55bee469039b1",
+        "name": "Seafood",
+        "type": "seafood",
+        "slug": "Seafood"
+      },
+      "clonedFrom": "69f1d654d52e296f6a3872ef",
+      "comment": null,
+      "country": "GB",
+      "createdAt": "2026-06-10T13:49:44+00:00",
+      "cuisines": [
+        {
+          "id": "57ebbc17b7e8697d4b3053ac",
+          "type": "italian",
+          "name": "Italian",
+          "slug": "italian",
+          "iconLink": "https://d3hvwccx09j84u.cloudfront.net/0,0/cuisines/57ebbc17b7e8697d4b3053ac-ed3b5276.jpg"
+        }
+      ],
+      "description": "Add a fresh flavour to your plates with yellow courgettes. Gorgeously golden, yellow courgettes are just a mutation of regular courgettes, with bright yellow skin rather than dark green. Slightly sweet, savoury and stunningly summery.",
+      "descriptionHTML": "<p>Add a fresh flavour to your plates with yellow courgettes. Gorgeously golden, yellow courgettes are just a mutation of regular courgettes, with bright yellow skin rather than dark green. Slightly sweet, savoury and stunningly summery.</p>",
+      "descriptionMarkdown": "Add a fresh flavour to your plates with yellow courgettes. Gorgeously golden, yellow courgettes are just a mutation of regular courgettes, with bright yellow skin rather than dark green. Slightly sweet, savoury and stunningly summery.",
+      "difficulty": 1,
+      "favoritesCount": 5,
+      "headline": "with Creamy Kale Sauce and Italian Style Cheese",
+      "id": "6a05bf18204de353958f582d",
+      "imageLink": "https://d3hvwccx09j84u.cloudfront.net/0,0/image/HF_Y26_R20_W29_UK_V56389-2_MT_main_V56389-AP-1-8_var_high-df51eec1.jpg",
+      "imagePath": "/image/HF_Y26_R20_W29_UK_V56389-2_MT_main_V56389-AP-1-8_var_high-df51eec1.jpg",
+      "ingredients": [
+        {
+          "id": "58f11054d56afa789e7f2b22",
+          "uuid": "33029324-f0e0-5e63-9f6f-3934ffe1bf83",
+          "name": "Garlic Clove",
+          "type": "garlic-clove",
+          "slug": "garlic-clove",
+          "country": "GB",
+          "imageLink": "https://d3hvwccx09j84u.cloudfront.net/200,200/ingredient/58f11054d56afa789e7f2b22-8d6e5a1d.png",
+          "imagePath": "/ingredient/58f11054d56afa789e7f2b22-8d6e5a1d.png",
+          "shipped": true,
+          "allergens": [],
+          "family": {
+            "id": "58877cf3ed71a76e9c03fba4",
+            "uuid": "73da5048-bc09-5236-add6-6ab34fb3dd6f",
+            "name": "garlic",
+            "slug": "garlic",
+            "type": "garlic",
+            "priority": 0,
+            "iconLink": null,
+            "iconPath": null
+          }
+        },
+        {
+          "id": "69a80382a3d586641236f1ed",
+          "uuid": "04fcd0b0-233c-5edd-b9d2-742c5a7ca81e",
+          "name": "Yellow Courgette",
+          "type": "zucchini-yellow",
+          "slug": "yellow-courgette",
+          "country": "GB",
+          "imageLink": "https://d3hvwccx09j84u.cloudfront.net/200,200/ingredient/69a80382a3d586641236f1ed-e63fce8c.png",
+          "imagePath": "/ingredient/69a80382a3d586641236f1ed-e63fce8c.png",
+          "shipped": true,
+          "allergens": [],
+          "family": {
+            "id": "6299e0f4f7cd25bc1c024384",
+            "uuid": "9996416b-db42-55fe-b207-53e1a696a180",
+            "name": "none",
+            "slug": "none",
+            "type": "none",
+            "priority": 0,
+            "iconLink": null,
+            "iconPath": null
+          }
+        },
+        {
+          "id": "554a72ebfd2cb95a598b4570",
+          "uuid": "8f9a7fd7-c4e7-5238-9e69-a27831a2b2b0",
+          "name": "Lemon",
+          "type": "lemon",
+          "slug": "lemon",
+          "country": "GB",
+          "imageLink": "https://d3hvwccx09j84u.cloudfront.net/200,200/ingredient/554a72ebfd2cb95a598b4570-a1b63c16.png",
+          "imagePath": "/ingredient/554a72ebfd2cb95a598b4570-a1b63c16.png",
+          "shipped": true,
+          "allergens": [],
+          "family": {
+            "id": "58877cf3ed71a76e9c03fbc5",
+            "uuid": "3f3c3cbb-7960-5dcd-be95-cdb72d76e1a1",
+            "name": "lemon",
+            "slug": "lemon",
+            "type": "lemon",
+            "priority": 0,
+            "iconLink": null,
+            "iconPath": null
+          }
+        },
+        {
+          "id": "6242043ddf35475d1660ada1",
+          "uuid": "8367e2ef-bc0a-5466-ae44-b45fead7a485",
+          "name": "Chopped Kale",
+          "type": "chopped-kale",
+          "slug": "chopped-kale",
+          "country": "GB",
+          "imageLink": "https://d3hvwccx09j84u.cloudfront.net/200,200/ingredient/6242043ddf35475d1660ada1-3a372aea.png",
+          "imagePath": "/ingredient/6242043ddf35475d1660ada1-3a372aea.png",
+          "shipped": true,
+          "allergens": [],
+          "family": {
+            "id": "58877cf3ed71a76e9c03fbbd",
+            "uuid": "e2fb94ef-0c4b-53e0-8bf6-10a4fef70695",
+            "name": "kale",
+            "slug": "kale",
+            "type": "kale",
+            "priority": 0,
+            "iconLink": null,
+            "iconPath": null
+          }
+        },
+        {
+          "id": "555084f34dab718e128b4569",
+          "uuid": "3f5d19f2-54da-5bb8-afb8-b52dea2d60db",
+          "name": "Creme Fraiche",
+          "type": "creme-fraiche",
+          "slug": "creme-fraiche",
+          "country": "GB",
+          "imageLink": "https://d3hvwccx09j84u.cloudfront.net/200,200/ingredient/555084f34dab718e128b4569-c5ac8122.png",
+          "imagePath": "/ingredient/555084f34dab718e128b4569-c5ac8122.png",
+          "shipped": true,
+          "allergens": [
+            "57962a07b7e8697d4b3052fa"
+          ],
+          "family": {
+            "id": "58877cf3ed71a76e9c03fb86",
+            "uuid": "fe1dd117-04d6-5fb4-861f-9fda196f9b22",
+            "name": "soured cream",
+            "slug": "soured-cream",
+            "type": "creme-fraiche",
+            "priority": 0,
+            "iconLink": null,
+            "iconPath": null
+          }
+        },
+        {
+          "id": "554a63bffd2cb9ba4f8b4576",
+          "uuid": "d52fa5aa-1f49-5c06-a714-c71690aeec3e",
+          "name": "Miso Paste",
+          "type": "miso-paste",
+          "slug": "miso-paste",
+          "country": "GB",
+          "imageLink": "https://d3hvwccx09j84u.cloudfront.net/200,200/ingredient/554a63bffd2cb9ba4f8b4576-7d89baf0.png",
+          "imagePath": "/ingredient/554a63bffd2cb9ba4f8b4576-7d89baf0.png",
+          "shipped": true,
+          "allergens": [
+            "57962a07b7e8697d4b3052f9"
+          ],
+          "family": {
+            "id": "58877cf3ed71a76e9c03fbdd",
+            "uuid": "09bed132-39cb-5250-b802-419fcc248e81",
+            "name": "asian paste",
+            "slug": "asian-paste",
+            "type": "miso-paste",
+            "priority": 0,
+            "iconLink": null,
+            "iconPath": null
+          }
+        },
+        {
+          "id": "682ddc547fe6dd267e2a76fc",
+          "uuid": "fd711e2f-eea8-4482-a11c-0e24d9264ad9",
+          "name": "Green Chilli Paste",
+          "type": "green-chilli-paste",
+          "slug": "green-chilli-paste",
+          "country": "GB",
+          "imageLink": "https://d3hvwccx09j84u.cloudfront.net/200,200/ingredient/682ddc547fe6dd267e2a76fc-1fed850e.png",
+          "imagePath": "/ingredient/682ddc547fe6dd267e2a76fc-1fed850e.png",
+          "shipped": true,
+          "allergens": [],
+          "family": {
+            "id": "6299e0f4f7cd25bc1c024384",
+            "uuid": "9996416b-db42-55fe-b207-53e1a696a180",
+            "name": "none",
+            "slug": "none",
+            "type": "none",
+            "priority": 0,
+            "iconLink": null,
+            "iconPath": null
+          }
+        },
+        {
+          "id": "69e275deb2918f341e7a44e3",
+          "uuid": "e20204d9-67bd-5351-a602-b284967157cf",
+          "name": "Rigatoni Pasta",
+          "type": "rigatoni-pasta",
+          "slug": "rigatoni-pasta",
+          "country": "GB",
+          "imageLink": "https://d3hvwccx09j84u.cloudfront.net/200,200/ingredient/55686416f8b25e68408b456c-43911228.png",
+          "imagePath": "/ingredient/55686416f8b25e68408b456c-43911228.png",
+          "shipped": true,
+          "allergens": [
+            "5b0532aaae08b52eb9420552",
+            "5de91d27f4c17e42c17aef94",
+            "57962a07b7e8697d4b3052f3",
+            "57962a07b7e8697d4b3052f5",
+            "60368d89cdbdf450236ad8cd"
+          ],
+          "family": {
+            "id": "58877cf3ed71a76e9c03fbfd",
+            "uuid": "2198479a-831a-5fef-8384-10e1db4e10c4",
+            "name": "other noodle",
+            "slug": "other-noodle",
+            "type": "pasta",
+            "priority": 0,
+            "iconLink": null,
+            "iconPath": null
+          }
+        },
+        {
+          "id": "5550865efd2cb974658b4568",
+          "uuid": "6939977c-68b0-5e37-ab54-1be0ffa14129",
+          "name": "Grated Hard Italian Style Cheese",
+          "type": "grated-hard-italian-style-cheese-duplicate",
+          "slug": "grated-hard-italian-style-cheese",
+          "country": "GB",
+          "imageLink": "https://d3hvwccx09j84u.cloudfront.net/200,200/ingredient/5550865efd2cb974658b4568-6efa2f0a.png",
+          "imagePath": "/ingredient/5550865efd2cb974658b4568-6efa2f0a.png",
+          "shipped": true,
+          "allergens": [
+            "57962a07b7e8697d4b3052fa",
+            "57962a07b7e8697d4b3052f6"
+          ],
+          "family": {
+            "id": "58877cf3ed71a76e9c03fb68",
+            "uuid": "a560b77e-37ae-5c55-82df-579a3d1d37de",
+            "name": "hard cheese",
+            "slug": "hard-cheese",
+            "type": "cheese",
+            "priority": 0,
+            "iconLink": null,
+            "iconPath": null
+          }
+        },
+        {
+          "id": "555092a4f8b25ed3468b4569",
+          "uuid": "0e54259d-82bb-566a-bcc5-4b8c6419a5fd",
+          "name": "Wild Rocket",
+          "type": "rocket",
+          "slug": "wild-rocket",
+          "country": "GB",
+          "imageLink": "https://d3hvwccx09j84u.cloudfront.net/200,200/ingredient/555092a4f8b25ed3468b4569-2f048245.png",
+          "imagePath": "/ingredient/555092a4f8b25ed3468b4569-2f048245.png",
+          "shipped": true,
+          "allergens": [],
+          "family": {
+            "id": "58877cf3ed71a76e9c03fc22",
+            "uuid": "19f7effa-248a-555b-95bc-842c77d7de3b",
+            "name": "salad mix",
+            "slug": "salad-mix",
+            "type": "salad",
+            "priority": 0,
+            "iconLink": null,
+            "iconPath": null
+          }
+        },
+        {
+          "id": "632c5abbb4f4bc890195c7a6",
+          "uuid": "071ad1eb-4a5d-5136-9a06-806c0ff55b67",
+          "name": "King Prawns",
+          "type": "king prawns",
+          "slug": "king-prawns",
+          "country": "GB",
+          "imageLink": "https://d3hvwccx09j84u.cloudfront.net/200,200/ingredient/632c5abbb4f4bc890195c7a6-6bd079a9.png",
+          "imagePath": "/ingredient/632c5abbb4f4bc890195c7a6-6bd079a9.png",
+          "shipped": true,
+          "allergens": [
+            "57962a07b7e8697d4b3052f4"
+          ],
+          "family": {
+            "id": "58877cf3ed71a76e9c03fc29",
+            "uuid": "b0d9dcaa-bdfb-553e-817d-006d4d0f4e1e",
+            "name": "seafood preparation",
+            "slug": "seafood-preparation",
+            "type": "seafood",
+            "priority": 0,
+            "iconLink": null,
+            "iconPath": null
+          }
+        },
+        {
+          "id": "63624d7f2747aaee170df530",
+          "uuid": "f20823ba-dc24-450c-b8e6-0cb51cca82bd",
+          "name": "Water for the Kale",
+          "type": "water-for-the-kale",
+          "slug": "water-for-the-kale",
+          "country": "GB",
+          "imageLink": null,
+          "imagePath": null,
+          "shipped": false,
+          "allergens": [],
+          "family": {
+            "id": "6299e0f4f7cd25bc1c024384",
+            "uuid": "9996416b-db42-55fe-b207-53e1a696a180",
+            "name": "none",
+            "slug": "none",
+            "type": "none",
+            "priority": 0,
+            "iconLink": null,
+            "iconPath": null
+          }
+        },
+        {
+          "id": "6172cb313021d49a7feafc84",
+          "uuid": "68d8a20a-1b79-437b-b2cb-8137d27a4558",
+          "name": "Honey",
+          "type": "honey-1-tbsp",
+          "slug": "honey",
+          "country": "GB",
+          "imageLink": "https://d3hvwccx09j84u.cloudfront.net/200,200/ingredient/6172cb313021d49a7feafc84-eacdf69c.png",
+          "imagePath": "/ingredient/6172cb313021d49a7feafc84-eacdf69c.png",
+          "shipped": false,
+          "allergens": [],
+          "family": {
+            "id": "58877cf3ed71a76e9c03fbb3",
+            "uuid": "386de5dc-3457-5baf-a3ca-441cc9236d72",
+            "name": "honey",
+            "slug": "honey",
+            "type": "honey",
+            "priority": 0,
+            "iconLink": null,
+            "iconPath": null
+          }
+        },
+        {
+          "id": "60c73507053f5e815cd52d5b",
+          "uuid": "cf9af936-101e-4641-90f0-347da4d0a347",
+          "name": "Butter",
+          "type": "butter-100g",
+          "slug": "butter",
+          "country": "GB",
+          "imageLink": "https://d3hvwccx09j84u.cloudfront.net/200,200/ingredient/60c73507053f5e815cd52d5b-f86ea540.png",
+          "imagePath": "/ingredient/60c73507053f5e815cd52d5b-f86ea540.png",
+          "shipped": false,
+          "allergens": [],
+          "family": {
+            "id": "58877cf3ed71a76e9c03fb5b",
+            "uuid": "e1a21c36-6c62-5638-9364-d39039f0b218",
+            "name": "butter",
+            "slug": "butter",
+            "type": "butter",
+            "priority": 0,
+            "iconLink": null,
+            "iconPath": null
+          }
+        },
+        {
+          "id": "5fbeb104688281450b8bd061",
+          "uuid": "7cd85650-3355-4a00-a785-d4c9f199ff49",
+          "name": "Water for the Sauce",
+          "type": "water-for-the-sauce-100ml",
+          "slug": "water-for-the-sauce",
+          "country": "GB",
+          "imageLink": "https://d3hvwccx09j84u.cloudfront.net/200,200/ingredient/5fbeb104688281450b8bd061-342d1b07.png",
+          "imagePath": "/ingredient/5fbeb104688281450b8bd061-342d1b07.png",
+          "shipped": false,
+          "allergens": [],
+          "family": {
+            "id": "58877cf3ed71a76e9c03fc51",
+            "uuid": "a6684103-a6e7-546c-9137-81313694dd9a",
+            "name": "other drink",
+            "slug": "other-drink",
+            "type": "water",
+            "priority": 0,
+            "iconLink": null,
+            "iconPath": null
+          }
+        }
+      ],
+      "isAddon": false,
+      "isComplete": null,
+      "isPublished": true,
+      "label": null,
+      "link": "https://hellofresh.com/recipes/6a05bf18204de353958f582d",
+      "name": "Miso Prawn, Green Chilli and Yellow Courgette Rigatoni ",
+      "nutrition": [
+        {
+          "type": "57b42a48b7e8697d4b30530d",
+          "name": "Energy (kJ)",
+          "amount": 3559,
+          "unit": "kJ"
+        },
+        {
+          "type": "57b42a48b7e8697d4b305304",
+          "name": "Energy (kcal)",
+          "amount": 851,
+          "unit": "kcal"
+        },
+        {
+          "type": "57b42a48b7e8697d4b305307",
+          "name": "Fat",
+          "amount": 40.2,
+          "unit": "g"
+        },
+        {
+          "type": "57b42a48b7e8697d4b305308",
+          "name": "of which saturates",
+          "amount": 22.4,
+          "unit": "g"
+        },
+        {
+          "type": "57b42a48b7e8697d4b305305",
+          "name": "Carbohydrate",
+          "amount": 83.5,
+          "unit": "g"
+        },
+        {
+          "type": "57b42a48b7e8697d4b305306",
+          "name": "of which sugars",
+          "amount": 18.6,
+          "unit": "g"
+        },
+        {
+          "type": "57b42a48b7e8697d4b30530a",
+          "name": "Dietary Fibre",
+          "amount": 9.7,
+          "unit": "g"
+        },
+        {
+          "type": "57b42a48b7e8697d4b305309",
+          "name": "Protein",
+          "amount": 38.6,
+          "unit": "g"
+        },
+        {
+          "type": "57b42a48b7e8697d4b30530b",
+          "name": "Salt",
+          "amount": 3.28,
+          "unit": "g"
+        }
+      ],
+      "prepTime": "PT20M",
+      "promotion": null,
+      "ratingsCount": 4,
+      "seoDescription": null,
+      "seoName": null,
+      "servingSize": 791,
+      "slug": "miso-prawn-green-chilli-and-yellow-courgette-rigatoni",
+      "steps": [
+        {
+          "index": 1,
+          "instructions": "Boil a full kettle. \nPeel and grate the garlic (or use a garlic press).\nTrim the yellow courgette and slice into 1cm thick rounds. Zest and halve the lemon.\nDiscard any thick stems from the kale.",
+          "instructionsHTML": "<p>Boil a full kettle. </p>\n<p>Peel and grate the <strong>garlic</strong> (or use a garlic press).</p>\n<p>Trim the <strong>yellow courgette</strong> and slice into 1cm thick rounds. Zest and halve the <strong>lemon</strong>.</p>\n<p>Discard any thick stems from the <strong>kale</strong>.</p>",
+          "instructionsMarkdown": "<p>Boil a full kettle. </p>\n<p>Peel and grate the <strong>garlic</strong> (or use a garlic press).</p>\n<p>Trim the <strong>yellow courgette</strong> and slice into 1cm thick rounds. Zest and halve the <strong>lemon</strong>.</p>\n<p>Discard any thick stems from the <strong>kale</strong>.</p>",
+          "ingredients": [],
+          "utensils": [
+            "57e2674fb7e8697d4b305385",
+            "59d49a9419279f8fe60e867c",
+            "57e2674fb7e8697d4b305392"
+          ],
+          "timers": [],
+          "images": [
+            {
+              "link": "https://d3hvwccx09j84u.cloudfront.net/0,0/6a05bf18204de353958f582d/step-acf30a00.jpg",
+              "path": "/6a05bf18204de353958f582d/step-acf30a00.jpg",
+              "caption": "Get Started "
+            }
+          ],
+          "videos": []
+        },
+        {
+          "index": 2,
+          "instructions": "Heat a drizzle of oil in a large saucepan on medium heat.\nAdd the kale along with the water for the kale (see pantry for amount). Cover with a lid and cook until wilted, 5-6 mins. Add half the garlic and cook for 1 min more. Season with pepper.\nOnce tender, transfer the cooked kale to a blender along with the creme fraiche, miso paste, green chilli paste and honey (see pantry for amount).\nSeason with pepper and blitz until completely smooth, 1-2 mins. TIP: This works best with a blender but if you don't have one, roughly chop the cooked kale and stir through the pasta in step 5.\nSet the sauce aside for later.",
+          "instructionsHTML": "<p>Heat a drizzle of <strong>oil</strong> in a large saucepan on medium heat.</p>\n<p>Add the <strong>kale</strong> along with the <strong>water for the kale</strong> (see pantry for amount). Cover with a lid and cook until wilted, 5-6 mins. Add <strong>half</strong> the <strong>garlic</strong> and cook for 1 min more. Season with <strong>pepper</strong>.</p>\n<p>Once tender, transfer the <strong>cooked kale</strong> to a blender along with the <strong>creme fraiche</strong>, <strong>miso paste</strong>, <span style=\"color: rgb(224, 62, 45)\"><strong>green chilli paste</strong></span> and <strong>honey</strong> (see pantry for amount).</p>\n<p>Season with <strong>pepper</strong> and blitz until completely smooth, 1-2 mins. <span style=\"color: rgb(45, 194, 107)\"><strong>TIP: </strong></span><em>This works best with a blender but if you don&#39;t have one, roughly chop the cooked kale and stir through the pasta in step 5.</em></p>\n<p>Set the <strong>sauce</strong> aside for later.</p>",
+          "instructionsMarkdown": "<p>Heat a drizzle of <strong>oil</strong> in a large saucepan on medium heat.</p>\n<p>Add the <strong>kale</strong> along with the <strong>water for the kale</strong> (see pantry for amount). Cover with a lid and cook until wilted, 5-6 mins. Add <strong>half</strong> the <strong>garlic</strong> and cook for 1 min more. Season with <strong>pepper</strong>.</p>\n<p>Once tender, transfer the <strong>cooked kale</strong> to a blender along with the <strong>creme fraiche</strong>, <strong>miso paste</strong>, <span style=\"color: rgb(224, 62, 45)\"><strong>green chilli paste</strong></span> and <strong>honey</strong> (see pantry for amount).</p>\n<p>Season with <strong>pepper</strong> and blitz until completely smooth, 1-2 mins. <span style=\"color: rgb(45, 194, 107)\"><strong>TIP: </strong></span><em>This works best with a blender but if you don&#39;t have one, roughly chop the cooked kale and stir through the pasta in step 5.</em></p>\n<p>Set the <strong>sauce</strong> aside for later.</p>",
+          "ingredients": [],
+          "utensils": [
+            "57e2674fb7e8697d4b30536b",
+            "623c805661a1b9d0034f9065",
+            "6650b1803f9ecd096e0d9dc7"
+          ],
+          "timers": [
+            {
+              "name": "cook",
+              "duration": "PT6M",
+              "temperature": null,
+              "temperatureUnit": "C"
+            },
+            {
+              "name": "garlic",
+              "duration": "PT1M",
+              "temperature": null,
+              "temperatureUnit": "C"
+            },
+            {
+              "name": "blitz",
+              "duration": "PT2M",
+              "temperature": null,
+              "temperatureUnit": "C"
+            }
+          ],
+          "images": [
+            {
+              "link": "https://d3hvwccx09j84u.cloudfront.net/0,0/6a05bf18204de353958f582d/step-3dab9910.jpg",
+              "path": "/6a05bf18204de353958f582d/step-3dab9910.jpg",
+              "caption": "Steam-fry the Kale"
+            }
+          ],
+          "videos": []
+        },
+        {
+          "index": 3,
+          "instructions": "Return the (now empty) saucepan (no need to clean) to high heat and pour in the boiled water from the kettle.\nAdd ½ tsp salt and bring the back to the boil.\nWhen boiling, add the rigatoni to the water and bring back to the boil. Cook until tender, 12 mins. ",
+          "instructionsHTML": "<p>Return the (now empty) saucepan (no need to clean) to high heat and pour in the <strong>boiled water</strong> from the kettle.</p>\n<p>Add <strong>½ tsp salt</strong> and bring the back to the boil.</p>\n<p>When boiling, add the <strong>rigatoni</strong> to the <strong>water</strong> and bring back to the boil. Cook until tender, 12 mins. </p>",
+          "instructionsMarkdown": "<p>Return the (now empty) saucepan (no need to clean) to high heat and pour in the <strong>boiled water</strong> from the kettle.</p>\n<p>Add <strong>½ tsp salt</strong> and bring the back to the boil.</p>\n<p>When boiling, add the <strong>rigatoni</strong> to the <strong>water</strong> and bring back to the boil. Cook until tender, 12 mins. </p>",
+          "ingredients": [],
+          "utensils": [],
+          "timers": [
+            {
+              "name": "cook",
+              "duration": "PT12M",
+              "temperature": null,
+              "temperatureUnit": "C"
+            }
+          ],
+          "images": [
+            {
+              "link": "https://d3hvwccx09j84u.cloudfront.net/0,0/6a05bf18204de353958f582d/step-8d385d20.jpg",
+              "path": "/6a05bf18204de353958f582d/step-8d385d20.jpg",
+              "caption": "Cook the Pasta"
+            }
+          ],
+          "videos": []
+        },
+        {
+          "index": 4,
+          "instructions": "While the pasta cooks, heat a drizzle of oil in a large frying pan on high heat.\nWhen hot, add the yellow courgette and cook until charred, 3-4 mins each side. Once cooked, lower the heat and add the remaining garlic and stir-fry, 1 min more.\nRemove from the heat, season with salt and pepper. Add in a pinch of lemon zest and a good squeeze of lemon juice.\nStir in the butter (see pantry for amount) until melted and all combined.\nOnce cooked, drain the rigatoni in a colander and drizzle with oil. Stir through to stop it sticking together.",
+          "instructionsHTML": "<p>While the <strong>pasta</strong> cooks, heat a drizzle of <strong>oil</strong> in a large frying pan on high heat.</p>\n<p>When hot, add the <strong>yellow courgette</strong> and cook until charred, 3-4 mins each side. Once cooked, lower the heat and add the remaining <strong>garlic</strong> and stir-fry, 1 min more.</p>\n<p>Remove from the heat, season with <strong>salt</strong> and <strong>pepper</strong>. Add in a pinch of <strong>lemon zest</strong> and a good squeeze of <strong>lemon juice</strong>.</p>\n<p>Stir in the <strong>butter</strong> (see pantry for amount) until melted and all combined.</p>\n<p>Once cooked, drain the <strong>rigatoni</strong> in a colander and drizzle with <strong>oil</strong>. Stir through to stop it sticking together.</p>",
+          "instructionsMarkdown": "<p>While the <strong>pasta</strong> cooks, heat a drizzle of <strong>oil</strong> in a large frying pan on high heat.</p>\n<p>When hot, add the <strong>yellow courgette</strong> and cook until charred, 3-4 mins each side. Once cooked, lower the heat and add the remaining <strong>garlic</strong> and stir-fry, 1 min more.</p>\n<p>Remove from the heat, season with <strong>salt</strong> and <strong>pepper</strong>. Add in a pinch of <strong>lemon zest</strong> and a good squeeze of <strong>lemon juice</strong>.</p>\n<p>Stir in the <strong>butter</strong> (see pantry for amount) until melted and all combined.</p>\n<p>Once cooked, drain the <strong>rigatoni</strong> in a colander and drizzle with <strong>oil</strong>. Stir through to stop it sticking together.</p>",
+          "ingredients": [],
+          "utensils": [
+            "57e2674fb7e8697d4b305375",
+            "5e3ad24efcf61c18c30ff538"
+          ],
+          "timers": [
+            {
+              "name": "cook",
+              "duration": "PT8M",
+              "temperature": null,
+              "temperatureUnit": "C"
+            },
+            {
+              "name": "stir fry",
+              "duration": "PT1M",
+              "temperature": null,
+              "temperatureUnit": "C"
+            }
+          ],
+          "images": [
+            {
+              "link": "https://d3hvwccx09j84u.cloudfront.net/0,0/6a05bf18204de353958f582d/step-8a6bb230.jpg",
+              "path": "/6a05bf18204de353958f582d/step-8a6bb230.jpg",
+              "caption": "Char the Courgette"
+            }
+          ],
+          "videos": []
+        },
+        {
+          "index": 5,
+          "instructions": "Heat the (now empty) saucepan on medium-high heat with a drizzle of oil. Once hot, add the prawns. Season with salt and pepper and stir-fry for 2-3 mins. IMPORTANT: Wash your hands and equipment after handling raw prawns.\nAdd cooked pasta back to the saucepan with the prawns. Stir in the creamy kale sauce. Lower the heat to medium. Stir in the water for the sauce (see pantry for amount) and bring to a simmer. Stir until combined and the sauce has heated through, 2-3 mins.\nStir in the hard Italian style cheese until melted, 1 min more. Remove from the heat and add a squeeze of lemon juice. IMPORTANT: The prawns cooked when pink on the outside and opaque in the middle. ",
+          "instructionsHTML": "<p>Heat the (now empty) saucepan on medium-high heat with a drizzle of <strong>oil</strong>. Once hot, add the <strong>prawns</strong>. Season with <strong>salt</strong> and <strong>pepper</strong> and stir-fry for 2-3 mins. <span style=\"color: rgb(224, 62, 45)\"><strong>IMPORTANT:</strong></span> <em>Wash your hands and equipment after handling raw prawns.</em></p>\n<p>Add <strong>cooked pasta</strong> back to the saucepan with the <strong>prawns</strong>. Stir in the <strong>creamy kale sauce</strong>. Lower the heat to medium. Stir in the <strong>water for the sauce</strong> (see pantry for amount) and bring to a simmer. Stir until combined and the <strong>sauce</strong> has heated through, 2-3 mins.</p>\n<p>Stir in the <strong>hard Italian style cheese</strong> until melted, 1 min more. Remove from the heat and add a squeeze of <strong>lemon juice</strong>. <span style=\"color: rgb(224, 62, 45)\"><strong>IMPORTANT:</strong></span> <em>The prawns cooked when pink on the outside and opaque in the middle. </em></p>",
+          "instructionsMarkdown": "<p>Heat the (now empty) saucepan on medium-high heat with a drizzle of <strong>oil</strong>. Once hot, add the <strong>prawns</strong>. Season with <strong>salt</strong> and <strong>pepper</strong> and stir-fry for 2-3 mins. <span style=\"color: rgb(224, 62, 45)\"><strong>IMPORTANT:</strong></span> <em>Wash your hands and equipment after handling raw prawns.</em></p>\n<p>Add <strong>cooked pasta</strong> back to the saucepan with the <strong>prawns</strong>. Stir in the <strong>creamy kale sauce</strong>. Lower the heat to medium. Stir in the <strong>water for the sauce</strong> (see pantry for amount) and bring to a simmer. Stir until combined and the <strong>sauce</strong> has heated through, 2-3 mins.</p>\n<p>Stir in the <strong>hard Italian style cheese</strong> until melted, 1 min more. Remove from the heat and add a squeeze of <strong>lemon juice</strong>. <span style=\"color: rgb(224, 62, 45)\"><strong>IMPORTANT:</strong></span> <em>The prawns cooked when pink on the outside and opaque in the middle. </em></p>",
+          "ingredients": [],
+          "utensils": [],
+          "timers": [
+            {
+              "name": "stir fry",
+              "duration": "PT3M",
+              "temperature": null,
+              "temperatureUnit": "C"
+            },
+            {
+              "name": "sauce",
+              "duration": "PT3M",
+              "temperature": null,
+              "temperatureUnit": "C"
+            },
+            {
+              "name": "cheese",
+              "duration": "PT1M",
+              "temperature": null,
+              "temperatureUnit": "C"
+            }
+          ],
+          "images": [
+            {
+              "link": "https://d3hvwccx09j84u.cloudfront.net/0,0/6a05bf18204de353958f582d/step-18f2e140.jpg",
+              "path": "/6a05bf18204de353958f582d/step-18f2e140.jpg",
+              "caption": "All Together Now"
+            }
+          ],
+          "videos": []
+        },
+        {
+          "index": 6,
+          "instructions": "Taste the sauce and season with salt, pepper and more lemon juice if needed.\nWhen everything's ready, share the green chilli rigatoni between your bowls.\nTop the pasta with the yellow courgette rounds and rocket.\nSprinkle over another pinch of lemon zest and drizzle a little olive oil over the leaves to finish.",
+          "instructionsHTML": "<p>Taste the <strong>sauce </strong>and season with <strong>salt</strong>, <strong>pepper</strong> and more <strong>lemon juice</strong> if needed.</p>\n<p>When everything&#39;s ready, share the <strong>green chilli rigatoni</strong> between your bowls.</p>\n<p>Top the <strong>pasta</strong> with the <strong>yellow courgette rounds</strong> and <strong>rocket</strong>.</p>\n<p>Sprinkle over another pinch of <strong>lemon zest</strong> and drizzle a little <strong>olive oil</strong> over the <strong>leaves</strong> to finish.</p>",
+          "instructionsMarkdown": "<p>Taste the <strong>sauce </strong>and season with <strong>salt</strong>, <strong>pepper</strong> and more <strong>lemon juice</strong> if needed.</p>\n<p>When everything&#39;s ready, share the <strong>green chilli rigatoni</strong> between your bowls.</p>\n<p>Top the <strong>pasta</strong> with the <strong>yellow courgette rounds</strong> and <strong>rocket</strong>.</p>\n<p>Sprinkle over another pinch of <strong>lemon zest</strong> and drizzle a little <strong>olive oil</strong> over the <strong>leaves</strong> to finish.</p>",
+          "ingredients": [],
+          "utensils": [],
+          "timers": [],
+          "images": [
+            {
+              "link": "https://d3hvwccx09j84u.cloudfront.net/0,0/6a05bf18204de353958f582d/step-237d5c50.jpg",
+              "path": "/6a05bf18204de353958f582d/step-237d5c50.jpg",
+              "caption": "Serve Up "
+            }
+          ],
+          "videos": []
+        }
+      ],
+      "tags": [
+        {
+          "id": "5f9d72db09eb0b4ae3165a56",
+          "type": "mediterranean",
+          "name": "mediterranean",
+          "slug": "mediterranean",
+          "colorHandle": "calorieSmart",
+          "preferences": [],
+          "displayLabel": false
+        },
+        {
+          "id": "66cd27303317fc5c1d5878c2",
+          "type": "pasta-noodles",
+          "name": "pasta-noodles",
+          "slug": "pasta-noodles",
+          "colorHandle": null,
+          "preferences": [],
+          "displayLabel": false
+        },
+        {
+          "id": "594be44bc6243b76f8440332",
+          "type": "quick",
+          "name": "Quick",
+          "slug": "quick",
+          "colorHandle": "quickPrep",
+          "preferences": [
+            "Quick Cook"
+          ],
+          "displayLabel": false
+        },
+        {
+          "id": "5cdc23f61ce8bc00155c7ab2",
+          "type": "equipment-needed",
+          "name": "Blender Needed",
+          "slug": "blender-needed",
+          "colorHandle": null,
+          "preferences": [],
+          "displayLabel": true
+        },
+        {
+          "id": "62388d0e819bac74ed3067ef",
+          "type": "pescatarian",
+          "name": "Pescatarian",
+          "slug": "pescatarian",
+          "colorHandle": null,
+          "preferences": [
+            "Pescatarian"
+          ],
+          "displayLabel": true
+        }
+      ],
+      "totalTime": "PT25M",
+      "uniqueRecipeCode": "V56389-AP-1-9",
+      "updatedAt": "2026-07-19T09:31:08+00:00",
+      "utensils": [
+        {
+          "id": "57e2674fb7e8697d4b305385",
+          "type": "zester",
+          "name": "Zester"
+        },
+        {
+          "id": "59d49a9419279f8fe60e867c",
+          "type": "garlic-press",
+          "name": "Garlic Press"
+        },
+        {
+          "id": "57e2674fb7e8697d4b305392",
+          "type": "water-cooker",
+          "name": "Kettle"
+        },
+        {
+          "id": "57e2674fb7e8697d4b30536b",
+          "type": "lid",
+          "name": "Lid"
+        },
+        {
+          "id": "623c805661a1b9d0034f9065",
+          "type": "largesaucepan",
+          "name": "Large Saucepan"
+        },
+        {
+          "id": "6650b1803f9ecd096e0d9dc7",
+          "type": "blender",
+          "name": "Blender"
+        },
+        {
+          "id": "57e2674fb7e8697d4b305375",
+          "type": "pan",
+          "name": "Pan"
+        },
+        {
+          "id": "5e3ad24efcf61c18c30ff538",
+          "type": null,
+          "name": "Colander"
+        }
+      ],
+      "uuid": "34b81b8d-da9d-462b-9641-2b9979a23c17",
+      "videoLink": null,
+      "websiteUrl": "https://www.hellofresh.co.uk/recipes/miso-prawn-green-chilli-and-yellow-courgette-rigatoni-6a05bf18204de353958f582d",
+      "yields": [
+        {
+          "yields": 2,
+          "ingredients": [
+            {
+              "id": "58f11054d56afa789e7f2b22",
+              "amount": 2,
+              "unit": "unit(s)"
+            },
+            {
+              "id": "69a80382a3d586641236f1ed",
+              "amount": 2,
+              "unit": "unit(s)"
+            },
+            {
+              "id": "554a72ebfd2cb95a598b4570",
+              "amount": 1,
+              "unit": "unit(s)"
+            },
+            {
+              "id": "6242043ddf35475d1660ada1",
+              "amount": 100,
+              "unit": "grams"
+            },
+            {
+              "id": "555084f34dab718e128b4569",
+              "amount": 150,
+              "unit": "grams"
+            },
+            {
+              "id": "554a63bffd2cb9ba4f8b4576",
+              "amount": 22,
+              "unit": "grams"
+            },
+            {
+              "id": "682ddc547fe6dd267e2a76fc",
+              "amount": 30,
+              "unit": "grams"
+            },
+            {
+              "id": "69e275deb2918f341e7a44e3",
+              "amount": 180,
+              "unit": "grams"
+            },
+            {
+              "id": "5550865efd2cb974658b4568",
+              "amount": 40,
+              "unit": "grams"
+            },
+            {
+              "id": "555092a4f8b25ed3468b4569",
+              "amount": 20,
+              "unit": "grams"
+            },
+            {
+              "id": "632c5abbb4f4bc890195c7a6",
+              "amount": 160,
+              "unit": "grams"
+            },
+            {
+              "id": "63624d7f2747aaee170df530",
+              "amount": 3,
+              "unit": "tbsp"
+            },
+            {
+              "id": "6172cb313021d49a7feafc84",
+              "amount": 0.5,
+              "unit": "tbsp"
+            },
+            {
+              "id": "60c73507053f5e815cd52d5b",
+              "amount": 10,
+              "unit": "grams"
+            },
+            {
+              "id": "5fbeb104688281450b8bd061",
+              "amount": 100,
+              "unit": "milliliter(s)"
+            }
+          ]
+        },
+        {
+          "yields": 3,
+          "ingredients": [
+            {
+              "id": "58f11054d56afa789e7f2b22",
+              "amount": 3,
+              "unit": "unit(s)"
+            },
+            {
+              "id": "69a80382a3d586641236f1ed",
+              "amount": 3,
+              "unit": "unit(s)"
+            },
+            {
+              "id": "554a72ebfd2cb95a598b4570",
+              "amount": 1,
+              "unit": "unit(s)"
+            },
+            {
+              "id": "6242043ddf35475d1660ada1",
+              "amount": 200,
+              "unit": "grams"
+            },
+            {
+              "id": "555084f34dab718e128b4569",
+              "amount": 150,
+              "unit": "grams"
+            },
+            {
+              "id": "554a63bffd2cb9ba4f8b4576",
+              "amount": 30,
+              "unit": "grams"
+            },
+            {
+              "id": "682ddc547fe6dd267e2a76fc",
+              "amount": 45,
+              "unit": "grams"
+            },
+            {
+              "id": "69e275deb2918f341e7a44e3",
+              "amount": 270,
+              "unit": "grams"
+            },
+            {
+              "id": "5550865efd2cb974658b4568",
+              "amount": 60,
+              "unit": "grams"
+            },
+            {
+              "id": "555092a4f8b25ed3468b4569",
+              "amount": 40,
+              "unit": "grams"
+            },
+            {
+              "id": "632c5abbb4f4bc890195c7a6",
+              "amount": 225,
+              "unit": "grams"
+            },
+            {
+              "id": "63624d7f2747aaee170df530",
+              "amount": 5,
+              "unit": "tbsp"
+            },
+            {
+              "id": "6172cb313021d49a7feafc84",
+              "amount": 0.75,
+              "unit": "tbsp"
+            },
+            {
+              "id": "60c73507053f5e815cd52d5b",
+              "amount": 15,
+              "unit": "grams"
+            },
+            {
+              "id": "5fbeb104688281450b8bd061",
+              "amount": 150,
+              "unit": "milliliter(s)"
+            }
+          ]
+        },
+        {
+          "yields": 4,
+          "ingredients": [
+            {
+              "id": "58f11054d56afa789e7f2b22",
+              "amount": 4,
+              "unit": "unit(s)"
+            },
+            {
+              "id": "69a80382a3d586641236f1ed",
+              "amount": 4,
+              "unit": "unit(s)"
+            },
+            {
+              "id": "554a72ebfd2cb95a598b4570",
+              "amount": 1,
+              "unit": "unit(s)"
+            },
+            {
+              "id": "6242043ddf35475d1660ada1",
+              "amount": 200,
+              "unit": "grams"
+            },
+            {
+              "id": "555084f34dab718e128b4569",
+              "amount": 300,
+              "unit": "grams"
+            },
+            {
+              "id": "554a63bffd2cb9ba4f8b4576",
+              "amount": 44,
+              "unit": "grams"
+            },
+            {
+              "id": "682ddc547fe6dd267e2a76fc",
+              "amount": 60,
+              "unit": "grams"
+            },
+            {
+              "id": "69e275deb2918f341e7a44e3",
+              "amount": 360,
+              "unit": "grams"
+            },
+            {
+              "id": "5550865efd2cb974658b4568",
+              "amount": 80,
+              "unit": "grams"
+            },
+            {
+              "id": "555092a4f8b25ed3468b4569",
+              "amount": 40,
+              "unit": "grams"
+            },
+            {
+              "id": "632c5abbb4f4bc890195c7a6",
+              "amount": 320,
+              "unit": "grams"
+            },
+            {
+              "id": "63624d7f2747aaee170df530",
+              "amount": 6,
+              "unit": "tbsp"
+            },
+            {
+              "id": "6172cb313021d49a7feafc84",
+              "amount": 1,
+              "unit": "tbsp"
+            },
+            {
+              "id": "60c73507053f5e815cd52d5b",
+              "amount": 20,
+              "unit": "grams"
+            },
+            {
+              "id": "5fbeb104688281450b8bd061",
+              "amount": 200,
+              "unit": "milliliter(s)"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "active": true,
+      "allergens": [
+        {
+          "id": "57962a07b7e8697d4b3052f5",
+          "name": "Cereals containing gluten",
+          "type": "gluten",
+          "slug": "cereals-containing-gluten",
+          "iconLink": "https://d3hvwccx09j84u.cloudfront.net/0,0/allergens/57962a07b7e8697d4b3052f5-e20d9ca4.png",
+          "iconPath": "/allergens/57962a07b7e8697d4b3052f5-e20d9ca4.png",
+          "triggersTracesOf": false,
+          "tracesOf": false
+        },
+        {
+          "id": "60368d89cdbdf450236ad8cd",
+          "name": "Wheat",
+          "type": "wheat",
+          "slug": "wheat",
+          "iconPath": null,
+          "triggersTracesOf": false,
+          "tracesOf": false
+        },
+        {
+          "id": "57962a07b7e8697d4b3052fa",
+          "name": "Milk",
+          "type": "milk",
+          "slug": "milk",
+          "iconLink": "https://d3hvwccx09j84u.cloudfront.net/0,0/allergens/57962a07b7e8697d4b3052fa-be127d3f.png",
+          "iconPath": "/allergens/57962a07b7e8697d4b3052fa-be127d3f.png",
+          "triggersTracesOf": false,
+          "tracesOf": false
+        },
+        {
+          "id": "57962a07b7e8697d4b3052f6",
+          "name": "Egg",
+          "type": "egg",
+          "slug": "egg",
+          "iconLink": "https://d3hvwccx09j84u.cloudfront.net/0,0/allergens/57962a07b7e8697d4b3052f6-63afd198.png",
+          "iconPath": "/allergens/57962a07b7e8697d4b3052f6-63afd198.png",
+          "triggersTracesOf": false,
+          "tracesOf": false
+        },
+        {
+          "id": "5acf97a2ae08b54dad34eb82",
+          "name": "Sulphites",
+          "type": "traces-of-sulphites",
+          "slug": "traces-of-sulphites",
+          "iconPath": null,
+          "triggersTracesOf": false,
+          "tracesOf": true
+        },
+        {
+          "id": "6203885f2cefe43adc5127c0",
+          "name": "Wheat",
+          "type": "traces-of-wheat",
+          "slug": "traces-of-wheat",
+          "iconPath": null,
+          "triggersTracesOf": false,
+          "tracesOf": true
+        },
+        {
+          "id": "5fdca9427051291d16323686",
+          "name": "Barley",
+          "type": "traces-of-barley",
+          "slug": "traces-of-barley",
+          "iconPath": null,
+          "triggersTracesOf": false,
+          "tracesOf": true
+        },
+        {
+          "id": "5de91db7c7d1a818111194b2",
+          "name": "Celery",
+          "type": "traces-of-celery",
+          "slug": "traces-of-celery",
+          "iconPath": null,
+          "triggersTracesOf": false,
+          "tracesOf": true
+        },
+        {
+          "id": "62cc417a2f15d58ec3559423",
+          "name": "Cereals containing gluten",
+          "type": "traces-of-gluten",
+          "slug": "traces-of-cereals-containing-gluten",
+          "iconPath": null,
+          "triggersTracesOf": false,
+          "tracesOf": true
+        },
+        {
+          "id": "5acf97b7ae08b54d88061162",
+          "name": "Milk",
+          "type": "traces-of-milk",
+          "slug": "traces-of-milk",
+          "iconPath": null,
+          "triggersTracesOf": false,
+          "tracesOf": true
+        },
+        {
+          "id": "5de91d27f4c17e42c17aef94",
+          "name": "Mustard",
+          "type": "traces-of-mustard",
+          "slug": "traces-of-mustard",
+          "iconPath": null,
+          "triggersTracesOf": false,
+          "tracesOf": true
+        },
+        {
+          "id": "5b0532aaae08b52eb9420552",
+          "name": "Soya",
+          "type": "traces-of-soya",
+          "slug": "traces-of-soya",
+          "iconPath": null,
+          "triggersTracesOf": false,
+          "tracesOf": true
+        },
+        {
+          "id": "57962a07b7e8697d4b3052f3",
+          "name": "May contain traces of allergens",
+          "type": "maycontaintracesofallergens",
+          "slug": "may-contain-traces-of-allergens",
+          "iconPath": null,
+          "triggersTracesOf": true,
+          "tracesOf": true
+        }
+      ],
+      "averageRating": 0,
+      "canonical": "6993453b28cd689c41ea73c1",
+      "canonicalLink": "https://www.hellofresh.co.uk/recipes/campfire-cheesy-sausage-orzotto-6993453b28cd689c41ea73c1",
+      "cardLink": "https://www.hellofresh.co.uk/recipecards/card/6a05bf0e204de353958f5829-en-GB.pdf",
+      "category": {
+        "id": "5bd6f0ef19c55bee469039ae",
+        "name": "Beef",
+        "type": "beef",
+        "slug": "beef"
+      },
+      "clonedFrom": "6a041b36204de353958ee608",
+      "comment": null,
+      "country": "GB",
+      "createdAt": "2026-06-10T13:02:14+00:00",
+      "cuisines": [
+        {
+          "id": "57ebbc17b7e8697d4b3053ac",
+          "type": "italian",
+          "name": "Italian",
+          "slug": "italian",
+          "iconLink": "https://d3hvwccx09j84u.cloudfront.net/0,0/cuisines/57ebbc17b7e8697d4b3053ac-ed3b5276.jpg"
+        }
+      ],
+      "description": "Got an appetite for adventure? This delicious Campfire Style Cheesy Beef Orzotto can be cooked up while in the great outdoors or for some camping trip nostalgia at home. It's the perfect remedy to a long day out and about!",
+      "descriptionHTML": "<p>Got an appetite for adventure? This delicious Campfire Style Cheesy Beef Orzotto can be cooked up while in the great outdoors or for some camping trip nostalgia at home. It's the perfect remedy to a long day out and about!</p>",
+      "descriptionMarkdown": "Got an appetite for adventure? This delicious Campfire Style Cheesy Beef Orzotto can be cooked up while in the great outdoors or for some camping trip nostalgia at home. It's the perfect remedy to a long day out and about!",
+      "difficulty": 1,
+      "favoritesCount": 0,
+      "headline": "with Warming Chermoula Spices, Leek and Peas",
+      "id": "6a05bf0e204de353958f5829",
+      "imageLink": "https://d3hvwccx09j84u.cloudfront.net/0,0/image/HF_Y26_R18_W29_UK_F57038-3main_swap_powdered_cheese_edit_high-6a83df5b.jpg",
+      "imagePath": "/image/HF_Y26_R18_W29_UK_F57038-3main_swap_powdered_cheese_edit_high-6a83df5b.jpg",
+      "ingredients": [
+        {
+          "id": "58f11054d56afa789e7f2b22",
+          "uuid": "33029324-f0e0-5e63-9f6f-3934ffe1bf83",
+          "name": "Garlic Clove",
+          "type": "garlic-clove",
+          "slug": "garlic-clove",
+          "country": "GB",
+          "imageLink": "https://d3hvwccx09j84u.cloudfront.net/200,200/ingredient/58f11054d56afa789e7f2b22-8d6e5a1d.png",
+          "imagePath": "/ingredient/58f11054d56afa789e7f2b22-8d6e5a1d.png",
+          "shipped": true,
+          "allergens": [],
+          "family": {
+            "id": "58877cf3ed71a76e9c03fba4",
+            "uuid": "73da5048-bc09-5236-add6-6ab34fb3dd6f",
+            "name": "garlic",
+            "slug": "garlic",
+            "type": "garlic",
+            "priority": 0,
+            "iconLink": null,
+            "iconPath": null
+          }
+        },
+        {
+          "id": "554a5e334dab71a9058b4567",
+          "uuid": "029ef3d7-a6d9-5458-86fb-6d437b3a3d7f",
+          "name": "Leek",
+          "type": "leek",
+          "slug": "leek",
+          "country": "GB",
+          "imageLink": "https://d3hvwccx09j84u.cloudfront.net/200,200/ingredient/554a5e334dab71a9058b4567-1ac833ec.png",
+          "imagePath": "/ingredient/554a5e334dab71a9058b4567-1ac833ec.png",
+          "shipped": true,
+          "allergens": [],
+          "family": {
+            "id": "58877cf3ed71a76e9c03fbc4",
+            "uuid": "9689a917-d30a-5486-bbdf-01ce173a3ce2",
+            "name": "leek",
+            "slug": "leek",
+            "type": "leek",
+            "priority": 0,
+            "iconLink": null,
+            "iconPath": null
+          }
+        },
+        {
+          "id": "556c1c67fd2cb99f468b4567",
+          "uuid": "edb45406-e818-56a4-b9b9-2022a79d3087",
+          "name": "British Beef Mince",
+          "type": "beef mince",
+          "slug": "british-beef-mince",
+          "country": "GB",
+          "imageLink": "https://d3hvwccx09j84u.cloudfront.net/200,200/ingredient/556c1c67fd2cb99f468b4567-28d853f6.png",
+          "imagePath": "/ingredient/556c1c67fd2cb99f468b4567-28d853f6.png",
+          "shipped": true,
+          "allergens": [],
+          "family": {
+            "id": "58877cf3ed71a76e9c03fb4e",
+            "uuid": "11d21a27-e54b-59e8-8657-9bff7b84ca88",
+            "name": "beef",
+            "slug": "beef",
+            "type": "beef",
+            "priority": 0,
+            "iconLink": null,
+            "iconPath": null
+          }
+        },
+        {
+          "id": "6837308242dc4b928197f3bc",
+          "uuid": "a60633dc-e736-5ba7-af65-c2ad6efa5fc0",
+          "name": "Orzo",
+          "type": "orzo",
+          "slug": "orzo",
+          "country": "GB",
+          "imageLink": "https://d3hvwccx09j84u.cloudfront.net/200,200/ingredient/6837308242dc4b928197f3bc-6a7789bc.png",
+          "imagePath": "/ingredient/6837308242dc4b928197f3bc-6a7789bc.png",
+          "shipped": true,
+          "allergens": [
+            "57962a07b7e8697d4b3052f5",
+            "60368d89cdbdf450236ad8cd"
+          ],
+          "family": {
+            "id": "58877cf3ed71a76e9c03fbfd",
+            "uuid": "2198479a-831a-5fef-8384-10e1db4e10c4",
+            "name": "other noodle",
+            "slug": "other-noodle",
+            "type": "pasta",
+            "priority": 0,
+            "iconLink": null,
+            "iconPath": null
+          }
+        },
+        {
+          "id": "554a708af8b25ef93e8b4567",
+          "uuid": "c7440604-41b7-5ef5-b2b3-8f83c31bccf9",
+          "name": "Tomato Puree",
+          "type": "tomato-puree",
+          "slug": "tomato-puree",
+          "country": "GB",
+          "imageLink": "https://d3hvwccx09j84u.cloudfront.net/200,200/ingredient/554a708af8b25ef93e8b4567-17c72dac.png",
+          "imagePath": "/ingredient/554a708af8b25ef93e8b4567-17c72dac.png",
+          "shipped": true,
+          "allergens": [],
+          "family": {
+            "id": "58877cf3ed71a76e9c03fc45",
+            "uuid": "ead9e83c-158c-5ebe-bb04-ec24d45b8d80",
+            "name": "single ingredient paste",
+            "slug": "single-ingredient-paste",
+            "type": "tomato-paste",
+            "priority": 0,
+            "iconLink": null,
+            "iconPath": null
+          }
+        },
+        {
+          "id": "60002d898c8c0a188200a96d",
+          "uuid": "6c8f19df-7a9e-5397-a4ac-c5736ef93159",
+          "name": "Chicken Stock Paste",
+          "type": "chicken-stock-paste",
+          "slug": "chicken-stock-paste",
+          "country": "GB",
+          "imageLink": "https://d3hvwccx09j84u.cloudfront.net/200,200/ingredient/60002d898c8c0a188200a96d-e7f114a1.png",
+          "imagePath": "/ingredient/60002d898c8c0a188200a96d-e7f114a1.png",
+          "shipped": true,
+          "allergens": [],
+          "family": {
+            "id": "58877cf3ed71a76e9c03fc39",
+            "uuid": "4bdb98f4-0803-541e-9159-741e21d04ec2",
+            "name": "stock concentrate",
+            "slug": "stock-concentrate",
+            "type": "stock",
+            "priority": 0,
+            "iconLink": null,
+            "iconPath": null
+          }
+        },
+        {
+          "id": "6949315e39d4849fb4579445",
+          "uuid": "acaf37ce-a5ff-5a2d-bf8b-c1bd51eb83ba",
+          "name": "Mediterranean Style Seasoning",
+          "type": "mediterranean-spice-mix",
+          "slug": "mediterranean-style-seasoning",
+          "country": "GB",
+          "imageLink": "https://d3hvwccx09j84u.cloudfront.net/200,200/ingredient/6949315e39d4849fb4579445-7ad28b7e.png",
+          "imagePath": "/ingredient/6949315e39d4849fb4579445-7ad28b7e.png",
+          "shipped": true,
+          "allergens": [
+            "5acf97a2ae08b54dad34eb82",
+            "6203885f2cefe43adc5127c0",
+            "5fdca9427051291d16323686",
+            "5de91db7c7d1a818111194b2",
+            "62cc417a2f15d58ec3559423",
+            "5acf97b7ae08b54d88061162",
+            "5de91d27f4c17e42c17aef94",
+            "5b0532aaae08b52eb9420552",
+            "57962a07b7e8697d4b3052f3"
+          ],
+          "family": {
+            "id": "6299e0f4f7cd25bc1c024384",
+            "uuid": "9996416b-db42-55fe-b207-53e1a696a180",
+            "name": "none",
+            "slug": "none",
+            "type": "none",
+            "priority": 0,
+            "iconLink": null,
+            "iconPath": null
+          }
+        },
+        {
+          "id": "566af3d3f8b25e717b8b4567",
+          "uuid": "ee6a1927-2222-505d-839a-e5637c5f178d",
+          "name": "Chermoula Spice Mix",
+          "type": "chermoula-spice-mix",
+          "slug": "chermoula-spice-mix",
+          "country": "GB",
+          "imageLink": "https://d3hvwccx09j84u.cloudfront.net/200,200/ingredient/566af3d3f8b25e717b8b4567-53aba626.png",
+          "imagePath": "/ingredient/566af3d3f8b25e717b8b4567-53aba626.png",
+          "shipped": true,
+          "allergens": [],
+          "family": {
+            "id": "58877cf3ed71a76e9c03fb31",
+            "uuid": "c3b9c8a0-0493-56a7-b062-405e4f7b419d",
+            "name": "spice blend",
+            "slug": "spice-blend",
+            "type": "african-spices",
+            "priority": 0,
+            "iconLink": null,
+            "iconPath": null
+          }
+        },
+        {
+          "id": "555084f34dab718e128b4569",
+          "uuid": "3f5d19f2-54da-5bb8-afb8-b52dea2d60db",
+          "name": "Creme Fraiche",
+          "type": "creme-fraiche",
+          "slug": "creme-fraiche",
+          "country": "GB",
+          "imageLink": "https://d3hvwccx09j84u.cloudfront.net/200,200/ingredient/555084f34dab718e128b4569-c5ac8122.png",
+          "imagePath": "/ingredient/555084f34dab718e128b4569-c5ac8122.png",
+          "shipped": true,
+          "allergens": [
+            "57962a07b7e8697d4b3052fa"
+          ],
+          "family": {
+            "id": "58877cf3ed71a76e9c03fb86",
+            "uuid": "fe1dd117-04d6-5fb4-861f-9fda196f9b22",
+            "name": "soured cream",
+            "slug": "soured-cream",
+            "type": "creme-fraiche",
+            "priority": 0,
+            "iconLink": null,
+            "iconPath": null
+          }
+        },
+        {
+          "id": "556d6384fd2cb954078b4567",
+          "uuid": "cf091724-33ca-57a1-be89-5146fb69dee3",
+          "name": "Peas",
+          "type": "peas",
+          "slug": "peas",
+          "country": "GB",
+          "imageLink": "https://d3hvwccx09j84u.cloudfront.net/200,200/ingredient/556d6384fd2cb954078b4567-dfa77b16.png",
+          "imagePath": "/ingredient/556d6384fd2cb954078b4567-dfa77b16.png",
+          "shipped": true,
+          "allergens": [],
+          "family": {
+            "id": "58877cf3ed71a76e9c03fc04",
+            "uuid": "f5be8c75-d90c-57d4-bd8e-b39b9417e4e9",
+            "name": "peas",
+            "slug": "peas",
+            "type": "peas",
+            "priority": 0,
+            "iconLink": null,
+            "iconPath": null
+          }
+        },
+        {
+          "id": "5550865efd2cb974658b4568",
+          "uuid": "6939977c-68b0-5e37-ab54-1be0ffa14129",
+          "name": "Grated Hard Italian Style Cheese",
+          "type": "grated-hard-italian-style-cheese-duplicate",
+          "slug": "grated-hard-italian-style-cheese",
+          "country": "GB",
+          "imageLink": "https://d3hvwccx09j84u.cloudfront.net/200,200/ingredient/5550865efd2cb974658b4568-6efa2f0a.png",
+          "imagePath": "/ingredient/5550865efd2cb974658b4568-6efa2f0a.png",
+          "shipped": true,
+          "allergens": [
+            "57962a07b7e8697d4b3052fa",
+            "57962a07b7e8697d4b3052f6"
+          ],
+          "family": {
+            "id": "58877cf3ed71a76e9c03fb68",
+            "uuid": "a560b77e-37ae-5c55-82df-579a3d1d37de",
+            "name": "hard cheese",
+            "slug": "hard-cheese",
+            "type": "cheese",
+            "priority": 0,
+            "iconLink": null,
+            "iconPath": null
+          }
+        },
+        {
+          "id": "555093924dab71e7118b4568",
+          "uuid": "809fb77d-c002-4b7e-bc7f-dad64260ecf8",
+          "name": "Sugar",
+          "type": "sugar-1-tsp",
+          "slug": "sugar",
+          "country": "GB",
+          "imageLink": "https://d3hvwccx09j84u.cloudfront.net/200,200/ingredient/555093924dab71e7118b4568-359d87ae.png",
+          "imagePath": "/ingredient/555093924dab71e7118b4568-359d87ae.png",
+          "shipped": false,
+          "allergens": [],
+          "family": {
+            "id": "58877cf3ed71a76e9c03fc3b",
+            "uuid": "6f31f49a-e368-5bbc-b82e-9e801b957293",
+            "name": "single spice",
+            "slug": "single-spice",
+            "type": "sugar",
+            "priority": 0,
+            "iconLink": null,
+            "iconPath": null
+          }
+        },
+        {
+          "id": "61f967377f9b41760f4d2290",
+          "uuid": "2019c877-71ae-4359-889f-c18f90d65832",
+          "name": "Boiled Water for the Orzo",
+          "type": "boiled-water-for-the-orzo-100ml",
+          "slug": "boiled-water-for-the-orzo",
+          "country": "GB",
+          "imageLink": null,
+          "imagePath": null,
+          "shipped": false,
+          "allergens": [],
+          "family": {
+            "id": "5901b0d4c6243b746b6221f9",
+            "uuid": "b1b75ec8-f0b2-5075-86e0-610742e7581a",
+            "name": "other drink",
+            "slug": "other-drink",
+            "type": "ginger-ale",
+            "priority": 0,
+            "iconLink": null,
+            "iconPath": null
+          }
+        }
+      ],
+      "isAddon": false,
+      "isComplete": null,
+      "isPublished": true,
+      "label": null,
+      "link": "https://hellofresh.com/recipes/6a05bf0e204de353958f5829",
+      "name": "Campfire Style Cheesy Beef Orzotto",
+      "nutrition": [
+        {
+          "type": "57b42a48b7e8697d4b30530d",
+          "name": "Energy (kJ)",
+          "amount": 3660,
+          "unit": "kJ"
+        },
+        {
+          "type": "57b42a48b7e8697d4b305304",
+          "name": "Energy (kcal)",
+          "amount": 875,
+          "unit": "kcal"
+        },
+        {
+          "type": "57b42a48b7e8697d4b305307",
+          "name": "Fat",
+          "amount": 34.6,
+          "unit": "g"
+        },
+        {
+          "type": "57b42a48b7e8697d4b305308",
+          "name": "of which saturates",
+          "amount": 18.2,
+          "unit": "g"
+        },
+        {
+          "type": "57b42a48b7e8697d4b305305",
+          "name": "Carbohydrate",
+          "amount": 90.4,
+          "unit": "g"
+        },
+        {
+          "type": "57b42a48b7e8697d4b305306",
+          "name": "of which sugars",
+          "amount": 17.7,
+          "unit": "g"
+        },
+        {
+          "type": "57b42a48b7e8697d4b30530a",
+          "name": "Dietary Fibre",
+          "amount": 9,
+          "unit": "g"
+        },
+        {
+          "type": "57b42a48b7e8697d4b305309",
+          "name": "Protein",
+          "amount": 51.1,
+          "unit": "g"
+        },
+        {
+          "type": "57b42a48b7e8697d4b30530b",
+          "name": "Salt",
+          "amount": 3.55,
+          "unit": "g"
+        }
+      ],
+      "prepTime": "PT30M",
+      "promotion": null,
+      "ratingsCount": 0,
+      "seoDescription": null,
+      "seoName": null,
+      "servingSize": 714,
+      "slug": "campfire-style-cheesy-beef-orzotto",
+      "steps": [
+        {
+          "index": 1,
+          "instructions": "Peel and grate the garlic (or use a garlic press).\nTrim the root and dark green leafy part from the leek and discard. Halve lengthways, then thinly slice.",
+          "instructionsHTML": "<p>Peel and grate the <strong>garlic </strong>(or use a garlic press).</p>\n<p>Trim the root and dark green leafy part from the <strong>leek</strong> and discard. Halve lengthways, then thinly slice.</p>",
+          "instructionsMarkdown": "<p>Peel and grate the <strong>garlic </strong>(or use a garlic press).</p>\n<p>Trim the root and dark green leafy part from the <strong>leek</strong> and discard. Halve lengthways, then thinly slice.</p>",
+          "ingredients": [],
+          "utensils": [
+            "59d49a9419279f8fe60e867c"
+          ],
+          "timers": [],
+          "images": [
+            {
+              "link": "https://d3hvwccx09j84u.cloudfront.net/0,0/6a05bf0e204de353958f5829/step-0720e900.jpg",
+              "path": "/6a05bf0e204de353958f5829/step-0720e900.jpg",
+              "caption": "Prep the Veg"
+            }
+          ],
+          "videos": []
+        },
+        {
+          "index": 2,
+          "instructions": "Heat a drizzle of oil in a large saucepan on medium-high heat.\nOnce hot, add the leek and beef mince and fry until browned, 5-6 mins. Use a spoon to break up the mince as it cooks, then drain and discard any excess fat. IMPORTANT: Wash your hands and equipment after handling raw meat. It's cooked when no longer pink in the middle.",
+          "instructionsHTML": "<p>Heat a drizzle of <strong>oil</strong> in a large saucepan on medium-high heat.</p>\n<p>Once hot, add the <strong>leek</strong> and <strong>beef mince</strong> and fry until browned, 5-6 mins. Use a spoon to break up the <strong>mince </strong>as it cooks, then drain and discard any excess fat. <span style=\"color: rgb(224, 62, 45)\"><strong>IMPORTANT:</strong></span> <em>Wash your hands and equipment after handling raw meat. It&#39;s cooked when no longer pink in the middle.</em></p>",
+          "instructionsMarkdown": "<p>Heat a drizzle of <strong>oil</strong> in a large saucepan on medium-high heat.</p>\n<p>Once hot, add the <strong>leek</strong> and <strong>beef mince</strong> and fry until browned, 5-6 mins. Use a spoon to break up the <strong>mince </strong>as it cooks, then drain and discard any excess fat. <span style=\"color: rgb(224, 62, 45)\"><strong>IMPORTANT:</strong></span> <em>Wash your hands and equipment after handling raw meat. It&#39;s cooked when no longer pink in the middle.</em></p>",
+          "ingredients": [],
+          "utensils": [
+            "623c805661a1b9d0034f9065"
+          ],
+          "timers": [
+            {
+              "name": "fry",
+              "duration": "PT6M",
+              "temperature": null,
+              "temperatureUnit": "C"
+            }
+          ],
+          "images": [
+            {
+              "link": "https://d3hvwccx09j84u.cloudfront.net/0,0/6a05bf0e204de353958f5829/step-dffee010.jpg",
+              "path": "/6a05bf0e204de353958f5829/step-dffee010.jpg",
+              "caption": "Get Frying"
+            }
+          ],
+          "videos": []
+        },
+        {
+          "index": 3,
+          "instructions": "Meanwhile, boil a half-full kettle.\nStir the orzo and garlic into the pan and fry for 1-2 mins.\nAdd the tomato puree and fry for 1 min more.\nNext, add the chicken stock paste, Mediterranean style seasoning, chermoula style spice mix, sugar and boiled water for the orzo (see pantry for both amounts).",
+          "instructionsHTML": "<p>Meanwhile, boil a half-full kettle.</p>\n<p>Stir the <strong>orzo</strong> and <strong>garlic</strong> into the pan and fry for 1-2 mins.</p>\n<p>Add the <strong>tomato puree</strong> and fry for 1 min more.</p>\n<p>Next, add the <strong>chicken stock paste</strong>, <strong>Mediterranean style seasoning</strong>, <span style=\"color: rgb(224, 62, 45)\"><strong>chermoula style spice mix</strong></span>, <strong>sugar</strong> and <strong>boiled water for the orzo</strong> (see pantry for both amounts).</p>",
+          "instructionsMarkdown": "<p>Meanwhile, boil a half-full kettle.</p>\n<p>Stir the <strong>orzo</strong> and <strong>garlic</strong> into the pan and fry for 1-2 mins.</p>\n<p>Add the <strong>tomato puree</strong> and fry for 1 min more.</p>\n<p>Next, add the <strong>chicken stock paste</strong>, <strong>Mediterranean style seasoning</strong>, <span style=\"color: rgb(224, 62, 45)\"><strong>chermoula style spice mix</strong></span>, <strong>sugar</strong> and <strong>boiled water for the orzo</strong> (see pantry for both amounts).</p>",
+          "ingredients": [],
+          "utensils": [
+            "57e2674fb7e8697d4b305392"
+          ],
+          "timers": [
+            {
+              "name": "garlic",
+              "duration": "PT2M",
+              "temperature": null,
+              "temperatureUnit": "C"
+            },
+            {
+              "name": "fry",
+              "duration": "PT1M",
+              "temperature": null,
+              "temperatureUnit": "C"
+            }
+          ],
+          "images": [
+            {
+              "link": "https://d3hvwccx09j84u.cloudfront.net/0,0/6a05bf0e204de353958f5829/step-0dada320.jpg",
+              "path": "/6a05bf0e204de353958f5829/step-0dada320.jpg",
+              "caption": "Add the Flavour"
+            }
+          ],
+          "videos": []
+        },
+        {
+          "index": 4,
+          "instructions": "Turn the heat up to high and bring back to the boil, stirring regularly to ensure the orzo doesn't stick. \nReduce to a simmer on medium heat and cook until the orzo is just tender, 10-12 mins.\nIf you want to cook this recipe on a campfire, you can! Just make sure the beef is no longer pink in the middle. IMPORTANT: Campfire cooking can be hazardous and requires fire safety awareness. Always cook meat to a safe internal temperature of 75°C.",
+          "instructionsHTML": "<p>Turn the heat up to high and bring back to the boil, stirring regularly to ensure the <strong>orzo</strong> doesn&#39;t stick. </p>\n<p>Reduce to a simmer on medium heat and cook until the <strong>orzo</strong> is just tender, 10-12 mins.</p>\n<p>If you want to cook this recipe on a campfire, you can! Just make sure the <strong>beef</strong> is no longer pink in the middle. <span style=\"color: rgb(224, 62, 45)\"><strong>IMPORTANT: </strong></span><em>Campfire cooking can be hazardous and requires fire safety awareness. Always cook meat to a safe internal temperature of 75°C.</em></p>",
+          "instructionsMarkdown": "<p>Turn the heat up to high and bring back to the boil, stirring regularly to ensure the <strong>orzo</strong> doesn&#39;t stick. </p>\n<p>Reduce to a simmer on medium heat and cook until the <strong>orzo</strong> is just tender, 10-12 mins.</p>\n<p>If you want to cook this recipe on a campfire, you can! Just make sure the <strong>beef</strong> is no longer pink in the middle. <span style=\"color: rgb(224, 62, 45)\"><strong>IMPORTANT: </strong></span><em>Campfire cooking can be hazardous and requires fire safety awareness. Always cook meat to a safe internal temperature of 75°C.</em></p>",
+          "ingredients": [],
+          "utensils": [],
+          "timers": [
+            {
+              "name": "simmer",
+              "duration": "PT12M",
+              "temperature": null,
+              "temperatureUnit": "C"
+            }
+          ],
+          "images": [
+            {
+              "link": "https://d3hvwccx09j84u.cloudfront.net/0,0/6a05bf0e204de353958f5829/step-6bd20c30.jpg",
+              "path": "/6a05bf0e204de353958f5829/step-6bd20c30.jpg",
+              "caption": "Simmer Simmer"
+            }
+          ],
+          "videos": []
+        },
+        {
+          "index": 5,
+          "instructions": "Once the orzo is cooked, stir in the creme fraiche, peas and half the hard Italian style cheese. \nSeason with salt and pepper. Add a splash of water if you feel it needs it.",
+          "instructionsHTML": "<p>Once the <strong>orzo</strong> is cooked, stir in the <strong>creme fraiche</strong>, <strong>peas</strong> and <strong>half</strong> the <strong>hard Italian style cheese</strong>. </p>\n<p>Season with <strong>salt</strong> and <strong>pepper</strong>. Add a splash of <strong>water</strong> if you feel it needs it.</p>",
+          "instructionsMarkdown": "<p>Once the <strong>orzo</strong> is cooked, stir in the <strong>creme fraiche</strong>, <strong>peas</strong> and <strong>half</strong> the <strong>hard Italian style cheese</strong>. </p>\n<p>Season with <strong>salt</strong> and <strong>pepper</strong>. Add a splash of <strong>water</strong> if you feel it needs it.</p>",
+          "ingredients": [],
+          "utensils": [],
+          "timers": [],
+          "images": [
+            {
+              "link": "https://d3hvwccx09j84u.cloudfront.net/0,0/6a05bf0e204de353958f5829/step-ac852b40.jpg",
+              "path": "/6a05bf0e204de353958f5829/step-ac852b40.jpg",
+              "caption": "Final Touches"
+            }
+          ],
+          "videos": []
+        },
+        {
+          "index": 6,
+          "instructions": "Share the beef orzotto between your serving bowls.\nFinish by sprinkling over the remaining cheese.",
+          "instructionsHTML": "<p>Share the <strong>beef orzotto</strong> between your serving bowls.</p>\n<p>Finish by sprinkling over the remaining <strong>cheese</strong>.</p>",
+          "instructionsMarkdown": "<p>Share the <strong>beef orzotto</strong> between your serving bowls.</p>\n<p>Finish by sprinkling over the remaining <strong>cheese</strong>.</p>",
+          "ingredients": [],
+          "utensils": [],
+          "timers": [],
+          "images": [
+            {
+              "link": "https://d3hvwccx09j84u.cloudfront.net/0,0/6a05bf0e204de353958f5829/step-3f366150.jpg",
+              "path": "/6a05bf0e204de353958f5829/step-3f366150.jpg",
+              "caption": "Serve"
+            }
+          ],
+          "videos": []
+        }
+      ],
+      "tags": [
+        {
+          "id": "5f3f858d73fc66034a5d208d",
+          "type": "family",
+          "name": "Family",
+          "slug": "family",
+          "colorHandle": "familyFriendly",
+          "preferences": [
+            "Familienfreundlich"
+          ],
+          "displayLabel": false
+        },
+        {
+          "id": "6800d2ca39bbd916ef975fb2",
+          "type": "classic-euro-dishes",
+          "name": "classic-euro-dishes",
+          "slug": "classic-euro-dishes",
+          "colorHandle": null,
+          "preferences": [],
+          "displayLabel": false
+        },
+        {
+          "id": "66cd27303317fc5c1d5878c2",
+          "type": "pasta-noodles",
+          "name": "pasta-noodles",
+          "slug": "pasta-noodles",
+          "colorHandle": null,
+          "preferences": [],
+          "displayLabel": false
+        }
+      ],
+      "totalTime": "PT25M",
+      "uniqueRecipeCode": "F57038-SP-1-3",
+      "updatedAt": "2026-07-07T10:29:34+00:00",
+      "utensils": [
+        {
+          "id": "59d49a9419279f8fe60e867c",
+          "type": "garlic-press",
+          "name": "Garlic Press"
+        },
+        {
+          "id": "623c805661a1b9d0034f9065",
+          "type": "largesaucepan",
+          "name": "Large Saucepan"
+        },
+        {
+          "id": "57e2674fb7e8697d4b305392",
+          "type": "water-cooker",
+          "name": "Kettle"
+        }
+      ],
+      "uuid": "e945ce33-ae96-4d35-a518-dfd32ace5f89",
+      "videoLink": null,
+      "websiteUrl": "https://www.hellofresh.co.uk/recipes/campfire-style-cheesy-beef-orzotto-6a05bf0e204de353958f5829",
+      "yields": [
+        {
+          "yields": 2,
+          "ingredients": [
+            {
+              "id": "58f11054d56afa789e7f2b22",
+              "amount": 2,
+              "unit": "unit(s)"
+            },
+            {
+              "id": "554a5e334dab71a9058b4567",
+              "amount": 1,
+              "unit": "unit(s)"
+            },
+            {
+              "id": "556c1c67fd2cb99f468b4567",
+              "amount": 240,
+              "unit": "grams"
+            },
+            {
+              "id": "6837308242dc4b928197f3bc",
+              "amount": 180,
+              "unit": "grams"
+            },
+            {
+              "id": "554a708af8b25ef93e8b4567",
+              "amount": 30,
+              "unit": "grams"
+            },
+            {
+              "id": "60002d898c8c0a188200a96d",
+              "amount": 10,
+              "unit": "grams"
+            },
+            {
+              "id": "6949315e39d4849fb4579445",
+              "amount": 1,
+              "unit": "sachet(s)"
+            },
+            {
+              "id": "566af3d3f8b25e717b8b4567",
+              "amount": 1,
+              "unit": "sachet(s)"
+            },
+            {
+              "id": "555084f34dab718e128b4569",
+              "amount": 75,
+              "unit": "grams"
+            },
+            {
+              "id": "556d6384fd2cb954078b4567",
+              "amount": 120,
+              "unit": "grams"
+            },
+            {
+              "id": "5550865efd2cb974658b4568",
+              "amount": 40,
+              "unit": "grams"
+            },
+            {
+              "id": "555093924dab71e7118b4568",
+              "amount": 1,
+              "unit": "tsp"
+            },
+            {
+              "id": "61f967377f9b41760f4d2290",
+              "amount": 500,
+              "unit": "milliliter(s)"
+            }
+          ]
+        },
+        {
+          "yields": 3,
+          "ingredients": [
+            {
+              "id": "58f11054d56afa789e7f2b22",
+              "amount": 3,
+              "unit": "unit(s)"
+            },
+            {
+              "id": "554a5e334dab71a9058b4567",
+              "amount": 1.5,
+              "unit": "unit(s)"
+            },
+            {
+              "id": "556c1c67fd2cb99f468b4567",
+              "amount": 360,
+              "unit": "grams"
+            },
+            {
+              "id": "6837308242dc4b928197f3bc",
+              "amount": 240,
+              "unit": "grams"
+            },
+            {
+              "id": "554a708af8b25ef93e8b4567",
+              "amount": 45,
+              "unit": "grams"
+            },
+            {
+              "id": "60002d898c8c0a188200a96d",
+              "amount": 15,
+              "unit": "grams"
+            },
+            {
+              "id": "6949315e39d4849fb4579445",
+              "amount": 1.5,
+              "unit": "sachet(s)"
+            },
+            {
+              "id": "566af3d3f8b25e717b8b4567",
+              "amount": 1,
+              "unit": "sachet(s)"
+            },
+            {
+              "id": "555084f34dab718e128b4569",
+              "amount": 150,
+              "unit": "grams"
+            },
+            {
+              "id": "556d6384fd2cb954078b4567",
+              "amount": 180,
+              "unit": "grams"
+            },
+            {
+              "id": "5550865efd2cb974658b4568",
+              "amount": 60,
+              "unit": "grams"
+            },
+            {
+              "id": "555093924dab71e7118b4568",
+              "amount": 1.5,
+              "unit": "tsp"
+            },
+            {
+              "id": "61f967377f9b41760f4d2290",
+              "amount": 750,
+              "unit": "milliliter(s)"
+            }
+          ]
+        },
+        {
+          "yields": 4,
+          "ingredients": [
+            {
+              "id": "58f11054d56afa789e7f2b22",
+              "amount": 4,
+              "unit": "unit(s)"
+            },
+            {
+              "id": "554a5e334dab71a9058b4567",
+              "amount": 2,
+              "unit": "unit(s)"
+            },
+            {
+              "id": "556c1c67fd2cb99f468b4567",
+              "amount": 480,
+              "unit": "grams"
+            },
+            {
+              "id": "6837308242dc4b928197f3bc",
+              "amount": 360,
+              "unit": "grams"
+            },
+            {
+              "id": "554a708af8b25ef93e8b4567",
+              "amount": 60,
+              "unit": "grams"
+            },
+            {
+              "id": "60002d898c8c0a188200a96d",
+              "amount": 20,
+              "unit": "grams"
+            },
+            {
+              "id": "6949315e39d4849fb4579445",
+              "amount": 2,
+              "unit": "sachet(s)"
+            },
+            {
+              "id": "566af3d3f8b25e717b8b4567",
+              "amount": 2,
+              "unit": "sachet(s)"
+            },
+            {
+              "id": "555084f34dab718e128b4569",
+              "amount": 150,
+              "unit": "grams"
+            },
+            {
+              "id": "556d6384fd2cb954078b4567",
+              "amount": 240,
+              "unit": "grams"
+            },
+            {
+              "id": "5550865efd2cb974658b4568",
+              "amount": 80,
+              "unit": "grams"
+            },
+            {
+              "id": "555093924dab71e7118b4568",
+              "amount": 2,
+              "unit": "tsp"
+            },
+            {
+              "id": "61f967377f9b41760f4d2290",
+              "amount": 1000,
+              "unit": "milliliter(s)"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "take": 8,
+  "skip": 16,
+  "count": 2,
+  "total": 3880
+}
