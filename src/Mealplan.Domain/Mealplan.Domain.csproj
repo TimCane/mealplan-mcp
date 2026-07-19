@@ -1,0 +1,8 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    Entities, enums and the source interfaces. References nothing - not EF Core,
+    not ASP.NET, not any source SDK.
+  -->
+
+</Project>
