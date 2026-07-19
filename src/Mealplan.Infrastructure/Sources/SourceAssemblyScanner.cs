@@ -1,5 +1,6 @@
 using System.Reflection;
 using Mealplan.Domain.Sources;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Mealplan.Infrastructure.Sources;
@@ -23,13 +24,16 @@ public static class SourceAssemblyScanner
     /// discovered, so callers can bind per-source configuration without building
     /// an interim service provider.
     /// </summary>
-    public static IReadOnlyList<string> AddSourcesFromAssemblies(this IServiceCollection services)
+    public static IReadOnlyList<string> AddSourcesFromAssemblies(
+        this IServiceCollection services,
+        IConfiguration configuration)
     {
         var slugs = new List<string>();
 
         foreach (var assembly in DiscoverSourceAssemblies())
         {
             slugs.AddRange(RegisterImplementations(services, assembly));
+            RegisterModules(services, configuration, assembly);
         }
 
         // Scoped, not singleton: it resolves crawlers and normalisers, which hold
@@ -93,6 +97,30 @@ public static class SourceAssemblyScanner
         }
 
         return slugs;
+    }
+
+    /// <summary>
+    /// Lets each source register its own DbContext and HttpClient. Runs after
+    /// the contracts so a module can assume nothing about ordering.
+    /// </summary>
+    private static void RegisterModules(
+        IServiceCollection services,
+        IConfiguration configuration,
+        Assembly assembly)
+    {
+        var modules = assembly.GetTypes()
+            .Where(t => t is { IsAbstract: false, IsInterface: false, IsPublic: true })
+            .Where(typeof(ISourceModule).IsAssignableFrom);
+
+        foreach (var type in modules)
+        {
+            var module = Activator.CreateInstance(type) as ISourceModule
+                ?? throw new InvalidOperationException(
+                    $"{type.FullName} implements ISourceModule but has no parameterless "
+                    + "constructor. Modules run while the container is being built.");
+
+            module.Register(services, configuration);
+        }
     }
 
     private static ISourceSchema DescribeSchema(Type type)

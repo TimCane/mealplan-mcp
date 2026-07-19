@@ -12,12 +12,11 @@ builder.Services.AddHealthChecks();
 
 var app = builder.Build();
 
-// The scraper owns the scrape schema, so it is the one host that migrates it.
-// The MCP server only reads and must not race it at startup.
+// The scraper writes, so it is the one host that migrates. The MCP server only
+// reads and must not race it at startup.
 if (app.Configuration.GetValue("Database:MigrateOnStartup", defaultValue: true))
 {
-    await using var scope = app.Services.CreateAsyncScope();
-    await scope.ServiceProvider.GetRequiredService<ScrapeDbContext>().Database.MigrateAsync();
+    await app.Services.GetRequiredService<DatabaseMigrator>().MigrateAllAsync(app.Services);
 }
 
 // Local only: the dashboard has no authentication, and the container is not

@@ -31,11 +31,21 @@ public static class DependencyInjection
         services.AddScoped<IRawDocumentStore, RawDocumentStore>();
         services.AddScoped<IScrapeRunStore, ScrapeRunStore>();
 
-        var sources = services.AddSourcesFromAssemblies();
+        var sources = services.AddSourcesFromAssemblies(configuration);
         services.AddSourceOptions(configuration, sources);
 
         services.AddScoped<CrawlJob>();
         services.AddScoped<NormalizeJob>();
+
+        // Collected after the source modules have run, so a source's context is
+        // migrated without the host naming it.
+        var contextTypes = services
+            .Select(descriptor => descriptor.ServiceType)
+            .Where(type => typeof(DbContext).IsAssignableFrom(type))
+            .Distinct()
+            .ToList();
+
+        services.AddSingleton(new DatabaseMigrator(contextTypes));
 
         return services;
     }
