@@ -27,6 +27,9 @@ public class HelloFreshModule : ISourceModule
 
         // The token is cached across requests and refreshed on expiry, so the
         // provider outlives any one crawl.
+        services.AddOptions<HelloFreshOptions>()
+            .Bind(configuration.GetSection(HelloFreshOptions.SectionName));
+
         services.AddSingleton<HelloFreshTokenProvider>();
         services.AddTransient<HelloFreshAuthHandler>();
 

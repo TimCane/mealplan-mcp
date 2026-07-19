@@ -105,3 +105,25 @@ public class HelloFreshDurationTests
         HelloFreshNormalizer.Minutes(duration).Should().BeNull();
     }
 }
+
+public class HelloFreshOptionsTests
+{
+    [Fact]
+    public void The_default_products_filter_covers_the_meal_kit_boxes()
+    {
+        // Without this filter the search endpoint returns add-on products -
+        // loose fruit, yoghurt, a baguette - which are not meals. Live check:
+        // 35,084 items unfiltered against 24,545 recipes filtered.
+        new HelloFreshOptions().Products.Should()
+            .BeEquivalentTo(["classic-box", "veggie-box", "meal-plan", "classic-plan"]);
+    }
+
+    [Fact]
+    public void The_defaults_target_the_uk_catalogue()
+    {
+        var options = new HelloFreshOptions();
+
+        options.Country.Should().Be("GB");
+        options.Locale.Should().Be("en-GB");
+    }
+}
