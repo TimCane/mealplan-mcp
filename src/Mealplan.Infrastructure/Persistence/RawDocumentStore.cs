@@ -64,6 +64,22 @@ public class RawDocumentStore(
         return latest is null ? StoreOutcome.Inserted : StoreOutcome.Versioned;
     }
 
+    public async Task MarkNormalizedAsync(
+        Guid documentId,
+        string? error = null,
+        CancellationToken ct = default)
+    {
+        var now = clock.GetUtcNow();
+
+        await db.Documents
+            .Where(d => d.Id == documentId)
+            .ExecuteUpdateAsync(
+                s => s
+                    .SetProperty(d => d.NormalizedAt, now)
+                    .SetProperty(d => d.NormalizeError, error),
+                ct);
+    }
+
     public async Task<IReadOnlyList<ScrapeDocument>> GetPendingNormalizationAsync(
         string source,
         int limit,

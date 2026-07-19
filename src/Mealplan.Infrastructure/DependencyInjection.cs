@@ -1,5 +1,7 @@
 using Mealplan.Domain.Scraping;
+using Mealplan.Infrastructure.Jobs;
 using Mealplan.Infrastructure.Persistence;
+using Mealplan.Infrastructure.Sources;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -9,7 +11,8 @@ namespace Mealplan.Infrastructure;
 public static class DependencyInjection
 {
     /// <summary>
-    /// Registers the scrape store. Both hosts call this; only the scraper writes.
+    /// Registers the scrape store, the discovered sources and the jobs. Both
+    /// hosts call this; only the scraper writes.
     /// </summary>
     public static IServiceCollection AddMealplanInfrastructure(
         this IServiceCollection services,
@@ -28,7 +31,32 @@ public static class DependencyInjection
         services.AddScoped<IRawDocumentStore, RawDocumentStore>();
         services.AddScoped<IScrapeRunStore, ScrapeRunStore>();
 
+        var sources = services.AddSourcesFromAssemblies();
+        services.AddSourceOptions(configuration, sources);
+
+        services.AddScoped<CrawlJob>();
+        services.AddScoped<NormalizeJob>();
+
         return services;
+    }
+
+    /// <summary>
+    /// Binds Sources:{slug} per discovered source, so each can be tuned
+    /// independently and an absent section still yields validated defaults.
+    /// </summary>
+    private static void AddSourceOptions(
+        this IServiceCollection services,
+        IConfiguration configuration,
+        IReadOnlyList<string> sources)
+    {
+        foreach (var source in sources)
+        {
+            services
+                .AddOptions<SourceOptions>(source)
+                .Bind(configuration.GetSection($"{SourceOptions.SectionName}:{source}"))
+                .ValidateDataAnnotations()
+                .ValidateOnStart();
+        }
     }
 
     private static void TryAddSingletonTimeProvider(this IServiceCollection services)
