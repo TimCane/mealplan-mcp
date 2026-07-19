@@ -1,0 +1,14 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/Mealplan.Domain/Mealplan.Domain.csproj" />
+    <Project Path="src/Mealplan.Infrastructure.Gousto/Mealplan.Infrastructure.Gousto.csproj" />
+    <Project Path="src/Mealplan.Infrastructure.HelloFresh/Mealplan.Infrastructure.HelloFresh.csproj" />
+    <Project Path="src/Mealplan.Infrastructure/Mealplan.Infrastructure.csproj" />
+    <Project Path="src/Mealplan.Mcp/Mealplan.Mcp.csproj" />
+    <Project Path="src/Mealplan.Scraper/Mealplan.Scraper.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Mealplan.IntegrationTests/Mealplan.IntegrationTests.csproj" />
+    <Project Path="tests/Mealplan.Tests/Mealplan.Tests.csproj" />
+  </Folder>
+</Solution>

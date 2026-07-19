@@ -1,0 +1,42 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "10.0.x"
+
+      - run: dotnet restore
+
+      - run: dotnet build --no-restore -warnaserror
+
+      - run: dotnet test tests/Mealplan.Tests --no-build --verbosity normal
+
+      # Integration tests spin up Postgres via Testcontainers, which needs the
+      # Docker daemon the runner already provides.
+      - run: dotnet test tests/Mealplan.IntegrationTests --no-build --verbosity normal
+
+  ascii:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # Same rule the local pre-tool-use hook enforces, so a push from anywhere
+      # cannot land non-ASCII. Fixtures hold real upstream payloads and are exempt.
+      - name: Check for non-ASCII bytes
+        run: |
+          if git ls-files -z \
+            | grep -zZv -E '(^|/)(Fixtures|fixtures)/' \
+            | xargs -0 grep -lP '[^\x09\x0A\x0D\x20-\x7E]' 2>/dev/null; then
+            echo "::error::files above contain non-ASCII bytes"
+            exit 1
+          fi
