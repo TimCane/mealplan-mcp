@@ -27,7 +27,17 @@ public class SourceOptions
     [Range(1, 200)]
     public int PageSize { get; set; } = 16;
 
-    /// <summary>Cron for the recurring crawl. Null disables scheduling.</summary>
+    /// <summary>
+    /// Cron for the recurring crawl, in UTC. Null disables scheduling, leaving
+    /// the source to manual triggering.
+    /// </summary>
+    /// <remarks>
+    /// Sources are staggered across the week in configuration rather than all
+    /// landing on this default: one worker runs them serially, a full HelloFresh
+    /// pass is about an hour and three quarters, and spreading them keeps each
+    /// session from one VPN exit shorter. Recipe catalogues do not change fast
+    /// enough for a shared night to be worth it.
+    /// </remarks>
     public string? Schedule { get; set; } = "0 3 * * 0";
 
     [Range(0, 20)]

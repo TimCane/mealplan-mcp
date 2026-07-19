@@ -241,11 +241,19 @@ database and there is a dashboard to watch and requeue crawls.
 RequestDelay    00:00:02 plus 50% jitter
 MaxConcurrency  1 per source
 PageSize        8 (HelloFresh) / 16 (Gousto)
-Schedule        0 3 * * 0   Sunday 03:00
+Schedule        per source, UTC: hellofresh Sunday 03:00 (0 3 * * 0)
+                                 gousto     Wednesday 03:00 (0 3 * * 3)
 MaxRetries      5, exponential backoff capped at 5 minutes
 ```
 
-A full HelloFresh pass is roughly 485 requests, about 20 minutes at this pace.
+A full HelloFresh pass is roughly 3,070 requests, about an hour and three
+quarters at this pace. One Hangfire worker runs jobs serially, so the two sources
+are staggered across the week rather than queueing behind each other on the same
+night - which also keeps each session from a single VPN exit shorter, and
+Cloudflare already scores those exits.
+
+Normalising runs hourly for every source, independently of crawling, so a failed
+crawl still gets whatever it stored turned into recipes.
 
 ### VPN
 
