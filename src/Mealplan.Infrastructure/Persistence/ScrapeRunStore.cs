@@ -30,6 +30,8 @@ public class ScrapeRunStore(ScrapeDbContext db, TimeProvider clock) : IScrapeRun
     public async Task CompleteAsync(
         Guid runId,
         ScrapeRunStatus status,
+        int documentsFetched,
+        int documentsChanged,
         string? error = null,
         CancellationToken ct = default)
     {
@@ -41,6 +43,8 @@ public class ScrapeRunStore(ScrapeDbContext db, TimeProvider clock) : IScrapeRun
                 s => s
                     .SetProperty(r => r.Status, status)
                     .SetProperty(r => r.FinishedAt, finishedAt)
+                    .SetProperty(r => r.DocumentsFetched, documentsFetched)
+                    .SetProperty(r => r.DocumentsChanged, documentsChanged)
                     .SetProperty(r => r.Error, error),
                 ct);
     }

@@ -70,7 +70,7 @@ public class CrawlJob(
                 await runs.SaveCursorAsync(run.Id, latestCursor, ct);
             }
 
-            await runs.CompleteAsync(run.Id, ScrapeRunStatus.Succeeded, error: null, ct);
+            await runs.CompleteAsync(run.Id, ScrapeRunStatus.Succeeded, fetched, changed, error: null, ct);
 
             logger.LogInformation(
                 "Crawl of {Source} finished: {Fetched} fetched, {Changed} changed",
@@ -81,13 +81,15 @@ public class CrawlJob(
         catch (OperationCanceledException) when (ct.IsCancellationRequested)
         {
             // The cursor is already saved, so the next run picks up here.
-            await runs.CompleteAsync(run.Id, ScrapeRunStatus.Cancelled, error: null, CancellationToken.None);
+            await runs.CompleteAsync(
+                run.Id, ScrapeRunStatus.Cancelled, fetched, changed, error: null, CancellationToken.None);
             throw;
         }
         catch (Exception ex)
         {
             logger.LogError(ex, "Crawl of {Source} failed after {Fetched} documents", source, fetched);
-            await runs.CompleteAsync(run.Id, ScrapeRunStatus.Failed, ex.Message, CancellationToken.None);
+            await runs.CompleteAsync(
+                run.Id, ScrapeRunStatus.Failed, fetched, changed, ex.Message, CancellationToken.None);
             throw;
         }
 
