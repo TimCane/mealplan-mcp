@@ -60,14 +60,14 @@ public class GoustoCrawler(
                 }
             }
 
-            var pageJson = await GetAsync(
-                client,
-                $"recipes?category=recipes&limit={settings.PageSize}&offset={offset}",
-                ct);
+            var listPath = $"recipes?category=recipes&limit={settings.PageSize}&offset={offset}";
+            var pageJson = await GetAsync(client, listPath, ct);
 
             if (pageJson is null)
             {
-                yield break;
+                // Exhaustion is signalled by an empty entry list, below. A list
+                // page with no body at all is the API failing, not the end.
+                throw new SourceFetchException(Source, listPath, "the list endpoint returned an empty body");
             }
 
             var page = Deserialize<GoustoListResponse>(pageJson);
@@ -126,18 +126,18 @@ public class GoustoCrawler(
 
     private static readonly JsonSerializerOptions JsonOptions = new(JsonSerializerDefaults.Web);
 
+    /// <summary>
+    /// Null means the documented empty-body case only. A refused request throws:
+    /// treating it as no-more-data ends the crawl and reports success, which hides
+    /// the failure and throws away the cursor that would have resumed it.
+    /// </summary>
     private async Task<string?> GetAsync(HttpClient client, string path, CancellationToken ct)
     {
         using var response = await client.GetAsync(path, ct);
 
         if (!response.IsSuccessStatusCode)
         {
-            logger.LogWarning(
-                "Gousto GET {Path} returned {Status}",
-                path,
-                (int)response.StatusCode);
-
-            return null;
+            throw new SourceFetchException(Source, path, response.StatusCode);
         }
 
         var body = await response.Content.ReadAsStringAsync(ct);
