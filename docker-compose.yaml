@@ -21,11 +21,12 @@ services:
       - "5206"
     environment:
       TZ: Etc/UTC
-      # Binds the scraper's domain to this container, because this is where port
-      # 5206 lives. Coolify turns it into the Traefik labels that route the host;
-      # without it nothing matches and every path 404s. The domain is set in
-      # Coolify, not here.
-      SERVICE_FQDN_SCRAPER_5206: /
+      # Binds the dashboard's domain to gluetun, not the scraper: Coolify reads
+      # the service off the variable name and puts the Traefik labels on that
+      # container. Labelled as SCRAPER the labels land on a container with no IP
+      # of its own, Traefik has no route, and every path 404s on its default
+      # self-signed cert. The domain is set in Coolify, on this service.
+      SERVICE_FQDN_GLUETUN_5206: /
       VPN_SERVICE_PROVIDER: protonvpn
       VPN_TYPE: wireguard
       WIREGUARD_PRIVATE_KEY: ${WIREGUARD_PRIVATE_KEY:?required}
