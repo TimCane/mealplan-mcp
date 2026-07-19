@@ -111,10 +111,22 @@ services:
       db:
         condition: service_healthy
     healthcheck:
-      test: ["CMD-SHELL", "wget -qO- http://localhost:5205/health || exit 1"]
+      # Spoken over bash's /dev/tcp rather than with curl or wget: the aspnet
+      # runtime image ships neither, and installing one pulls in 15 packages to
+      # fetch a local URL. Traefik drops a container whose healthcheck fails from
+      # its routing table, so a probe that cannot run reads as an application
+      # that is down and takes the whole domain to a 404.
+      test:
+        - CMD
+        - bash
+        - -c
+        - "exec 3<>/dev/tcp/localhost/5205 && printf 'GET /health HTTP/1.0\r\n\r\n' >&3 && grep -q '200 OK' <&3"
       interval: 30s
       timeout: 5s
       retries: 3
+      # The cross-source views are rebuilt against Postgres before the first
+      # request is served; probes during that window are not failures.
+      start_period: 30s
 
 networks:
   # Fixed subnet so gluetun's firewall can be told which range to let through to
