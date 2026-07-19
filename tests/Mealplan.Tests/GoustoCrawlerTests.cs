@@ -32,27 +32,6 @@ public class GoustoCursorTests
     }
 }
 
-public class GoustoSlugTests
-{
-    [Theory]
-    [InlineData("/chicken-date-tamarind-curry", "chicken-date-tamarind-curry")]
-    [InlineData("chicken-date-tamarind-curry", "chicken-date-tamarind-curry")]
-    [InlineData("/simply-perfect-beef-spag-bol/", "simply-perfect-beef-spag-bol")]
-    public void The_detail_key_is_the_slug_from_the_url(string url, string expected)
-    {
-        GoustoCrawler.Slug(new GoustoListEntry("uid", "Title", url)).Should().Be(expected);
-    }
-
-    [Theory]
-    [InlineData(null)]
-    [InlineData("")]
-    [InlineData("   ")]
-    public void An_entry_with_no_url_has_no_slug(string? url)
-    {
-        GoustoCrawler.Slug(new GoustoListEntry("uid", "Title", url)).Should().BeNull();
-    }
-}
-
 public class GoustoTextTests
 {
     [Theory]

@@ -16,6 +16,17 @@
     <Using Include="Xunit" />
   </ItemGroup>
 
+  <!--
+    Shared with the integration tests: real captured payloads, so parsing is
+    checked against what the endpoints actually return rather than a sample
+    chosen to match the code.
+  -->
+  <ItemGroup>
+    <None Include="..\Mealplan.IntegrationTests\Fixtures\**\*.json"
+          Link="Fixtures\%(RecursiveDir)%(Filename)%(Extension)"
+          CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\..\src\Mealplan.Infrastructure.HelloFresh\Mealplan.Infrastructure.HelloFresh.csproj" />
     <ProjectReference Include="..\..\src\Mealplan.Infrastructure.Gousto\Mealplan.Infrastructure.Gousto.csproj" />

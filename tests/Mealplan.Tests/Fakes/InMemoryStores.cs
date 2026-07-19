@@ -94,6 +94,8 @@ public class InMemoryRunStore : IScrapeRunStore
     public Task CompleteAsync(
         Guid runId,
         ScrapeRunStatus status,
+        int documentsFetched,
+        int documentsChanged,
         string? error = null,
         CancellationToken ct = default)
     {
@@ -101,6 +103,8 @@ public class InMemoryRunStore : IScrapeRunStore
         run.Status = status;
         run.Error = error;
         run.FinishedAt = DateTimeOffset.UnixEpoch;
+        run.DocumentsFetched = documentsFetched;
+        run.DocumentsChanged = documentsChanged;
 
         return Task.CompletedTask;
     }
