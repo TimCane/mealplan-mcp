@@ -14,4 +14,11 @@ public interface IRawDocumentStore
         string source,
         int limit,
         CancellationToken ct = default);
+
+    /// <summary>
+    /// Stamps a version as processed. A failure records the error and still
+    /// stamps, so one bad payload cannot spin the queue forever; clearing
+    /// normalized_at is how a fixed mapping gets replayed.
+    /// </summary>
+    Task MarkNormalizedAsync(Guid documentId, string? error = null, CancellationToken ct = default);
 }
