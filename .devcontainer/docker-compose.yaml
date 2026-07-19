@@ -1,4 +1,7 @@
-name: mealplan-mcp
+# Dev-only stack. Named apart from the deployment compose at the repo root:
+# both used to be "mealplan-mcp", so bringing up the deploy stack reconciled
+# against the running devcontainer and detached its database.
+name: mealplan-mcp-dev
 
 services:
   # Dev workspace - VS Code attaches here; the MCP server and scraper worker run
