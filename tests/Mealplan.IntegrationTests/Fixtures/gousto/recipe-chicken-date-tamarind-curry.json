@@ -1,0 +1,1573 @@
+{
+  "status": "ok",
+  "data": {
+    "entry": {
+      "url": "/chicken-date-tamarind-curry",
+      "title": "Chicken, Date & Tamarind Curry With Kachumber",
+      "categories": [
+        {
+          "title": "All Gousto Recipes",
+          "url": "/recipes",
+          "uid": "blt99b86694701028c1"
+        },
+        {
+          "title": "Chicken",
+          "url": "/chicken",
+          "uid": "blt84f37ae679edc7e6"
+        },
+        {
+          "title": "Rice Recipes",
+          "url": "/rice-recipes",
+          "uid": "blt7d4da6bbb3711078"
+        },
+        {
+          "title": "Chicken Recipes",
+          "url": "/chicken-recipes",
+          "uid": "blt7efd940d5b4a3c2e"
+        },
+        {
+          "title": "Curry Recipes",
+          "url": "/curry-recipes",
+          "uid": "bltf92aa4e76cfebf85"
+        },
+        {
+          "title": "Indian Recipes",
+          "url": "/indian-recipes",
+          "uid": "blt851c16bcc6ebcdae"
+        },
+        {
+          "uid": "blt05a40818b6dba670"
+        },
+        {
+          "title": "Gluten Free Recipes",
+          "url": "/gluten-free-recipes",
+          "uid": "bltd38409eebe22a089"
+        },
+        {
+          "title": "Dairy Free Recipes",
+          "url": "/dairy-free-recipes",
+          "uid": "bltb208477429879b2c"
+        },
+        {
+          "title": "Chicken Breast Recipes",
+          "url": "/chicken-breast-recipes",
+          "uid": "blte47da2c008dda1a7"
+        }
+      ],
+      "gousto_id": "671",
+      "gousto_uid": "0159d098-9b10-4f7c-b0a3-169af3278208",
+      "media": {
+        "images": [
+          {
+            "image": "https://production-media.gousto.co.uk/cms/mood-image/687---Chicken-Date--Tamarind-Curry_01-1592819703164-x200.jpg",
+            "width": 200
+          },
+          {
+            "image": "https://production-media.gousto.co.uk/cms/mood-image/687---Chicken-Date--Tamarind-Curry_01-1592819703164-x400.jpg",
+            "width": 400
+          },
+          {
+            "image": "https://production-media.gousto.co.uk/cms/mood-image/687---Chicken-Date--Tamarind-Curry_01-1592819703164-x700.jpg",
+            "width": 700
+          },
+          {
+            "image": "https://production-media.gousto.co.uk/cms/mood-image/687---Chicken-Date--Tamarind-Curry_01-1592819703164-x1000.jpg",
+            "width": 1000
+          },
+          {
+            "image": "https://production-media.gousto.co.uk/cms/mood-image/687---Chicken-Date--Tamarind-Curry_01-1592819703164-x1500.jpg",
+            "width": 1500
+          }
+        ]
+      },
+      "rating": {
+        "average": 5,
+        "count": 9492
+      },
+      "description": "To create a luxurious chicken curry, you'll infuse rich coconut stock with ginger and tangy date. Serve over buttery long grain rice with a cucumber, tomato and coriander salad. Under 600 calories.",
+      "prep_times": {
+        "for_2": 40,
+        "for_4": 45
+      },
+      "cuisine": {
+        "slug": "indian",
+        "title": "Indian"
+      },
+      "ingredients": [
+        {
+          "label": "Whole cucumber x0",
+          "title": "whole cucumber-I-07-HBS-PL-57",
+          "uid": "blta9fe214329e154c1",
+          "gousto_uuid": "2bd80b87-544e-402b-bd04-ed0c28921bf7",
+          "name": "whole cucumber",
+          "media": {
+            "images": []
+          },
+          "allergens": {
+            "allergen": []
+          }
+        },
+        {
+          "label": "Intense chicken stock mix (5.5g)",
+          "title": "intense chicken stock mix-I-06-SML-SC-35",
+          "uid": "blt4edc7d8fa5e9c4e7",
+          "gousto_uuid": "625623ea-dc96-4c22-91a5-f4ffcad92b39",
+          "name": "intense chicken stock mix",
+          "media": {
+            "images": [
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/chicken-stock-mix-x200.jpg",
+                "width": 200
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/chicken-stock-mix-x400.jpg",
+                "width": 400
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/chicken-stock-mix-x700.jpg",
+                "width": 700
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/chicken-stock-mix-x1000.jpg",
+                "width": 1000
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/chicken-stock-mix-x1500.jpg",
+                "width": 1500
+              }
+            ]
+          },
+          "allergens": {
+            "allergen": []
+          }
+        },
+        {
+          "label": "Chicken stock mix (5.5g) x0",
+          "title": "chicken stock mix-I-06-SML-SC-22",
+          "uid": "blt6a0082697a1a5681",
+          "gousto_uuid": "dec1c16e-4785-40e7-b689-69721141bad6",
+          "name": "chicken stock mix",
+          "media": {
+            "images": [
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/chicken-stock-powder-1-x200.jpg",
+                "width": 200
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/chicken-stock-powder-1-x400.jpg",
+                "width": 400
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/chicken-stock-powder-1-x700.jpg",
+                "width": 700
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/chicken-stock-powder-1-x1000.jpg",
+                "width": 1000
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/chicken-stock-powder-1-x1500.jpg",
+                "width": 1500
+              }
+            ]
+          },
+          "allergens": {
+            "allergen": []
+          }
+        },
+        {
+          "label": "White long grain rice (130g)",
+          "title": "white long grain rice-IQ-03-GRN-RC-37-02",
+          "uid": "blt58fde526f90f693a",
+          "gousto_uuid": "49bc207f-e86c-4423-a7c1-86dc4718abc8",
+          "name": "white long grain rice",
+          "media": {
+            "images": [
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/100g-basmati-rice-x200.jpg",
+                "width": 200
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/100g-basmati-rice-x400.jpg",
+                "width": 400
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/100g-basmati-rice-x700.jpg",
+                "width": 700
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/100g-basmati-rice-x1000.jpg",
+                "width": 1000
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/100g-basmati-rice-x1500.jpg",
+                "width": 1500
+              }
+            ]
+          },
+          "allergens": {
+            "allergen": []
+          }
+        },
+        {
+          "label": "Chicken breast strips (250g)",
+          "title": "chicken breast strips-I-10-MPF-PO-82",
+          "uid": "blta60039af1c4db11e",
+          "gousto_uuid": "1e4bb09c-0d0a-4f06-a6ea-5222a3b1a43a",
+          "name": "chicken breast strips",
+          "media": {
+            "images": [
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/250g-British-chicken-breast-strips-x200.jpg",
+                "width": 200
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/250g-British-chicken-breast-strips-x400.jpg",
+                "width": 400
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/250g-British-chicken-breast-strips-x700.jpg",
+                "width": 700
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/250g-British-chicken-breast-strips-x1000.jpg",
+                "width": 1000
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/250g-British-chicken-breast-strips-x1500.jpg",
+                "width": 1500
+              }
+            ]
+          },
+          "allergens": {
+            "allergen": []
+          }
+        },
+        {
+          "label": "Solid creamed coconut (25g)",
+          "title": "solid creamed coconut-I-06-SML-CO-13",
+          "uid": "bltb15d406b19839742",
+          "gousto_uuid": "52ffb449-10c7-44e4-bd30-6c6f1c8ff66f",
+          "name": "solid creamed coconut",
+          "media": {
+            "images": [
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/Flecked-coconut-cream-2-x200.jpg",
+                "width": 200
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/Flecked-coconut-cream-2-x400.jpg",
+                "width": 400
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/Flecked-coconut-cream-2-x700.jpg",
+                "width": 700
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/Flecked-coconut-cream-2-x1000.jpg",
+                "width": 1000
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/Flecked-coconut-cream-2-x1500.jpg",
+                "width": 1500
+              }
+            ]
+          },
+          "allergens": {
+            "allergen": []
+          }
+        },
+        {
+          "label": "Ground turmeric (0.5tsp) x0",
+          "title": "ground turmeric-I-06-SML-DL-14",
+          "uid": "blt37b4da4bd600ecc3",
+          "gousto_uuid": "abb2d5af-131e-4e82-9546-705ab185cc37",
+          "name": "ground turmeric",
+          "media": {
+            "images": [
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/1-tsp-ground-turmeric-x200.jpg",
+                "width": 200
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/1-tsp-ground-turmeric-x400.jpg",
+                "width": 400
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/1-tsp-ground-turmeric-x700.jpg",
+                "width": 700
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/1-tsp-ground-turmeric-x1000.jpg",
+                "width": 1000
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/1-tsp-ground-turmeric-x1500.jpg",
+                "width": 1500
+              }
+            ]
+          },
+          "allergens": {
+            "allergen": []
+          }
+        },
+        {
+          "label": "Ground turmeric (1tsp)",
+          "title": "ground turmeric-I-06-SML-IN-20",
+          "uid": "bltd85ec4fd0fc24758",
+          "gousto_uuid": "44c1fcff-fadf-4b69-9d80-3d0b0baa38a2",
+          "name": "ground turmeric",
+          "media": {
+            "images": [
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/1-tsp-ground-turmeric-x200.jpg",
+                "width": 200
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/1-tsp-ground-turmeric-x400.jpg",
+                "width": 400
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/1-tsp-ground-turmeric-x700.jpg",
+                "width": 700
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/1-tsp-ground-turmeric-x1000.jpg",
+                "width": 1000
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/1-tsp-ground-turmeric-x1500.jpg",
+                "width": 1500
+              }
+            ]
+          },
+          "allergens": {
+            "allergen": []
+          }
+        },
+        {
+          "label": "Chicken breast strips (125g) x0",
+          "title": "chicken breast strips-I-10-MPF-PO-85",
+          "uid": "blt547eed7925a43849",
+          "gousto_uuid": "07f7ab2f-3887-4c32-abac-e35c6a74f96a",
+          "name": "chicken breast strips",
+          "media": {
+            "images": [
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/250g-British-chicken-breast-strips-x200.jpg",
+                "width": 200
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/250g-British-chicken-breast-strips-x400.jpg",
+                "width": 400
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/250g-British-chicken-breast-strips-x700.jpg",
+                "width": 700
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/250g-British-chicken-breast-strips-x1000.jpg",
+                "width": 1000
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/250g-British-chicken-breast-strips-x1500.jpg",
+                "width": 1500
+              }
+            ]
+          },
+          "allergens": {
+            "allergen": []
+          }
+        },
+        {
+          "label": "White long grain rice (65g) x0",
+          "title": "white long grain rice-IQ-03-GRN-RC-37-04",
+          "uid": "blt7aac312068334d75",
+          "gousto_uuid": "3f8dd8e4-5658-4df8-9433-41aa47c6ff03",
+          "name": "white long grain rice",
+          "media": {
+            "images": [
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/100g-basmati-rice-x200.jpg",
+                "width": 200
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/100g-basmati-rice-x400.jpg",
+                "width": 400
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/100g-basmati-rice-x700.jpg",
+                "width": 700
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/100g-basmati-rice-x1000.jpg",
+                "width": 1000
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/100g-basmati-rice-x1500.jpg",
+                "width": 1500
+              }
+            ]
+          },
+          "allergens": {
+            "allergen": []
+          }
+        },
+        {
+          "label": "Curry powder (0.5tbsp) x0",
+          "title": "curry powder-I-06-SML-DL-69",
+          "uid": "blt0c8ee1bd10dfdb3e",
+          "gousto_uuid": "69412a18-8367-4116-b7bc-d00e7a06f1d9",
+          "name": "curry powder",
+          "media": {
+            "images": [
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/Curry-powder-x200.jpg",
+                "width": 200
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/Curry-powder-x400.jpg",
+                "width": 400
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/Curry-powder-x700.jpg",
+                "width": 700
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/Curry-powder-x1000.jpg",
+                "width": 1000
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/Curry-powder-x1500.jpg",
+                "width": 1500
+              }
+            ]
+          },
+          "allergens": {
+            "allergen": []
+          }
+        },
+        {
+          "label": "Curry powder (2tbsp) x0",
+          "title": "curry powder-I-06-SML-DL-71",
+          "uid": "blt725ceda8966cfe28",
+          "gousto_uuid": "8d639d28-8052-4fc3-a7c1-f9ba842da1eb",
+          "name": "curry powder",
+          "media": {
+            "images": [
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/Curry-powder-x200.jpg",
+                "width": 200
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/Curry-powder-x400.jpg",
+                "width": 400
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/Curry-powder-x700.jpg",
+                "width": 700
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/Curry-powder-x1000.jpg",
+                "width": 1000
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/Curry-powder-x1500.jpg",
+                "width": 1500
+              }
+            ]
+          },
+          "allergens": {
+            "allergen": []
+          }
+        },
+        {
+          "label": "Curry powder (1tbsp)",
+          "title": "curry powder-I-06-SML-DL-70",
+          "uid": "blt86a37be372975121",
+          "gousto_uuid": "72ff27f8-415a-40af-b537-92f32743fdfb",
+          "name": "curry powder",
+          "media": {
+            "images": [
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/Curry-powder-x200.jpg",
+                "width": 200
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/Curry-powder-x400.jpg",
+                "width": 400
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/Curry-powder-x700.jpg",
+                "width": 700
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/Curry-powder-x1000.jpg",
+                "width": 1000
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/Curry-powder-x1500.jpg",
+                "width": 1500
+              }
+            ]
+          },
+          "allergens": {
+            "allergen": []
+          }
+        },
+        {
+          "label": "Fresh root ginger (15g)",
+          "title": "fresh root ginger-I-06-SML-OT-25",
+          "uid": "bltc22d54e029ba9745",
+          "gousto_uuid": "43c515bb-1548-41df-b08e-f10fa8369172",
+          "name": "fresh root ginger",
+          "media": {
+            "images": [
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/fresh-root-ginger-1-x200.jpg",
+                "width": 200
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/fresh-root-ginger-1-x400.jpg",
+                "width": 400
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/fresh-root-ginger-1-x700.jpg",
+                "width": 700
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/fresh-root-ginger-1-x1000.jpg",
+                "width": 1000
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/fresh-root-ginger-1-x1500.jpg",
+                "width": 1500
+              }
+            ]
+          },
+          "allergens": {
+            "allergen": []
+          }
+        },
+        {
+          "label": "Tomato",
+          "title": "tomato-I-05-FVG-FV-09",
+          "uid": "bltadd0f9d489140d4c",
+          "gousto_uuid": "5c14a222-aa12-4d98-a108-106ca1693363",
+          "name": "tomato",
+          "media": {
+            "images": [
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/tomato-x200.jpg",
+                "width": 200
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/tomato-x400.jpg",
+                "width": 400
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/tomato-x700.jpg",
+                "width": 700
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/tomato-x1000.jpg",
+                "width": 1000
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/tomato-x1500.jpg",
+                "width": 1500
+              }
+            ]
+          },
+          "allergens": {
+            "allergen": []
+          }
+        },
+        {
+          "label": "Cucumber (0.5pcs)",
+          "title": "cucumber-I-07-HBS-PL-11",
+          "uid": "blt4681c62966ac9eab",
+          "gousto_uuid": "4b3f1d8a-1881-4597-ac85-6ed81114c8c5",
+          "name": "cucumber",
+          "media": {
+            "images": [
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/cucumber-x200.jpg",
+                "width": 200
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/cucumber-x400.jpg",
+                "width": 400
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/cucumber-x700.jpg",
+                "width": 700
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/cucumber-x1000.jpg",
+                "width": 1000
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/cucumber-x1500.jpg",
+                "width": 1500
+              }
+            ]
+          },
+          "allergens": {
+            "allergen": []
+          }
+        },
+        {
+          "label": "Coriander (5g)",
+          "title": "coriander-I-07-HBS-PL-13-5",
+          "uid": "blt3a65180ebd9eb3aa",
+          "gousto_uuid": "b7839655-6d73-40c2-a235-30ea290a9c56",
+          "name": "coriander",
+          "media": {
+            "images": [
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/10g-coriander-x200.jpg",
+                "width": 200
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/10g-coriander-x400.jpg",
+                "width": 400
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/10g-coriander-x700.jpg",
+                "width": 700
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/10g-coriander-x1000.jpg",
+                "width": 1000
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/10g-coriander-x1500.jpg",
+                "width": 1500
+              }
+            ]
+          },
+          "allergens": {
+            "allergen": []
+          }
+        },
+        {
+          "label": "Chopped dates (30g)",
+          "title": "chopped dates-IQ-04-NUT-DF-03",
+          "uid": "blta08df8994b5050e5",
+          "gousto_uuid": "dc38d999-aa2e-46bc-b714-56b8b6c55f6c",
+          "name": "chopped dates",
+          "media": {
+            "images": [
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/1-bag-of-chopped-dates-30g-x200.jpg",
+                "width": 200
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/1-bag-of-chopped-dates-30g-x400.jpg",
+                "width": 400
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/1-bag-of-chopped-dates-30g-x700.jpg",
+                "width": 700
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/1-bag-of-chopped-dates-30g-x1000.jpg",
+                "width": 1000
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/1-bag-of-chopped-dates-30g-x1500.jpg",
+                "width": 1500
+              }
+            ]
+          },
+          "allergens": {
+            "allergen": []
+          }
+        },
+        {
+          "label": "Red onion",
+          "title": "red onion-I-02-SVG-VG-05",
+          "uid": "bltc69ae0a09122a2b4",
+          "gousto_uuid": "4e949ce8-d92c-43fa-8c0d-110d903d6e60",
+          "name": "red onion",
+          "media": {
+            "images": [
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/1-red-onion-copy-x200.jpg",
+                "width": 200
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/1-red-onion-copy-x400.jpg",
+                "width": 400
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/1-red-onion-copy-x700.jpg",
+                "width": 700
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/1-red-onion-copy-x1000.jpg",
+                "width": 1000
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/1-red-onion-copy-x1500.jpg",
+                "width": 1500
+              }
+            ]
+          },
+          "allergens": {
+            "allergen": []
+          }
+        },
+        {
+          "label": "Tamarind paste (15g)",
+          "title": "tamarind paste-I-08-SAU-PS-19",
+          "uid": "blta8e632d4b4071d62",
+          "gousto_uuid": "eec1fcf3-a00b-4321-bedd-d7a5c1754881",
+          "name": "tamarind paste",
+          "media": {
+            "images": [
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/tamarind-paste-x200.jpg",
+                "width": 200
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/tamarind-paste-x400.jpg",
+                "width": 400
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/tamarind-paste-x700.jpg",
+                "width": 700
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/tamarind-paste-x1000.jpg",
+                "width": 1000
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/tamarind-paste-x1500.jpg",
+                "width": 1500
+              }
+            ]
+          },
+          "allergens": {
+            "allergen": []
+          }
+        }
+      ],
+      "basics": [
+        {
+          "title": "Butter",
+          "slug": "butter"
+        },
+        {
+          "title": "Olive oil",
+          "slug": "olive-oil"
+        },
+        {
+          "title": "Pepper",
+          "slug": "pepper"
+        },
+        {
+          "title": "Salt",
+          "slug": "salt"
+        },
+        {
+          "title": "Water",
+          "slug": "water"
+        }
+      ],
+      "cooking_instructions": [
+        {
+          "instruction": "<p>Before you start cooking, take your <strong>chicken </strong>out of the fridge, open the packet and let it air</p><p>Boil a kettle</p><p>Peel and slice your <strong>red onion[s]</strong> finely</p>",
+          "order": 1,
+          "media": {
+            "images": [
+              {
+                "image": "https://production-media.gousto.co.uk/cms/recipe-step-image/Step-1-1599839569640-x200.jpg",
+                "width": 200
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/recipe-step-image/Step-1-1599839569640-x400.jpg",
+                "width": 400
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/recipe-step-image/Step-1-1599839569640-x700.jpg",
+                "width": 700
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/recipe-step-image/Step-1-1599839569640-x1000.jpg",
+                "width": 1000
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/recipe-step-image/Step-1-1599839569640-x1500.jpg",
+                "width": 1500
+              }
+            ]
+          }
+        },
+        {
+          "instruction": "<p>Heat a large, wide-based pan (preferably non-stick with a matching lid) with a knob of <strong>butter</strong> over a medium-low heat</p><p>Once melted, add<strong> </strong>most of the <strong>sliced onion</strong> (you'll use the rest later!) with a pinch of <strong>salt</strong> and cook for 8-10 min or until softened and caramelised</p>",
+          "order": 2,
+          "media": {
+            "images": [
+              {
+                "image": "https://production-media.gousto.co.uk/cms/recipe-step-image/Step-2-1599839575404-x200.jpg",
+                "width": 200
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/recipe-step-image/Step-2-1599839575404-x400.jpg",
+                "width": 400
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/recipe-step-image/Step-2-1599839575404-x700.jpg",
+                "width": 700
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/recipe-step-image/Step-2-1599839575404-x1000.jpg",
+                "width": 1000
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/recipe-step-image/Step-2-1599839575404-x1500.jpg",
+                "width": 1500
+              }
+            ]
+          }
+        },
+        {
+          "instruction": "<p>While the onion is cooking, heat a pot with a lid, with a knob of <strong>butter</strong> over a high heat</p><p>Add your <strong>white long grain rice</strong> to a pot with a lid with 225ml <span class=\"text-purple\">[300ml]</span> <span class=\"text-danger\">[450ml]</span> cold water and bring to the boil over a high heat</p><p>Once boiling, reduce the heat to very low and cook, covered, for 12-15 min or until all the water has absorbed and the rice is cooked</p><p>Once done, remove from the heat and set aside (lid on) to steam until serving</p>",
+          "order": 3,
+          "media": {
+            "images": [
+              {
+                "image": "https://production-media.gousto.co.uk/cms/recipe-step-image/687.-step-4-x200.jpg",
+                "width": 200
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/recipe-step-image/687.-step-4-x400.jpg",
+                "width": 400
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/recipe-step-image/687.-step-4-x700.jpg",
+                "width": 700
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/recipe-step-image/687.-step-4-x1000.jpg",
+                "width": 1000
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/recipe-step-image/687.-step-4-x1500.jpg",
+                "width": 1500
+              }
+            ]
+          }
+        },
+        {
+          "instruction": "<p>Whilst the rice is cooking, peel (scrape the skin off with a teaspoon) and finely chop (or grate) your <strong>ginger</strong></p><p>Chop your<strong> creamed coconut </strong>roughly (if required!)</p>",
+          "order": 4,
+          "media": {
+            "images": [
+              {
+                "image": "https://production-media.gousto.co.uk/cms/recipe-step-image/Step-4-1599839585514-x200.jpg",
+                "width": 200
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/recipe-step-image/Step-4-1599839585514-x400.jpg",
+                "width": 400
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/recipe-step-image/Step-4-1599839585514-x700.jpg",
+                "width": 700
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/recipe-step-image/Step-4-1599839585514-x1000.jpg",
+                "width": 1000
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/recipe-step-image/Step-4-1599839585514-x1500.jpg",
+                "width": 1500
+              }
+            ]
+          }
+        },
+        {
+          "instruction": "<p>Dissolve your<strong> chicken stock mix</strong> in 400ml <span class=\"text-purple\">[600ml]</span><span class=\"text-danger\"> [800ml]</span> <strong>boiled water </strong>then add your <strong>chopped dates</strong>, <strong>tamarind paste</strong> and <strong>chopped creamed coconut</strong> – this is your <strong>date & tamarind stock</strong></p>",
+          "order": 5,
+          "media": {
+            "images": [
+              {
+                "image": "https://production-media.gousto.co.uk/cms/recipe-step-image/Step-5-1599839590780-x200.jpg",
+                "width": 200
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/recipe-step-image/Step-5-1599839590780-x400.jpg",
+                "width": 400
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/recipe-step-image/Step-5-1599839590780-x700.jpg",
+                "width": 700
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/recipe-step-image/Step-5-1599839590780-x1000.jpg",
+                "width": 1000
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/recipe-step-image/Step-5-1599839590780-x1500.jpg",
+                "width": 1500
+              }
+            ]
+          }
+        },
+        {
+          "instruction": "<p>Add the <strong>chopped</strong> <strong>ginger</strong>, <strong>ground</strong> <strong>turmeric</strong>,<strong> curry powder</strong> and a generous grind of <strong>black pepper</strong> to the softened onion and cook for 30 secs</p><p>Add the <strong>date & tamarind stock</strong>, give everything a good mix up, then add your <strong>chicken </strong>and increase the heat to high</p><p>Cook, covered, for 18 min or until the chicken is cooked through (no pink meat!) and the sauce has reduced to a curry-like consistency</p>",
+          "order": 6,
+          "media": {
+            "images": [
+              {
+                "image": "https://production-media.gousto.co.uk/cms/recipe-step-image/step-6-1599839601095-x200.jpg",
+                "width": 200
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/recipe-step-image/step-6-1599839601095-x400.jpg",
+                "width": 400
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/recipe-step-image/step-6-1599839601095-x700.jpg",
+                "width": 700
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/recipe-step-image/step-6-1599839601095-x1000.jpg",
+                "width": 1000
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/recipe-step-image/step-6-1599839601095-x1500.jpg",
+                "width": 1500
+              }
+            ]
+          }
+        },
+        {
+          "instruction": "<p>Chop your<strong> coriander</strong> finely, including the stalks</p><p>Dice your <strong>tomato[es] </strong>and <strong>cucumber</strong></p><p>Combine the <strong>diced</strong> <strong>tomato</strong>, <strong>diced</strong> <strong>cucumber </strong>and <strong>remaining</strong> <strong>sliced onion</strong> in a large bowl with a pinch of<strong> salt</strong> and a drizzle of <strong>olive oil</strong></p><p>Add the <strong>chopped</strong> <strong>coriander</strong> just before serving – this is your<strong> kachumber</strong></p>",
+          "order": 7,
+          "media": {
+            "images": [
+              {
+                "image": "https://production-media.gousto.co.uk/cms/recipe-step-image/Step-7-1599839624054-x200.jpg",
+                "width": 200
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/recipe-step-image/Step-7-1599839624054-x400.jpg",
+                "width": 400
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/recipe-step-image/Step-7-1599839624054-x700.jpg",
+                "width": 700
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/recipe-step-image/Step-7-1599839624054-x1000.jpg",
+                "width": 1000
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/recipe-step-image/Step-7-1599839624054-x1500.jpg",
+                "width": 1500
+              }
+            ]
+          }
+        },
+        {
+          "instruction": "<p>Remove the pan from the heat and shred the<strong> cooked chicken</strong> apart in the pan using two forks – this technique is known as ‘pulling’</p><p>Give everything a good mix up – this is your <strong>chicken, date & tamarind curry</strong></p><p>Serve the <strong>chicken, date & tamarind curry</strong> over the <strong>cooked rice</strong> with the <strong>kachumber </strong>to the side</p><p>Enjoy!</p>",
+          "order": 8,
+          "media": {
+            "images": []
+          }
+        }
+      ],
+      "allergens": [],
+      "seo": {
+        "title": "Chicken, Date & Tamarind Curry",
+        "description": "To create a luxurious chicken curry, you'll infuse rich coconut stock with sweet dates, ginger and tangy tamarind. Serve over buttery basmati rice with a cucumber, tomato and coriander salad. ",
+        "robots": [],
+        "canonical": "https://www.gousto.co.uk/cookbook/chicken-recipes/chicken-date-tamarind-curry",
+        "open_graph_image": "https://production-media.gousto.co.uk/cms/mood-image/687---Chicken-Date--Tamarind-Curry_01-1592819703164.jpg"
+      },
+      "tags": [],
+      "uid": "blt09ec6873cbda50a5",
+      "_version": 4947,
+      "nutritional_information": {
+        "per_hundred_grams": {
+          "energy_kcal": 138,
+          "energy_kj": 584,
+          "fat_mg": 3288,
+          "fat_saturates_mg": 2277,
+          "carbs_mg": 19035,
+          "carbs_sugars_mg": 4574,
+          "fibre_mg": 1576,
+          "protein_mg": 8657,
+          "salt_mg": 436,
+          "net_weight_mg": 100000
+        },
+        "per_portion": {
+          "energy_kcal": 571,
+          "energy_kj": 2416,
+          "fat_mg": 13582,
+          "fat_saturates_mg": 9405,
+          "carbs_mg": 78617,
+          "carbs_sugars_mg": 18891,
+          "fibre_mg": 6511,
+          "protein_mg": 35754,
+          "salt_mg": 1802,
+          "net_weight_mg": 413000
+        }
+      },
+      "portion_sizes": [
+        {
+          "portions": 1,
+          "is_offered": true,
+          "ingredients_skus": [
+            {
+              "id": "07f7ab2f-3887-4c32-abac-e35c6a74f96a",
+              "code": "I-10-MPF-PO-85",
+              "quantities": {
+                "in_box": 1
+              }
+            },
+            {
+              "id": "dec1c16e-4785-40e7-b689-69721141bad6",
+              "code": "I-06-SML-SC-22",
+              "quantities": {
+                "in_box": 1
+              }
+            },
+            {
+              "id": "dc38d999-aa2e-46bc-b714-56b8b6c55f6c",
+              "code": "IQ-04-NUT-DF-03",
+              "quantities": {
+                "in_box": 1
+              }
+            },
+            {
+              "id": "b7839655-6d73-40c2-a235-30ea290a9c56",
+              "code": "I-07-HBS-PL-13-5",
+              "quantities": {
+                "in_box": 1
+              }
+            },
+            {
+              "id": "4b3f1d8a-1881-4597-ac85-6ed81114c8c5",
+              "code": "I-07-HBS-PL-11",
+              "quantities": {
+                "in_box": 1
+              }
+            },
+            {
+              "id": "69412a18-8367-4116-b7bc-d00e7a06f1d9",
+              "code": "I-06-SML-DL-69",
+              "quantities": {
+                "in_box": 1
+              }
+            },
+            {
+              "id": "43c515bb-1548-41df-b08e-f10fa8369172",
+              "code": "I-06-SML-OT-25",
+              "quantities": {
+                "in_box": 1
+              }
+            },
+            {
+              "id": "abb2d5af-131e-4e82-9546-705ab185cc37",
+              "code": "I-06-SML-DL-14",
+              "quantities": {
+                "in_box": 1
+              }
+            },
+            {
+              "id": "4e949ce8-d92c-43fa-8c0d-110d903d6e60",
+              "code": "I-02-SVG-VG-05",
+              "quantities": {
+                "in_box": 1
+              }
+            },
+            {
+              "id": "52ffb449-10c7-44e4-bd30-6c6f1c8ff66f",
+              "code": "I-06-SML-CO-13",
+              "quantities": {
+                "in_box": 1
+              }
+            },
+            {
+              "id": "eec1fcf3-a00b-4321-bedd-d7a5c1754881",
+              "code": "I-08-SAU-PS-19",
+              "quantities": {
+                "in_box": 1
+              }
+            },
+            {
+              "id": "5c14a222-aa12-4d98-a108-106ca1693363",
+              "code": "I-05-FVG-FV-09",
+              "quantities": {
+                "in_box": 1
+              }
+            },
+            {
+              "id": "3f8dd8e4-5658-4df8-9433-41aa47c6ff03",
+              "code": "IQ-03-GRN-RC-37-04",
+              "quantities": {
+                "in_box": 1
+              }
+            }
+          ]
+        },
+        {
+          "portions": 2,
+          "is_offered": true,
+          "ingredients_skus": [
+            {
+              "id": "1e4bb09c-0d0a-4f06-a6ea-5222a3b1a43a",
+              "code": "I-10-MPF-PO-82",
+              "quantities": {
+                "in_box": 1
+              }
+            },
+            {
+              "id": "dc38d999-aa2e-46bc-b714-56b8b6c55f6c",
+              "code": "IQ-04-NUT-DF-03",
+              "quantities": {
+                "in_box": 1
+              }
+            },
+            {
+              "id": "b7839655-6d73-40c2-a235-30ea290a9c56",
+              "code": "I-07-HBS-PL-13-5",
+              "quantities": {
+                "in_box": 1
+              }
+            },
+            {
+              "id": "4b3f1d8a-1881-4597-ac85-6ed81114c8c5",
+              "code": "I-07-HBS-PL-11",
+              "quantities": {
+                "in_box": 1
+              }
+            },
+            {
+              "id": "72ff27f8-415a-40af-b537-92f32743fdfb",
+              "code": "I-06-SML-DL-70",
+              "quantities": {
+                "in_box": 1
+              }
+            },
+            {
+              "id": "43c515bb-1548-41df-b08e-f10fa8369172",
+              "code": "I-06-SML-OT-25",
+              "quantities": {
+                "in_box": 1
+              }
+            },
+            {
+              "id": "44c1fcff-fadf-4b69-9d80-3d0b0baa38a2",
+              "code": "I-06-SML-IN-20",
+              "quantities": {
+                "in_box": 1
+              }
+            },
+            {
+              "id": "625623ea-dc96-4c22-91a5-f4ffcad92b39",
+              "code": "I-06-SML-SC-35",
+              "quantities": {
+                "in_box": 1
+              }
+            },
+            {
+              "id": "4e949ce8-d92c-43fa-8c0d-110d903d6e60",
+              "code": "I-02-SVG-VG-05",
+              "quantities": {
+                "in_box": 1
+              }
+            },
+            {
+              "id": "52ffb449-10c7-44e4-bd30-6c6f1c8ff66f",
+              "code": "I-06-SML-CO-13",
+              "quantities": {
+                "in_box": 1
+              }
+            },
+            {
+              "id": "eec1fcf3-a00b-4321-bedd-d7a5c1754881",
+              "code": "I-08-SAU-PS-19",
+              "quantities": {
+                "in_box": 1
+              }
+            },
+            {
+              "id": "5c14a222-aa12-4d98-a108-106ca1693363",
+              "code": "I-05-FVG-FV-09",
+              "quantities": {
+                "in_box": 1
+              }
+            },
+            {
+              "id": "49bc207f-e86c-4423-a7c1-86dc4718abc8",
+              "code": "IQ-03-GRN-RC-37-02",
+              "quantities": {
+                "in_box": 1
+              }
+            }
+          ]
+        },
+        {
+          "portions": 3,
+          "is_offered": true,
+          "ingredients_skus": [
+            {
+              "id": "1e4bb09c-0d0a-4f06-a6ea-5222a3b1a43a",
+              "code": "I-10-MPF-PO-82",
+              "quantities": {
+                "in_box": 1
+              }
+            },
+            {
+              "id": "07f7ab2f-3887-4c32-abac-e35c6a74f96a",
+              "code": "I-10-MPF-PO-85",
+              "quantities": {
+                "in_box": 1
+              }
+            },
+            {
+              "id": "dec1c16e-4785-40e7-b689-69721141bad6",
+              "code": "I-06-SML-SC-22",
+              "quantities": {
+                "in_box": 1
+              }
+            },
+            {
+              "id": "dc38d999-aa2e-46bc-b714-56b8b6c55f6c",
+              "code": "IQ-04-NUT-DF-03",
+              "quantities": {
+                "in_box": 2
+              }
+            },
+            {
+              "id": "b7839655-6d73-40c2-a235-30ea290a9c56",
+              "code": "I-07-HBS-PL-13-5",
+              "quantities": {
+                "in_box": 1
+              }
+            },
+            {
+              "id": "4b3f1d8a-1881-4597-ac85-6ed81114c8c5",
+              "code": "I-07-HBS-PL-11",
+              "quantities": {
+                "in_box": 2
+              }
+            },
+            {
+              "id": "69412a18-8367-4116-b7bc-d00e7a06f1d9",
+              "code": "I-06-SML-DL-69",
+              "quantities": {
+                "in_box": 1
+              }
+            },
+            {
+              "id": "72ff27f8-415a-40af-b537-92f32743fdfb",
+              "code": "I-06-SML-DL-70",
+              "quantities": {
+                "in_box": 1
+              }
+            },
+            {
+              "id": "43c515bb-1548-41df-b08e-f10fa8369172",
+              "code": "I-06-SML-OT-25",
+              "quantities": {
+                "in_box": 1
+              }
+            },
+            {
+              "id": "44c1fcff-fadf-4b69-9d80-3d0b0baa38a2",
+              "code": "I-06-SML-IN-20",
+              "quantities": {
+                "in_box": 1
+              }
+            },
+            {
+              "id": "625623ea-dc96-4c22-91a5-f4ffcad92b39",
+              "code": "I-06-SML-SC-35",
+              "quantities": {
+                "in_box": 1
+              }
+            },
+            {
+              "id": "4e949ce8-d92c-43fa-8c0d-110d903d6e60",
+              "code": "I-02-SVG-VG-05",
+              "quantities": {
+                "in_box": 2
+              }
+            },
+            {
+              "id": "52ffb449-10c7-44e4-bd30-6c6f1c8ff66f",
+              "code": "I-06-SML-CO-13",
+              "quantities": {
+                "in_box": 1
+              }
+            },
+            {
+              "id": "eec1fcf3-a00b-4321-bedd-d7a5c1754881",
+              "code": "I-08-SAU-PS-19",
+              "quantities": {
+                "in_box": 1
+              }
+            },
+            {
+              "id": "5c14a222-aa12-4d98-a108-106ca1693363",
+              "code": "I-05-FVG-FV-09",
+              "quantities": {
+                "in_box": 2
+              }
+            },
+            {
+              "id": "49bc207f-e86c-4423-a7c1-86dc4718abc8",
+              "code": "IQ-03-GRN-RC-37-02",
+              "quantities": {
+                "in_box": 1
+              }
+            },
+            {
+              "id": "3f8dd8e4-5658-4df8-9433-41aa47c6ff03",
+              "code": "IQ-03-GRN-RC-37-04",
+              "quantities": {
+                "in_box": 1
+              }
+            }
+          ]
+        },
+        {
+          "portions": 4,
+          "is_offered": true,
+          "ingredients_skus": [
+            {
+              "id": "1e4bb09c-0d0a-4f06-a6ea-5222a3b1a43a",
+              "code": "I-10-MPF-PO-82",
+              "quantities": {
+                "in_box": 2
+              }
+            },
+            {
+              "id": "dc38d999-aa2e-46bc-b714-56b8b6c55f6c",
+              "code": "IQ-04-NUT-DF-03",
+              "quantities": {
+                "in_box": 2
+              }
+            },
+            {
+              "id": "b7839655-6d73-40c2-a235-30ea290a9c56",
+              "code": "I-07-HBS-PL-13-5",
+              "quantities": {
+                "in_box": 2
+              }
+            },
+            {
+              "id": "8d639d28-8052-4fc3-a7c1-f9ba842da1eb",
+              "code": "I-06-SML-DL-71",
+              "quantities": {
+                "in_box": 1
+              }
+            },
+            {
+              "id": "43c515bb-1548-41df-b08e-f10fa8369172",
+              "code": "I-06-SML-OT-25",
+              "quantities": {
+                "in_box": 2
+              }
+            },
+            {
+              "id": "44c1fcff-fadf-4b69-9d80-3d0b0baa38a2",
+              "code": "I-06-SML-IN-20",
+              "quantities": {
+                "in_box": 2
+              }
+            },
+            {
+              "id": "625623ea-dc96-4c22-91a5-f4ffcad92b39",
+              "code": "I-06-SML-SC-35",
+              "quantities": {
+                "in_box": 2
+              }
+            },
+            {
+              "id": "4e949ce8-d92c-43fa-8c0d-110d903d6e60",
+              "code": "I-02-SVG-VG-05",
+              "quantities": {
+                "in_box": 2
+              }
+            },
+            {
+              "id": "52ffb449-10c7-44e4-bd30-6c6f1c8ff66f",
+              "code": "I-06-SML-CO-13",
+              "quantities": {
+                "in_box": 2
+              }
+            },
+            {
+              "id": "eec1fcf3-a00b-4321-bedd-d7a5c1754881",
+              "code": "I-08-SAU-PS-19",
+              "quantities": {
+                "in_box": 2
+              }
+            },
+            {
+              "id": "5c14a222-aa12-4d98-a108-106ca1693363",
+              "code": "I-05-FVG-FV-09",
+              "quantities": {
+                "in_box": 2
+              }
+            },
+            {
+              "id": "49bc207f-e86c-4423-a7c1-86dc4718abc8",
+              "code": "IQ-03-GRN-RC-37-02",
+              "quantities": {
+                "in_box": 2
+              }
+            },
+            {
+              "id": "2bd80b87-544e-402b-bd04-ed0c28921bf7",
+              "code": "I-07-HBS-PL-57",
+              "quantities": {
+                "in_box": 1
+              }
+            }
+          ]
+        },
+        {
+          "portions": 5,
+          "is_offered": true,
+          "ingredients_skus": [
+            {
+              "id": "1e4bb09c-0d0a-4f06-a6ea-5222a3b1a43a",
+              "code": "I-10-MPF-PO-82",
+              "quantities": {
+                "in_box": 2
+              }
+            },
+            {
+              "id": "07f7ab2f-3887-4c32-abac-e35c6a74f96a",
+              "code": "I-10-MPF-PO-85",
+              "quantities": {
+                "in_box": 1
+              }
+            },
+            {
+              "id": "dec1c16e-4785-40e7-b689-69721141bad6",
+              "code": "I-06-SML-SC-22",
+              "quantities": {
+                "in_box": 1
+              }
+            },
+            {
+              "id": "dc38d999-aa2e-46bc-b714-56b8b6c55f6c",
+              "code": "IQ-04-NUT-DF-03",
+              "quantities": {
+                "in_box": 3
+              }
+            },
+            {
+              "id": "b7839655-6d73-40c2-a235-30ea290a9c56",
+              "code": "I-07-HBS-PL-13-5",
+              "quantities": {
+                "in_box": 2
+              }
+            },
+            {
+              "id": "4b3f1d8a-1881-4597-ac85-6ed81114c8c5",
+              "code": "I-07-HBS-PL-11",
+              "quantities": {
+                "in_box": 1
+              }
+            },
+            {
+              "id": "69412a18-8367-4116-b7bc-d00e7a06f1d9",
+              "code": "I-06-SML-DL-69",
+              "quantities": {
+                "in_box": 1
+              }
+            },
+            {
+              "id": "8d639d28-8052-4fc3-a7c1-f9ba842da1eb",
+              "code": "I-06-SML-DL-71",
+              "quantities": {
+                "in_box": 1
+              }
+            },
+            {
+              "id": "43c515bb-1548-41df-b08e-f10fa8369172",
+              "code": "I-06-SML-OT-25",
+              "quantities": {
+                "in_box": 2
+              }
+            },
+            {
+              "id": "44c1fcff-fadf-4b69-9d80-3d0b0baa38a2",
+              "code": "I-06-SML-IN-20",
+              "quantities": {
+                "in_box": 2
+              }
+            },
+            {
+              "id": "625623ea-dc96-4c22-91a5-f4ffcad92b39",
+              "code": "I-06-SML-SC-35",
+              "quantities": {
+                "in_box": 2
+              }
+            },
+            {
+              "id": "4e949ce8-d92c-43fa-8c0d-110d903d6e60",
+              "code": "I-02-SVG-VG-05",
+              "quantities": {
+                "in_box": 3
+              }
+            },
+            {
+              "id": "52ffb449-10c7-44e4-bd30-6c6f1c8ff66f",
+              "code": "I-06-SML-CO-13",
+              "quantities": {
+                "in_box": 2
+              }
+            },
+            {
+              "id": "eec1fcf3-a00b-4321-bedd-d7a5c1754881",
+              "code": "I-08-SAU-PS-19",
+              "quantities": {
+                "in_box": 2
+              }
+            },
+            {
+              "id": "5c14a222-aa12-4d98-a108-106ca1693363",
+              "code": "I-05-FVG-FV-09",
+              "quantities": {
+                "in_box": 3
+              }
+            },
+            {
+              "id": "49bc207f-e86c-4423-a7c1-86dc4718abc8",
+              "code": "IQ-03-GRN-RC-37-02",
+              "quantities": {
+                "in_box": 2
+              }
+            },
+            {
+              "id": "3f8dd8e4-5658-4df8-9433-41aa47c6ff03",
+              "code": "IQ-03-GRN-RC-37-04",
+              "quantities": {
+                "in_box": 1
+              }
+            },
+            {
+              "id": "2bd80b87-544e-402b-bd04-ed0c28921bf7",
+              "code": "I-07-HBS-PL-57",
+              "quantities": {
+                "in_box": 1
+              }
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

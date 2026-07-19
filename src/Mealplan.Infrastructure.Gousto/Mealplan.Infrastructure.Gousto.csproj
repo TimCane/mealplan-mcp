@@ -4,4 +4,19 @@
     <ProjectReference Include="..\Mealplan.Infrastructure\Mealplan.Infrastructure.csproj" />
   </ItemGroup>
 
+  <!-- Cursor and HTML handling are implementation detail, but worth testing. -->
+  <ItemGroup>
+    <InternalsVisibleTo Include="Mealplan.Tests" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="EFCore.NamingConventions" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Http" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" />
+  </ItemGroup>
+
 </Project>

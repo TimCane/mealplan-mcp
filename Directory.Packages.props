@@ -19,6 +19,7 @@
       severity advisory (GHSA-5crp-9r3c-p9vr). Transitive pinning pulls it
       forward; drop this once Hangfire ships a newer floor.
     -->
+    <PackageVersion Include="Microsoft.Extensions.Http" Version="10.0.10" />
     <PackageVersion Include="Microsoft.Extensions.Options.DataAnnotations" Version="10.0.10" />
     <PackageVersion Include="Newtonsoft.Json" Version="13.0.4" />
     <PackageVersion Include="Hangfire.AspNetCore" Version="1.8.24" />

@@ -1,0 +1,21 @@
+{
+  "status": "ok",
+  "data": {
+    "entry": {
+      "title": "All Gousto Recipes",
+      "url": "/recipes",
+      "description": "Not sure what to cook for dinner? Browse our full library of delicious recipe ideas",
+      "order": -1,
+      "gousto_id": "this-is-manually-created-category",
+      "seo": {
+        "title": "All Recipes",
+        "description": "Not sure what to cook for dinner? Browse our full library of delicious recipe ideas",
+        "robots": [],
+        "open_graph_image": "https://production-media.gousto.co.uk/cms/range-main-image/2383_Chicken-Stuffing-Sarnie_Range-Image_01-1604486080537-x1500.jpg",
+        "canonical": "https://www.gousto.co.uk/cookbook/recipes"
+      },
+      "uid": "blt99b86694701028c1",
+      "_version": 5
+    }
+  }
+}

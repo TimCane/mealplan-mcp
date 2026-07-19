@@ -1,0 +1,1264 @@
+{
+  "status": "ok",
+  "data": {
+    "entry": {
+      "url": "/open-steak-sandwich-balsamic-onions-chips",
+      "title": "Open Steak Sandwich With Balsamic Onions And Chips",
+      "categories": [
+        {
+          "title": "All Gousto Recipes",
+          "url": "/recipes",
+          "uid": "blt99b86694701028c1"
+        },
+        {
+          "title": "Beef Recipes",
+          "url": "/beef-recipes",
+          "uid": "bltbfd801a42c3024db"
+        },
+        {
+          "title": "Beef & Pork",
+          "url": "/beef-pork",
+          "uid": "blt139a776cc9eef76c"
+        }
+      ],
+      "gousto_id": "2431",
+      "gousto_uid": "02bc12c2-decf-42d1-ac0e-1c100b35c94e",
+      "media": {
+        "images": [
+          {
+            "image": "https://production-media.gousto.co.uk/cms/mood-image/R-2299---Open-Steak-Sandwich-With-Balsamic-Onions-And-Chips1014-1758190315680-x200.jpg",
+            "width": 200
+          },
+          {
+            "image": "https://production-media.gousto.co.uk/cms/mood-image/R-2299---Open-Steak-Sandwich-With-Balsamic-Onions-And-Chips1014-1758190315680-x400.jpg",
+            "width": 400
+          },
+          {
+            "image": "https://production-media.gousto.co.uk/cms/mood-image/R-2299---Open-Steak-Sandwich-With-Balsamic-Onions-And-Chips1014-1758190315680-x700.jpg",
+            "width": 700
+          },
+          {
+            "image": "https://production-media.gousto.co.uk/cms/mood-image/R-2299---Open-Steak-Sandwich-With-Balsamic-Onions-And-Chips1014-1758190315680-x1000.jpg",
+            "width": 1000
+          },
+          {
+            "image": "https://production-media.gousto.co.uk/cms/mood-image/R-2299---Open-Steak-Sandwich-With-Balsamic-Onions-And-Chips1014-1758190315680-x1500.jpg",
+            "width": 1500
+          }
+        ]
+      },
+      "rating": {
+        "average": 5,
+        "count": 14489
+      },
+      "description": "Now this is how you level up lunch. Or dinner. You’ll pile juicy rump steak and sweet balsamic onions onto toasted ciabatta, then serve it up with crisp chips and mustard mayo for dipping. Cutlery optional.",
+      "prep_times": {
+        "for_2": 35,
+        "for_4": 40
+      },
+      "cuisine": {
+        "slug": "british",
+        "title": "British"
+      },
+      "ingredients": [
+        {
+          "label": "Rump pavé steak (300g)",
+          "title": "rump pavé steak-I-10-MPF-ME-57",
+          "uid": "blt3d46b718715174cb",
+          "gousto_uuid": "07b2a349-41a9-4ac4-91c8-a83f91944194",
+          "name": "rump pavé steak",
+          "media": {
+            "images": [
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/2-x-150g-pave-rump-steak-x200.jpg",
+                "width": 200
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/2-x-150g-pave-rump-steak-x400.jpg",
+                "width": 400
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/2-x-150g-pave-rump-steak-x700.jpg",
+                "width": 700
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/2-x-150g-pave-rump-steak-x1000.jpg",
+                "width": 1000
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/2-x-150g-pave-rump-steak-x1500.jpg",
+                "width": 1500
+              }
+            ]
+          },
+          "allergens": {
+            "allergen": []
+          }
+        },
+        {
+          "label": "Mayonnaise (50ml) x0",
+          "title": "mayonnaise-I-06-SML-OT-37",
+          "uid": "blt4bc1296b07e9cb69",
+          "gousto_uuid": "70f967b5-e78a-44a4-9450-a52705125b45",
+          "name": "mayonnaise",
+          "media": {
+            "images": [
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/1-mayonnaise-sachet-x200.jpg",
+                "width": 200
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/1-mayonnaise-sachet-x400.jpg",
+                "width": 400
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/1-mayonnaise-sachet-x700.jpg",
+                "width": 700
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/1-mayonnaise-sachet-x1000.jpg",
+                "width": 1000
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/1-mayonnaise-sachet-x1500.jpg",
+                "width": 1500
+              }
+            ]
+          },
+          "allergens": {
+            "allergen": [
+              {
+                "slug": "mustard"
+              },
+              {
+                "slug": "egg"
+              }
+            ]
+          }
+        },
+        {
+          "label": "Rump pavé steak (150g) x0",
+          "title": "rump pavé steak-I-10-MPF-ME-73",
+          "uid": "bltb01ca62ae0493f7b",
+          "gousto_uuid": "7261d1f3-fc6f-42b5-b562-11cae58bc11f",
+          "name": "rump pavé steak",
+          "media": {
+            "images": [
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/135-rump-steaks-x200.jpg",
+                "width": 200
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/135-rump-steaks-x400.jpg",
+                "width": 400
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/135-rump-steaks-x700.jpg",
+                "width": 700
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/135-rump-steaks-x1000.jpg",
+                "width": 1000
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/135-rump-steaks-x1500.jpg",
+                "width": 1500
+              }
+            ]
+          },
+          "allergens": {
+            "allergen": []
+          }
+        },
+        {
+          "label": "Mayonnaise (25ml)",
+          "title": "mayonnaise-I-06-SML-OT-36",
+          "uid": "bltc8629270a4d08037",
+          "gousto_uuid": "cc724d5b-17de-402f-bc33-8e8008f365fa",
+          "name": "mayonnaise",
+          "media": {
+            "images": [
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/1-mayonnaise-sachet-x200.jpg",
+                "width": 200
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/1-mayonnaise-sachet-x400.jpg",
+                "width": 400
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/1-mayonnaise-sachet-x700.jpg",
+                "width": 700
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/1-mayonnaise-sachet-x1000.jpg",
+                "width": 1000
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/1-mayonnaise-sachet-x1500.jpg",
+                "width": 1500
+              }
+            ]
+          },
+          "allergens": {
+            "allergen": [
+              {
+                "slug": "egg"
+              },
+              {
+                "slug": "mustard"
+              }
+            ]
+          }
+        },
+        {
+          "label": "Ciabatta",
+          "title": "ciabatta-I-11-BRD-BR-59",
+          "uid": "blt73884d86e278cf95",
+          "gousto_uuid": "2405df8e-87cf-4188-bdb1-990b63ddf75b",
+          "name": "ciabatta",
+          "media": {
+            "images": [
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/2-ciabatta-rolls-x200.jpg",
+                "width": 200
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/2-ciabatta-rolls-x400.jpg",
+                "width": 400
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/2-ciabatta-rolls-x700.jpg",
+                "width": 700
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/2-ciabatta-rolls-x1000.jpg",
+                "width": 1000
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/2-ciabatta-rolls-x1500.jpg",
+                "width": 1500
+              }
+            ]
+          },
+          "allergens": {
+            "allergen": [
+              {
+                "slug": "gluten"
+              }
+            ]
+          }
+        },
+        {
+          "label": "Rosemary (5g)",
+          "title": "rosemary-I-07-HBS-PL-44",
+          "uid": "blt9e2024d6b27fb99c",
+          "gousto_uuid": "a0cbff79-0da6-4e5a-a710-50a5dd4b3316",
+          "name": "rosemary",
+          "media": {
+            "images": [
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/5g-rosemary-x200.jpg",
+                "width": 200
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/5g-rosemary-x400.jpg",
+                "width": 400
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/5g-rosemary-x700.jpg",
+                "width": 700
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/5g-rosemary-x1000.jpg",
+                "width": 1000
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/5g-rosemary-x1500.jpg",
+                "width": 1500
+              }
+            ]
+          },
+          "allergens": {
+            "allergen": []
+          }
+        },
+        {
+          "label": "Wholegrain mustard (21g)",
+          "title": "wholegrain mustard-I-06-SML-TRK-23",
+          "uid": "blt747b1d9216d12cbd",
+          "gousto_uuid": "4cad21de-c673-4385-82b7-78aaca9c8367",
+          "name": "wholegrain mustard",
+          "media": {
+            "images": [
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/2-tbsp-wholegrain-mustard-x200.jpg",
+                "width": 200
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/2-tbsp-wholegrain-mustard-x400.jpg",
+                "width": 400
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/2-tbsp-wholegrain-mustard-x700.jpg",
+                "width": 700
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/2-tbsp-wholegrain-mustard-x1000.jpg",
+                "width": 1000
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/2-tbsp-wholegrain-mustard-x1500.jpg",
+                "width": 1500
+              }
+            ]
+          },
+          "allergens": {
+            "allergen": [
+              {
+                "slug": "mustard"
+              }
+            ]
+          }
+        },
+        {
+          "label": "Wholegrain mustard (42g) x0",
+          "title": "wholegrain mustard-I-06-SML-TRK-24",
+          "uid": "blt928a4cd7291278dd",
+          "gousto_uuid": "0bc2be44-b87f-4bd4-b956-55c283173e73",
+          "name": "wholegrain mustard",
+          "media": {
+            "images": [
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/2-tbsp-wholegrain-mustard-x200.jpg",
+                "width": 200
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/2-tbsp-wholegrain-mustard-x400.jpg",
+                "width": 400
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/2-tbsp-wholegrain-mustard-x700.jpg",
+                "width": 700
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/2-tbsp-wholegrain-mustard-x1000.jpg",
+                "width": 1000
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/2-tbsp-wholegrain-mustard-x1500.jpg",
+                "width": 1500
+              }
+            ]
+          },
+          "allergens": {
+            "allergen": [
+              {
+                "slug": "mustard"
+              }
+            ]
+          }
+        },
+        {
+          "label": "Rocket (20g)",
+          "title": "rocket-I-05-FVG-FG-05-02",
+          "uid": "blt099d234cf96a670d",
+          "gousto_uuid": "9d76a3b5-6f81-404f-b5a7-cb27d569ceee",
+          "name": "rocket",
+          "media": {
+            "images": [
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/rocket_salad_1024-x200.jpg",
+                "width": 200
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/rocket_salad_1024-x400.jpg",
+                "width": 400
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/rocket_salad_1024-x700.jpg",
+                "width": 700
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/rocket_salad_1024-x1000.jpg",
+                "width": 1000
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/rocket_salad_1024-x1500.jpg",
+                "width": 1500
+              }
+            ]
+          },
+          "allergens": {
+            "allergen": []
+          }
+        },
+        {
+          "label": "Cherry tomatoes (125g)",
+          "title": "cherry tomatoes-I-05-FVG-FV-02-08",
+          "uid": "blt60df91997e03dd15",
+          "gousto_uuid": "b3374bc8-0097-449f-9ac6-b53299104e11",
+          "name": "cherry tomatoes",
+          "media": {
+            "images": [
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/cherry-tomatoes-x200.jpg",
+                "width": 200
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/cherry-tomatoes-x400.jpg",
+                "width": 400
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/cherry-tomatoes-x700.jpg",
+                "width": 700
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/cherry-tomatoes-x1000.jpg",
+                "width": 1000
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/cherry-tomatoes-x1500.jpg",
+                "width": 1500
+              }
+            ]
+          },
+          "allergens": {
+            "allergen": []
+          }
+        },
+        {
+          "label": "Cherry tomatoes (250g) x0",
+          "title": "cherry tomatoes-I-05-FVG-FV-02-04",
+          "uid": "blt45689303fed45d62",
+          "gousto_uuid": "f56ddebd-04ab-40ec-8bb5-d87c08a236db",
+          "name": "cherry tomatoes",
+          "media": {
+            "images": [
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/cherry-tomatoes-x200.jpg",
+                "width": 200
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/cherry-tomatoes-x400.jpg",
+                "width": 400
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/cherry-tomatoes-x700.jpg",
+                "width": 700
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/cherry-tomatoes-x1000.jpg",
+                "width": 1000
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/cherry-tomatoes-x1500.jpg",
+                "width": 1500
+              }
+            ]
+          },
+          "allergens": {
+            "allergen": []
+          }
+        },
+        {
+          "label": "Balsamic vinegar (15ml) x2",
+          "title": "balsamic vinegar-I-08-SAU-LS-15",
+          "uid": "blt36b3f7d5608537b7",
+          "gousto_uuid": "8357c090-d832-41bc-a458-b13600637e1b",
+          "name": "balsamic vinegar",
+          "media": {
+            "images": [
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/balsamic-vinegar-1-x200.jpg",
+                "width": 200
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/balsamic-vinegar-1-x400.jpg",
+                "width": 400
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/balsamic-vinegar-1-x700.jpg",
+                "width": 700
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/balsamic-vinegar-1-x1000.jpg",
+                "width": 1000
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/balsamic-vinegar-1-x1500.jpg",
+                "width": 1500
+              }
+            ]
+          },
+          "allergens": {
+            "allergen": [
+              {
+                "slug": "sulphites"
+              }
+            ]
+          }
+        },
+        {
+          "label": "Red onion x2",
+          "title": "red onion-I-02-SVG-VG-05",
+          "uid": "bltc69ae0a09122a2b4",
+          "gousto_uuid": "4e949ce8-d92c-43fa-8c0d-110d903d6e60",
+          "name": "red onion",
+          "media": {
+            "images": [
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/1-red-onion-copy-x200.jpg",
+                "width": 200
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/1-red-onion-copy-x400.jpg",
+                "width": 400
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/1-red-onion-copy-x700.jpg",
+                "width": 700
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/1-red-onion-copy-x1000.jpg",
+                "width": 1000
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/1-red-onion-copy-x1500.jpg",
+                "width": 1500
+              }
+            ]
+          },
+          "allergens": {
+            "allergen": []
+          }
+        },
+        {
+          "label": "White potato x4",
+          "title": "white potato-I-02-SVG-VG-01-09",
+          "uid": "bltab576a7ce0bc5a37",
+          "gousto_uuid": "8413c9fa-ae40-4ddb-abd6-03057fc3afd5",
+          "name": "white potato",
+          "media": {
+            "images": [
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/potatoes-x200.jpg",
+                "width": 200
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/potatoes-x400.jpg",
+                "width": 400
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/potatoes-x700.jpg",
+                "width": 700
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/potatoes-x1000.jpg",
+                "width": 1000
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/ingredient-image/potatoes-x1500.jpg",
+                "width": 1500
+              }
+            ]
+          },
+          "allergens": {
+            "allergen": []
+          }
+        }
+      ],
+      "basics": [
+        {
+          "title": "Olive oil",
+          "slug": "olive-oil"
+        },
+        {
+          "title": "Pepper",
+          "slug": "pepper"
+        },
+        {
+          "title": "Salt",
+          "slug": "salt"
+        },
+        {
+          "title": "Sugar",
+          "slug": "sugar"
+        },
+        {
+          "title": "Vegetable oil",
+          "slug": "vegetable-oil"
+        }
+      ],
+      "cooking_instructions": [
+        {
+          "instruction": "<p>Preheat the oven to 220°C/ 200°C (fan)/ gas 7, then take your <strong>steak</strong> out of the fridge, open the packet and let it adjust to room temperature</p><p>Cut your <strong>potatoes</strong> (skins on) into<strong> </strong>chips, then add to a baking tray (or two!) with a drizzle of <strong>vegetable oil</strong> and a generous pinch of <strong>salt</strong></p><p>Give everything a good mix up and put the tray[s] in the oven for 20-25 min or until golden and crisp</p>",
+          "order": 1,
+          "media": {
+            "images": [
+              {
+                "image": "https://production-media.gousto.co.uk/cms/recipe-step-image/RC2299Step-1-x200.jpg",
+                "width": 200
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/recipe-step-image/RC2299Step-1-x400.jpg",
+                "width": 400
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/recipe-step-image/RC2299Step-1-x700.jpg",
+                "width": 700
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/recipe-step-image/RC2299Step-1-x1000.jpg",
+                "width": 1000
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/recipe-step-image/RC2299Step-1-x1500.jpg",
+                "width": 1500
+              }
+            ]
+          }
+        },
+        {
+          "instruction": "<p>Meanwhile, peel and finely slice your <strong>red onion[s]</strong></p><p>Heat a large, wide-based pan (preferably non-stick with a matching lid) with a generous drizzle of <strong>vegetable oil </strong>over a medium-low heat</p><p>Once hot, add the <strong>sliced onion</strong> with a pinch of <strong>salt </strong>and cook for 10-15 min or until softened and caramelised</p><p>While the onions are cooking, strip your <strong>rosemary</strong> from their stems and chop them finely, discard the stems</p>",
+          "order": 2,
+          "media": {
+            "images": [
+              {
+                "image": "https://production-media.gousto.co.uk/cms/recipe-step-image/RC2299Step-2-x200.jpg",
+                "width": 200
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/recipe-step-image/RC2299Step-2-x400.jpg",
+                "width": 400
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/recipe-step-image/RC2299Step-2-x700.jpg",
+                "width": 700
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/recipe-step-image/RC2299Step-2-x1000.jpg",
+                "width": 1000
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/recipe-step-image/RC2299Step-2-x1500.jpg",
+                "width": 1500
+              }
+            ]
+          }
+        },
+        {
+          "instruction": "<p>Tip: Hold the top of the herb sprigs firmly and slide your fingers down their lengths to easily remove the leaves</p><p>Add the <strong>chopped rosemary</strong> and a pinch of <strong>salt</strong> to a small bowl and set aside for later – this is your<strong> rosemary salt</strong></p><p>Combine your <strong>wholegrain mustard </strong>(not a big fan of mustard? Go easy!)<strong> </strong>and <strong>mayo </strong>in a separate bowl,<strong> </strong>stir it all together<strong> </strong>and set aside for later – this is your<strong> mustard mayo</strong></p>",
+          "order": 3,
+          "media": {
+            "images": [
+              {
+                "image": "https://production-media.gousto.co.uk/cms/recipe-step-image/RC2299Step-3-x200.jpg",
+                "width": 200
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/recipe-step-image/RC2299Step-3-x400.jpg",
+                "width": 400
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/recipe-step-image/RC2299Step-3-x700.jpg",
+                "width": 700
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/recipe-step-image/RC2299Step-3-x1000.jpg",
+                "width": 1000
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/recipe-step-image/RC2299Step-3-x1500.jpg",
+                "width": 1500
+              }
+            ]
+          }
+        },
+        {
+          "instruction": "<p>Once the onions are caramelised, add your <strong>balsamic vinegar</strong> and 1 tbsp <span class=\"text-purple\">[1 1/2 tbsp] </span><span class=\"text-danger\">[2 tbsp] </span><strong>sugar</strong> to the pan and cook for 2-3 min further or until sticky</p><p>Once done, remove the pan from the heat, cover with a lid to keep warm, and set aside for later – these are your <strong>balsamic onions</strong></p>",
+          "order": 4,
+          "media": {
+            "images": [
+              {
+                "image": "https://production-media.gousto.co.uk/cms/recipe-step-image/RC2299Step-4-x200.jpg",
+                "width": 200
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/recipe-step-image/RC2299Step-4-x400.jpg",
+                "width": 400
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/recipe-step-image/RC2299Step-4-x700.jpg",
+                "width": 700
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/recipe-step-image/RC2299Step-4-x1000.jpg",
+                "width": 1000
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/recipe-step-image/RC2299Step-4-x1500.jpg",
+                "width": 1500
+              }
+            ]
+          }
+        },
+        {
+          "instruction": "<p>Cut your <strong>cherry tomatoes</strong> in half</p><p>Wash your <strong>salad</strong>, then pat it dry with kitchen paper</p><p>Add the <strong>halved cherry tomatoes</strong> and <strong>salad </strong>to a bowl with 1 tbsp <span class=\"text-purple\">[1 1/2 tbsp]</span> <span class=\"text-danger\">[2 tbsp] </span><strong>olive oil</strong> and gently mix together – this is your <strong>salad</strong></p><p>Pat your <strong>steak[s]</strong> dry with kitchen paper, then drizzle with <strong>vegetable oil</strong> and season with a pinch of <strong>salt </strong>and <strong>pepper</strong> on both sides</p>",
+          "order": 5,
+          "media": {
+            "images": [
+              {
+                "image": "https://production-media.gousto.co.uk/cms/recipe-step-image/RC2299Step-5-x200.jpg",
+                "width": 200
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/recipe-step-image/RC2299Step-5-x400.jpg",
+                "width": 400
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/recipe-step-image/RC2299Step-5-x700.jpg",
+                "width": 700
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/recipe-step-image/RC2299Step-5-x1000.jpg",
+                "width": 1000
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/recipe-step-image/RC2299Step-5-x1500.jpg",
+                "width": 1500
+              }
+            ]
+          }
+        },
+        {
+          "instruction": "<p>Heat a large, wide-based pan (preferably non-stick) over a high heat, once very hot, add the<strong> seasoned steak</strong> to the pan</p><p>For rare, cook for 2-3 min max on each side; for medium-rare, cook for 3-4 min on each side; for medium, cook for 4-5 min on each side</p><p>Transfer the<strong> cooked steak </strong>to a clean chopping board, cover with a clean tea towel and leave to rest (save the pan for the next step!)</p>",
+          "order": 6,
+          "media": {
+            "images": [
+              {
+                "image": "https://production-media.gousto.co.uk/cms/recipe-step-image/RC2299Step-6-x200.jpg",
+                "width": 200
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/recipe-step-image/RC2299Step-6-x400.jpg",
+                "width": 400
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/recipe-step-image/RC2299Step-6-x700.jpg",
+                "width": 700
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/recipe-step-image/RC2299Step-6-x1000.jpg",
+                "width": 1000
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/recipe-step-image/RC2299Step-6-x1500.jpg",
+                "width": 1500
+              }
+            ]
+          }
+        },
+        {
+          "instruction": "<p>While the steak is cooking, cut your <strong>ciabatta[s]</strong> in half</p><p>Return the reserved pan to a medium heat</p><p>Once hot, add the<strong> ciabatta halves </strong>and cook for 1 min on each side, or until golden brown and toasted (the ciabatta will soak up all the juices from the steak for extra flavour!)</p>",
+          "order": 7,
+          "media": {
+            "images": [
+              {
+                "image": "https://production-media.gousto.co.uk/cms/recipe-step-image/RC2299Step-7-x200.jpg",
+                "width": 200
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/recipe-step-image/RC2299Step-7-x400.jpg",
+                "width": 400
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/recipe-step-image/RC2299Step-7-x700.jpg",
+                "width": 700
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/recipe-step-image/RC2299Step-7-x1000.jpg",
+                "width": 1000
+              },
+              {
+                "image": "https://production-media.gousto.co.uk/cms/recipe-step-image/RC2299Step-7-x1500.jpg",
+                "width": 1500
+              }
+            ]
+          }
+        },
+        {
+          "instruction": "<p>Slice the <strong>rested steak </strong>finely</p><p>Divide the <strong>balsamic</strong> <strong>onions</strong> between the<strong> toasted ciabatta halves</strong></p><p>Top with the<strong> sliced</strong> <strong>steak</strong> and drizzle over the <strong>mustard</strong> <strong>mayo </strong>– this is your <strong>open steak sandwich with balsamic onions</strong></p><p>Serve the <strong>chips</strong> and <strong>salad</strong> to the side and sprinkle the <strong>rosemary salt </strong>all over the chips</p><p>Enjoy!</p>",
+          "order": 8,
+          "media": {
+            "images": []
+          }
+        }
+      ],
+      "allergens": [
+        {
+          "title": "sulphites",
+          "slug": "sulphites"
+        },
+        {
+          "title": "mustard",
+          "slug": "mustard"
+        },
+        {
+          "title": "gluten",
+          "slug": "gluten"
+        },
+        {
+          "title": "egg",
+          "slug": "egg"
+        }
+      ],
+      "seo": {
+        "title": "Open Steak Sandwich, Balsamic Onions & Chips",
+        "description": "This recipe is your ticket to flavour town! You'll top toasted ciabatta with juicy rump steak and onions caramelised in balsamic vinegar. Serve with homemade rosemary chips and a drizzle of mustardy mayo.",
+        "robots": [],
+        "canonical": "https://www.gousto.co.uk/cookbook/beef-recipes/open-steak-sandwich-balsamic-onions-chips",
+        "open_graph_image": "https://production-media.gousto.co.uk/cms/mood-image/R-2299---Open-Steak-Sandwich-With-Balsamic-Onions-And-Chips1014-1758190315680.jpg"
+      },
+      "tags": [],
+      "uid": "blt5557433af4061364",
+      "_version": 13218,
+      "nutritional_information": {
+        "per_hundred_grams": {
+          "energy_kcal": 118,
+          "energy_kj": 495,
+          "fat_mg": 4774,
+          "fat_saturates_mg": 1298,
+          "carbs_mg": 12075,
+          "carbs_sugars_mg": 1985,
+          "fibre_mg": 1488,
+          "protein_mg": 7020,
+          "salt_mg": 154,
+          "net_weight_mg": 100000
+        },
+        "per_portion": {
+          "energy_kcal": 688,
+          "energy_kj": 2888,
+          "fat_mg": 27834,
+          "fat_saturates_mg": 7569,
+          "carbs_mg": 70399,
+          "carbs_sugars_mg": 11575,
+          "fibre_mg": 8680,
+          "protein_mg": 40929,
+          "salt_mg": 900,
+          "net_weight_mg": 583000
+        }
+      },
+      "portion_sizes": [
+        {
+          "portions": 1,
+          "is_offered": true,
+          "ingredients_skus": [
+            {
+              "id": "8357c090-d832-41bc-a458-b13600637e1b",
+              "code": "I-08-SAU-LS-15",
+              "quantities": {
+                "in_box": 1
+              }
+            },
+            {
+              "id": "b3374bc8-0097-449f-9ac6-b53299104e11",
+              "code": "I-05-FVG-FV-02-08",
+              "quantities": {
+                "in_box": 1
+              }
+            },
+            {
+              "id": "2405df8e-87cf-4188-bdb1-990b63ddf75b",
+              "code": "I-11-BRD-BR-59",
+              "quantities": {
+                "in_box": 1
+              }
+            },
+            {
+              "id": "cc724d5b-17de-402f-bc33-8e8008f365fa",
+              "code": "I-06-SML-OT-36",
+              "quantities": {
+                "in_box": 1
+              }
+            },
+            {
+              "id": "4e949ce8-d92c-43fa-8c0d-110d903d6e60",
+              "code": "I-02-SVG-VG-05",
+              "quantities": {
+                "in_box": 1
+              }
+            },
+            {
+              "id": "9d76a3b5-6f81-404f-b5a7-cb27d569ceee",
+              "code": "I-05-FVG-FG-05-02",
+              "quantities": {
+                "in_box": 1
+              }
+            },
+            {
+              "id": "a0cbff79-0da6-4e5a-a710-50a5dd4b3316",
+              "code": "I-07-HBS-PL-44",
+              "quantities": {
+                "in_box": 1
+              }
+            },
+            {
+              "id": "7261d1f3-fc6f-42b5-b562-11cae58bc11f",
+              "code": "I-10-MPF-ME-73",
+              "quantities": {
+                "in_box": 1
+              }
+            },
+            {
+              "id": "8413c9fa-ae40-4ddb-abd6-03057fc3afd5",
+              "code": "I-02-SVG-VG-01-09",
+              "quantities": {
+                "in_box": 2
+              }
+            },
+            {
+              "id": "4cad21de-c673-4385-82b7-78aaca9c8367",
+              "code": "I-06-SML-TRK-23",
+              "quantities": {
+                "in_box": 1
+              }
+            }
+          ]
+        },
+        {
+          "portions": 2,
+          "is_offered": true,
+          "ingredients_skus": [
+            {
+              "id": "8357c090-d832-41bc-a458-b13600637e1b",
+              "code": "I-08-SAU-LS-15",
+              "quantities": {
+                "in_box": 2
+              }
+            },
+            {
+              "id": "b3374bc8-0097-449f-9ac6-b53299104e11",
+              "code": "I-05-FVG-FV-02-08",
+              "quantities": {
+                "in_box": 1
+              }
+            },
+            {
+              "id": "2405df8e-87cf-4188-bdb1-990b63ddf75b",
+              "code": "I-11-BRD-BR-59",
+              "quantities": {
+                "in_box": 1
+              }
+            },
+            {
+              "id": "cc724d5b-17de-402f-bc33-8e8008f365fa",
+              "code": "I-06-SML-OT-36",
+              "quantities": {
+                "in_box": 1
+              }
+            },
+            {
+              "id": "4e949ce8-d92c-43fa-8c0d-110d903d6e60",
+              "code": "I-02-SVG-VG-05",
+              "quantities": {
+                "in_box": 2
+              }
+            },
+            {
+              "id": "9d76a3b5-6f81-404f-b5a7-cb27d569ceee",
+              "code": "I-05-FVG-FG-05-02",
+              "quantities": {
+                "in_box": 1
+              }
+            },
+            {
+              "id": "a0cbff79-0da6-4e5a-a710-50a5dd4b3316",
+              "code": "I-07-HBS-PL-44",
+              "quantities": {
+                "in_box": 1
+              }
+            },
+            {
+              "id": "07b2a349-41a9-4ac4-91c8-a83f91944194",
+              "code": "I-10-MPF-ME-57",
+              "quantities": {
+                "in_box": 1
+              }
+            },
+            {
+              "id": "8413c9fa-ae40-4ddb-abd6-03057fc3afd5",
+              "code": "I-02-SVG-VG-01-09",
+              "quantities": {
+                "in_box": 4
+              }
+            },
+            {
+              "id": "4cad21de-c673-4385-82b7-78aaca9c8367",
+              "code": "I-06-SML-TRK-23",
+              "quantities": {
+                "in_box": 1
+              }
+            }
+          ]
+        },
+        {
+          "portions": 3,
+          "is_offered": true,
+          "ingredients_skus": [
+            {
+              "id": "8357c090-d832-41bc-a458-b13600637e1b",
+              "code": "I-08-SAU-LS-15",
+              "quantities": {
+                "in_box": 2
+              }
+            },
+            {
+              "id": "f56ddebd-04ab-40ec-8bb5-d87c08a236db",
+              "code": "I-05-FVG-FV-02-04",
+              "quantities": {
+                "in_box": 1
+              }
+            },
+            {
+              "id": "2405df8e-87cf-4188-bdb1-990b63ddf75b",
+              "code": "I-11-BRD-BR-59",
+              "quantities": {
+                "in_box": 2
+              }
+            },
+            {
+              "id": "70f967b5-e78a-44a4-9450-a52705125b45",
+              "code": "I-06-SML-OT-37",
+              "quantities": {
+                "in_box": 1
+              }
+            },
+            {
+              "id": "4e949ce8-d92c-43fa-8c0d-110d903d6e60",
+              "code": "I-02-SVG-VG-05",
+              "quantities": {
+                "in_box": 3
+              }
+            },
+            {
+              "id": "9d76a3b5-6f81-404f-b5a7-cb27d569ceee",
+              "code": "I-05-FVG-FG-05-02",
+              "quantities": {
+                "in_box": 2
+              }
+            },
+            {
+              "id": "a0cbff79-0da6-4e5a-a710-50a5dd4b3316",
+              "code": "I-07-HBS-PL-44",
+              "quantities": {
+                "in_box": 1
+              }
+            },
+            {
+              "id": "07b2a349-41a9-4ac4-91c8-a83f91944194",
+              "code": "I-10-MPF-ME-57",
+              "quantities": {
+                "in_box": 1
+              }
+            },
+            {
+              "id": "7261d1f3-fc6f-42b5-b562-11cae58bc11f",
+              "code": "I-10-MPF-ME-73",
+              "quantities": {
+                "in_box": 1
+              }
+            },
+            {
+              "id": "8413c9fa-ae40-4ddb-abd6-03057fc3afd5",
+              "code": "I-02-SVG-VG-01-09",
+              "quantities": {
+                "in_box": 6
+              }
+            },
+            {
+              "id": "4cad21de-c673-4385-82b7-78aaca9c8367",
+              "code": "I-06-SML-TRK-23",
+              "quantities": {
+                "in_box": 1
+              }
+            }
+          ]
+        },
+        {
+          "portions": 4,
+          "is_offered": true,
+          "ingredients_skus": [
+            {
+              "id": "8357c090-d832-41bc-a458-b13600637e1b",
+              "code": "I-08-SAU-LS-15",
+              "quantities": {
+                "in_box": 4
+              }
+            },
+            {
+              "id": "f56ddebd-04ab-40ec-8bb5-d87c08a236db",
+              "code": "I-05-FVG-FV-02-04",
+              "quantities": {
+                "in_box": 1
+              }
+            },
+            {
+              "id": "2405df8e-87cf-4188-bdb1-990b63ddf75b",
+              "code": "I-11-BRD-BR-59",
+              "quantities": {
+                "in_box": 2
+              }
+            },
+            {
+              "id": "70f967b5-e78a-44a4-9450-a52705125b45",
+              "code": "I-06-SML-OT-37",
+              "quantities": {
+                "in_box": 1
+              }
+            },
+            {
+              "id": "4e949ce8-d92c-43fa-8c0d-110d903d6e60",
+              "code": "I-02-SVG-VG-05",
+              "quantities": {
+                "in_box": 4
+              }
+            },
+            {
+              "id": "9d76a3b5-6f81-404f-b5a7-cb27d569ceee",
+              "code": "I-05-FVG-FG-05-02",
+              "quantities": {
+                "in_box": 2
+              }
+            },
+            {
+              "id": "a0cbff79-0da6-4e5a-a710-50a5dd4b3316",
+              "code": "I-07-HBS-PL-44",
+              "quantities": {
+                "in_box": 1
+              }
+            },
+            {
+              "id": "07b2a349-41a9-4ac4-91c8-a83f91944194",
+              "code": "I-10-MPF-ME-57",
+              "quantities": {
+                "in_box": 2
+              }
+            },
+            {
+              "id": "8413c9fa-ae40-4ddb-abd6-03057fc3afd5",
+              "code": "I-02-SVG-VG-01-09",
+              "quantities": {
+                "in_box": 8
+              }
+            },
+            {
+              "id": "0bc2be44-b87f-4bd4-b956-55c283173e73",
+              "code": "I-06-SML-TRK-24",
+              "quantities": {
+                "in_box": 1
+              }
+            }
+          ]
+        },
+        {
+          "portions": 5,
+          "is_offered": true,
+          "ingredients_skus": [
+            {
+              "id": "8357c090-d832-41bc-a458-b13600637e1b",
+              "code": "I-08-SAU-LS-15",
+              "quantities": {
+                "in_box": 4
+              }
+            },
+            {
+              "id": "f56ddebd-04ab-40ec-8bb5-d87c08a236db",
+              "code": "I-05-FVG-FV-02-04",
+              "quantities": {
+                "in_box": 1
+              }
+            },
+            {
+              "id": "b3374bc8-0097-449f-9ac6-b53299104e11",
+              "code": "I-05-FVG-FV-02-08",
+              "quantities": {
+                "in_box": 1
+              }
+            },
+            {
+              "id": "2405df8e-87cf-4188-bdb1-990b63ddf75b",
+              "code": "I-11-BRD-BR-59",
+              "quantities": {
+                "in_box": 3
+              }
+            },
+            {
+              "id": "70f967b5-e78a-44a4-9450-a52705125b45",
+              "code": "I-06-SML-OT-37",
+              "quantities": {
+                "in_box": 1
+              }
+            },
+            {
+              "id": "cc724d5b-17de-402f-bc33-8e8008f365fa",
+              "code": "I-06-SML-OT-36",
+              "quantities": {
+                "in_box": 1
+              }
+            },
+            {
+              "id": "4e949ce8-d92c-43fa-8c0d-110d903d6e60",
+              "code": "I-02-SVG-VG-05",
+              "quantities": {
+                "in_box": 5
+              }
+            },
+            {
+              "id": "9d76a3b5-6f81-404f-b5a7-cb27d569ceee",
+              "code": "I-05-FVG-FG-05-02",
+              "quantities": {
+                "in_box": 3
+              }
+            },
+            {
+              "id": "a0cbff79-0da6-4e5a-a710-50a5dd4b3316",
+              "code": "I-07-HBS-PL-44",
+              "quantities": {
+                "in_box": 2
+              }
+            },
+            {
+              "id": "07b2a349-41a9-4ac4-91c8-a83f91944194",
+              "code": "I-10-MPF-ME-57",
+              "quantities": {
+                "in_box": 2
+              }
+            },
+            {
+              "id": "7261d1f3-fc6f-42b5-b562-11cae58bc11f",
+              "code": "I-10-MPF-ME-73",
+              "quantities": {
+                "in_box": 1
+              }
+            },
+            {
+              "id": "8413c9fa-ae40-4ddb-abd6-03057fc3afd5",
+              "code": "I-02-SVG-VG-01-09",
+              "quantities": {
+                "in_box": 10
+              }
+            },
+            {
+              "id": "0bc2be44-b87f-4bd4-b956-55c283173e73",
+              "code": "I-06-SML-TRK-24",
+              "quantities": {
+                "in_box": 1
+              }
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
