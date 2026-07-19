@@ -486,3 +486,6 @@ tmp/
 
 # Local compose secrets.
 .env
+
+# ProtonVPN configs - never commit the downloaded WireGuard file.
+*.conf

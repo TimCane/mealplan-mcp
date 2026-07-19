@@ -1,0 +1,110 @@
+name: mealplan-mcp
+
+# Deployment stack. The scraper shares gluetun's network namespace, so every
+# request it makes leaves through the VPN or not at all - if the tunnel drops the
+# scraper has no network, rather than quietly falling back to the real IP. The
+# MCP server is on the normal bridge network and never touches the VPN.
+services:
+  # VPN egress for the scraper. Holds the ProtonVPN WireGuard config and the
+  # killswitch; nothing else in the stack routes through it.
+  gluetun:
+    image: qmcgaw/gluetun:v3.40.0
+    restart: unless-stopped
+    cap_add:
+      - NET_ADMIN
+    devices:
+      - /dev/net/tun:/dev/net/tun
+    ports:
+      # Published here rather than on the scraper: a container sharing another's
+      # network namespace cannot publish its own ports.
+      - "5206:5206"
+    environment:
+      TZ: Etc/UTC
+      VPN_SERVICE_PROVIDER: protonvpn
+      VPN_TYPE: wireguard
+      WIREGUARD_PRIVATE_KEY: ${WIREGUARD_PRIVATE_KEY:?required}
+      WIREGUARD_ADDRESSES: ${WIREGUARD_ADDRESSES:?required}
+      SERVER_COUNTRIES: ${SERVER_COUNTRIES:-United Kingdom}
+      # Without this the killswitch also blocks Postgres, which is on the local
+      # docker network, and the scraper cannot reach its own database.
+      FIREWALL_OUTBOUND_SUBNETS: ${DOCKER_SUBNET:-172.28.0.0/16}
+    networks:
+      - backend
+    # Health: image ships a built-in HEALTHCHECK (DNS plus an outbound request
+    # through the tunnel).
+
+  # Postgres. Holds the raw scrape data, both source schemas and the Hangfire
+  # job state.
+  db:
+    image: postgres:16
+    restart: unless-stopped
+    environment:
+      TZ: Etc/UTC
+      POSTGRES_USER: ${POSTGRES_USER:-mealplanmcp}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?required}
+      POSTGRES_DB: ${POSTGRES_DB:-mealplanmcp}
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    networks:
+      - backend
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-mealplanmcp}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Crawls the source APIs and normalises what it stores. Owns the migrations.
+  # Hangfire dashboard on 5206, published by gluetun.
+  scraper:
+    build:
+      context: .
+      dockerfile: src/Mealplan.Scraper/Dockerfile
+    restart: unless-stopped
+    # Shares gluetun's stack, so this cannot be given its own ports or networks.
+    network_mode: "service:gluetun"
+    environment:
+      TZ: Etc/UTC
+      ASPNETCORE_URLS: http://0.0.0.0:5206
+      ConnectionStrings__Mealplan: >-
+        Host=db;Port=5432;Database=${POSTGRES_DB:-mealplanmcp};Username=${POSTGRES_USER:-mealplanmcp};Password=${POSTGRES_PASSWORD:?required}
+    depends_on:
+      db:
+        condition: service_healthy
+      gluetun:
+        condition: service_healthy
+
+  # Read-only MCP server. Direct network on purpose: it serves your local AI and
+  # has no reason to egress anywhere.
+  mcp:
+    build:
+      context: .
+      dockerfile: src/Mealplan.Mcp/Dockerfile
+    restart: unless-stopped
+    ports:
+      - "5205:5205"
+    environment:
+      TZ: Etc/UTC
+      ASPNETCORE_URLS: http://0.0.0.0:5205
+      ConnectionStrings__Mealplan: >-
+        Host=db;Port=5432;Database=${POSTGRES_DB:-mealplanmcp};Username=${POSTGRES_USER:-mealplanmcp};Password=${POSTGRES_PASSWORD:?required}
+    networks:
+      - backend
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:5205/health || exit 1"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+networks:
+  # Fixed subnet so gluetun's firewall can be told which range to let through to
+  # Postgres. A generated subnet would change and silently break the scraper.
+  backend:
+    ipam:
+      config:
+        - subnet: ${DOCKER_SUBNET:-172.28.0.0/16}
+
+volumes:
+  db-data:
