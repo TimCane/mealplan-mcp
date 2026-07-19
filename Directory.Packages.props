@@ -1,22 +1,30 @@
 <Project>
-
   <!--
     Central package management. Versions are declared once here; .csproj files
     reference package ids only. Add a PackageVersion in the PR that first needs
     the package, not ahead of time.
   -->
-
   <PropertyGroup>
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
     <CentralPackageTransitivePinningEnabled>true</CentralPackageTransitivePinningEnabled>
   </PropertyGroup>
-
   <!--
     EF Core is pinned to whatever the Npgsql provider depends on. The provider
     lags the runtime packages, and mixing the two trips MSB3277 assembly
     conflicts, so bump these together or not at all.
   -->
   <ItemGroup>
+    <!--
+      Hangfire still depends on Newtonsoft.Json 11.0.1, which carries a high
+      severity advisory (GHSA-5crp-9r3c-p9vr). Transitive pinning pulls it
+      forward; drop this once Hangfire ships a newer floor.
+    -->
+    <PackageVersion Include="Microsoft.Extensions.Options.DataAnnotations" Version="10.0.10" />
+    <PackageVersion Include="Newtonsoft.Json" Version="13.0.4" />
+    <PackageVersion Include="Hangfire.AspNetCore" Version="1.8.24" />
+    <PackageVersion Include="Hangfire.NetCore" Version="1.8.24" />
+    <PackageVersion Include="Hangfire.PostgreSql" Version="1.21.1" />
+    <PackageVersion Include="Microsoft.Extensions.Http.Resilience" Version="10.8.0" />
     <PackageVersion Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="10.0.3" />
     <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="10.0.4" />
     <PackageVersion Include="Microsoft.EntityFrameworkCore.Relational" Version="10.0.4" />
@@ -26,11 +34,9 @@
     </PackageVersion>
     <PackageVersion Include="EFCore.NamingConventions" Version="10.0.1" />
   </ItemGroup>
-
   <ItemGroup>
     <PackageVersion Include="Microsoft.Extensions.Hosting" Version="10.0.9" />
   </ItemGroup>
-
   <!--
     Test-only. FluentAssertions is held at 7.x deliberately: 8.0 moved to a paid
     licence for commercial use.
@@ -44,5 +50,4 @@
     <PackageVersion Include="xunit" Version="2.9.3" />
     <PackageVersion Include="xunit.runner.visualstudio" Version="3.1.4" />
   </ItemGroup>
-
 </Project>
