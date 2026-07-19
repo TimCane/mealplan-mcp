@@ -1,5 +1,6 @@
 using Hangfire;
 using Hangfire.PostgreSql;
+using Mealplan.Domain.Scraping;
 using Mealplan.Infrastructure.Jobs;
 using Mealplan.Infrastructure.Sources;
 using Microsoft.Extensions.Options;
@@ -39,16 +40,21 @@ public static class ScraperHostExtensions
     }
 
     /// <summary>
-    /// Registers the recurring crawl for every discovered source. A source with
+    /// Registers the recurring crawl for every discovered source, and seeds one
+    /// immediately for any source that has never completed a crawl. A source with
     /// no Schedule, or Enabled false, is left to manual triggering.
     /// </summary>
-    public static void ScheduleSourceCrawls(this IServiceProvider services)
+    public static async Task ScheduleSourceCrawlsAsync(
+        this IServiceProvider services,
+        CancellationToken ct = default)
     {
-        using var scope = services.CreateScope();
+        await using var scope = services.CreateAsyncScope();
 
         var registry = scope.ServiceProvider.GetRequiredService<SourceRegistry>();
         var options = scope.ServiceProvider.GetRequiredService<IOptionsMonitor<SourceOptions>>();
         var recurring = scope.ServiceProvider.GetRequiredService<IRecurringJobManager>();
+        var background = scope.ServiceProvider.GetRequiredService<IBackgroundJobClient>();
+        var runs = scope.ServiceProvider.GetRequiredService<IScrapeRunStore>();
         var logger = scope.ServiceProvider
             .GetRequiredService<ILoggerFactory>()
             .CreateLogger("Mealplan.Scraper.Schedule");
@@ -84,6 +90,26 @@ public static class ScraperHostExtensions
                 "Scheduled {Source}: crawl '{Schedule}', normalise hourly",
                 source,
                 settings.Schedule);
+
+            if (!settings.CrawlOnStartup)
+            {
+                continue;
+            }
+
+            var latest = await runs.GetLatestAsync(source, ct);
+
+            if (!StartupCrawl.ShouldSeed(latest))
+            {
+                continue;
+            }
+
+            // Queued rather than run inline: startup must not block on a crawl
+            // that takes hours, and Hangfire owns the retry behaviour either way.
+            background.Enqueue<CrawlJob>(job => job.RunAsync(source, null, CancellationToken.None));
+
+            logger.LogInformation(
+                "Queued a first crawl of {Source}; it has no completed run yet",
+                source);
         }
     }
 }
