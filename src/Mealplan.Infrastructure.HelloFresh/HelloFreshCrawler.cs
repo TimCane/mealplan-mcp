@@ -17,6 +17,7 @@ namespace Mealplan.Infrastructure.HelloFresh;
 public class HelloFreshCrawler(
     IHttpClientFactory clients,
     IOptionsMonitor<SourceOptions> options,
+    IOptionsMonitor<HelloFreshOptions> helloFreshOptions,
     ILogger<HelloFreshCrawler> logger) : ISourceCrawler
 {
     private static readonly JsonSerializerOptions JsonOptions = new(JsonSerializerDefaults.Web);
@@ -30,12 +31,19 @@ public class HelloFreshCrawler(
         var client = clients.CreateClient(Source);
         var settings = options.Get(Source);
 
+        var helloFresh = helloFreshOptions.CurrentValue;
         var skip = HelloFreshCursor.Parse(request.Cursor).Skip;
         var yielded = 0;
 
+        // The products filter is not optional: without it the endpoint returns
+        // add-on products alongside recipes, and a meal plan would end up
+        // offering a baguette as a dinner.
+        var products = Uri.EscapeDataString(string.Join('|', helloFresh.Products));
+
         while (!ct.IsCancellationRequested)
         {
-            var url = $"search?country=GB&locale=en-GB&skip={skip}&take={settings.PageSize}";
+            var url = $"search?country={helloFresh.Country}&locale={helloFresh.Locale}"
+                + $"&products={products}&skip={skip}&take={settings.PageSize}";
 
             using var response = await client.GetAsync(url, ct);
 

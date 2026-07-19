@@ -63,6 +63,16 @@ docker compose run --rm scraper normalize gousto
 recipe details, so 5 covers a page plus its first few recipes. Omit `--max` for
 a full pass. The same works for `hellofresh`.
 
+If HelloFresh returns 403, the VPN exit is the problem, not the code. Cloudflare
+blocks some ProtonVPN IPs outright - "Sorry, you have been blocked", with no
+challenge to solve, so a headless browser does not help. Reconnect for a
+different exit and try again:
+
+```sh
+docker compose restart gluetun
+docker compose logs gluetun | grep -i "public ip"
+```
+
 Check it arrived:
 
 ```sh

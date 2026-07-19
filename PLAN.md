@@ -53,7 +53,17 @@ Gousto quirks:
 
 The search response returns **complete** recipe objects (ingredients, yields,
 steps, nutrition, allergens, utensils, tags), so no detail call is needed. One
-paginated pass over ~3,880 GB recipes is the whole crawl.
+paginated pass is the whole crawl.
+
+The `products` filter is required, not optional. Without it the endpoint returns
+add-on products - loose fruit, yoghurt, a baguette - alongside recipes, and a
+meal plan would end up offering a baguette as a dinner. Measured live: 35,084
+items unfiltered against 24,545 recipes with
+`products=classic-box|veggie-box|meal-plan|classic-plan`. The 3,880 figure in the
+original HAR was a cuisine-filtered query, not the catalogue.
+
+At 8 per page and a 2 second delay, a full pass is roughly 3,070 requests and
+about 1 hour 45 minutes.
 
 Requires `Authorization: Bearer <jwt>` plus `x-requested-by: organic-growth`. The
 token is anonymous (`iss: senf`, no user claim, roughly 30 day expiry) and is
@@ -61,8 +71,13 @@ embedded in the payload of `https://www.hellofresh.co.uk/recipes`. The crawler
 fetches that page with a browser user agent, extracts the token, caches it until
 `exp - 1 day`, and refetches once on a 401/403 before failing the run.
 
-Cloudflare bot management is in front of this host, so the crawler keeps a cookie
-container across the run and stays serial and slow.
+Cloudflare bot management is in front of this host, and it blocks by IP
+reputation. Some ProtonVPN exits are refused outright with a WAF block - "Sorry,
+you have been blocked", no challenge to solve - while others on the same
+provider and country serve 200. This is not a client fingerprint problem, so a
+headless browser or FlareSolverr does not help: there is nothing to solve.
+Reconnecting gluetun until an exit works is the remedy. Verified live: one Proton
+London IP was blocked and another served the page normally.
 
 HelloFresh quirks:
 
