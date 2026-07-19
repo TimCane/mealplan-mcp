@@ -49,12 +49,9 @@ public class HelloFreshCrawler(
 
             if (!response.IsSuccessStatusCode)
             {
-                logger.LogWarning(
-                    "HelloFresh search at skip {Skip} returned {Status}",
-                    skip,
-                    (int)response.StatusCode);
-
-                yield break;
+                // Ending the enumeration here would record the run as a complete,
+                // successful crawl of however few recipes it managed first.
+                throw new SourceFetchException(Source, url, response.StatusCode);
             }
 
             var body = await response.Content.ReadAsStringAsync(ct);

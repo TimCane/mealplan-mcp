@@ -21,4 +21,13 @@ public interface IScrapeRunStore
 
     /// <summary>The most recent run for a source, whatever its status.</summary>
     Task<ScrapeRun?> GetLatestAsync(string source, CancellationToken ct = default);
+
+    /// <summary>
+    /// Marks every run still flagged Running as Cancelled, returning how many.
+    /// Called at startup, where the scraper is the only writer and no crawl has
+    /// begun, so a Running row can only have been left by a process that died
+    /// mid-crawl. Such a row otherwise blocks the source forever: seeding skips
+    /// it as already in flight, and nothing else ever clears it.
+    /// </summary>
+    Task<int> CancelAbandonedAsync(CancellationToken ct = default);
 }

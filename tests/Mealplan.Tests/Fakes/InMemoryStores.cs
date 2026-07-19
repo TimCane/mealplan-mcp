@@ -112,5 +112,18 @@ public class InMemoryRunStore : IScrapeRunStore
     public Task<ScrapeRun?> GetLatestAsync(string source, CancellationToken ct = default) =>
         Task.FromResult(_runs.LastOrDefault(r => r.Source == source));
 
+    public Task<int> CancelAbandonedAsync(CancellationToken ct = default)
+    {
+        var abandoned = _runs.Where(r => r.Status == ScrapeRunStatus.Running).ToList();
+
+        foreach (var run in abandoned)
+        {
+            run.Status = ScrapeRunStatus.Cancelled;
+            run.FinishedAt = DateTimeOffset.UnixEpoch;
+        }
+
+        return Task.FromResult(abandoned.Count);
+    }
+
     public void Seed(ScrapeRun run) => _runs.Add(run);
 }
