@@ -18,6 +18,9 @@ public class ScrapeDbContext(DbContextOptions<ScrapeDbContext> options) : DbCont
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.HasDefaultSchema(SchemaName);
+
+        // Typo-tolerant recipe search falls back to trigram word similarity.
+        modelBuilder.HasPostgresExtension("pg_trgm");
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(ScrapeDbContext).Assembly);
     }
 }
