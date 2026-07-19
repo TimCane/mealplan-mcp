@@ -101,9 +101,25 @@ public class GoustoCrawler(
         }
     }
 
-    /// <summary>The detail endpoint keys on the slug, which only appears in the URL.</summary>
-    internal static string? Slug(GoustoListEntry entry) =>
-        string.IsNullOrWhiteSpace(entry.Url) ? null : entry.Url.Trim('/');
+    /// <summary>
+    /// The detail endpoint keys on the bare slug, but list entries carry a
+    /// category-prefixed path - "/chicken-recipes/chicken-date-tamarind-curry".
+    /// The detail payload's own url has no prefix, which is what made this look
+    /// like a plain trim.
+    /// </summary>
+    internal static string? Slug(GoustoListEntry entry)
+    {
+        if (string.IsNullOrWhiteSpace(entry.Url))
+        {
+            return null;
+        }
+
+        var segment = entry.Url.Split('/', StringSplitOptions.RemoveEmptyEntries) is [.., var last]
+            ? last
+            : null;
+
+        return string.IsNullOrWhiteSpace(segment) ? null : segment;
+    }
 
     private static T? Deserialize<T>(string json) =>
         JsonSerializer.Deserialize<T>(json, JsonOptions);
