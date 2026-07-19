@@ -91,6 +91,7 @@ public static class ScraperHostExtensions
         var recurring = scope.ServiceProvider.GetRequiredService<IRecurringJobManager>();
         var background = scope.ServiceProvider.GetRequiredService<IBackgroundJobClient>();
         var runs = scope.ServiceProvider.GetRequiredService<IScrapeRunStore>();
+        var monitoring = scope.ServiceProvider.GetRequiredService<JobStorage>().GetMonitoringApi();
         var logger = scope.ServiceProvider
             .GetRequiredService<ILoggerFactory>()
             .CreateLogger("Mealplan.Scraper.Schedule");
@@ -148,6 +149,17 @@ public static class ScraperHostExtensions
 
             if (!StartupCrawl.ShouldSeed(latest))
             {
+                continue;
+            }
+
+            // The run table says interrupted, but the interrupted job itself
+            // survives in Hangfire and resumes on its own. Seeding next to it
+            // ran the same crawl twice - once per restart.
+            if (PendingCrawl.ExistsFor(monitoring, source))
+            {
+                logger.LogInformation(
+                    "Skipped seeding {Source}: a crawl is already queued or running",
+                    source);
                 continue;
             }
 
