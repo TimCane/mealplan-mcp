@@ -1,318 +1,358 @@
-# Mealplan MCP - Plan
+# Mealplan MCP - Plan: expose the stored data
 
-An MCP server that serves recipes scraped from UK meal-kit sites, so a calling
-AI can build a meal plan from real recipe data.
+The original build plan (git history, PLAN.md before this branch) shipped in
+full: two sources crawling and normalising, union views, four MCP tools. This
+plan covers the next phase - surfacing everything the database already holds.
 
-Two hosts share one Postgres database:
+Nothing here needs a re-crawl or a normaliser change. Every field below is
+already stored; the gap is projection and tooling.
 
-- **Scraper** - background jobs that crawl source APIs and normalise the results.
-  Runs behind a VPN.
-- **MCP** - a read-only MCP server over the normalised data. Direct network.
+## The gap
 
-## Principles
-
-1. **Scrape raw, normalise separately.** Every response lands in `scrape.document`
-   as jsonb, keyed by a content hash. Normalisation is a second, independent job.
-   Re-scraping an unchanged recipe costs one hash comparison and no writes.
-2. **No cross-source normalised tables.** Each source owns a Postgres schema and
-   models its own real shape. `hellofresh.ingredient` and `gousto.ingredient` are
-   deliberately unrelated. Cross-source reads happen through union views only.
-3. **A new source is a new project.** It implements three interfaces and is
-   discovered by DI scan. No edits to the domain, scraper or MCP hosts.
-4. **Never invent data.** Where a source lacks a field, it stays null and the
-   gap is reported through source capability flags.
-
-## Sources
-
-### Gousto
-
-`https://production-api.gousto.co.uk/cmsreadbroker/v1/` - public, no auth.
-
-| Endpoint | Use |
+| Stored | Surfaced today |
 |---|---|
-| `/recipes?category=recipes&limit=16&offset=N` | list pages, offset paging |
-| `/recipe/{slug}` | full detail |
-| `/category/recipes`, `/themes` | taxonomy |
+| 9-nutrient panel per portion, both sources | kcal only |
+| Rating average + count, both sources | nothing |
+| HelloFresh contains vs may-contain-traces allergen flag | collapsed into one array |
+| HelloFresh utensils, serving weight, website URL, ingredient families | nothing |
+| Gousto per-100g nutrition panel | nothing (stays that way for now) |
+| Allergen / cuisine / tag vocabularies with display names | slugs inside recipe rows only |
 
-The list response is thin (`uid, title, url, media, prep_times, portion_sizes,
-rating`), so the crawl is two phase: page the list to discover slugs, then fetch
-each detail. List pages are stored as `recipe_summary` documents and act as cheap
-change detection.
+## Decisions
 
-Gousto quirks:
+1. **Nutrition is per portion, guaranteed by the view.** The shared `v_recipe`
+   columns are defined as per-portion values. Both current sources publish per
+   portion, so today this is selection, not arithmetic: Gousto contributes its
+   `basis = per_portion` row, HelloFresh contributes its published panel. If a
+   future source publishes only per-100g plus net weight, dividing is mechanical
+   conversion of published data, not invention, and belongs in that source's
+   view SQL. Callers never see a mixed basis.
+2. **Gousto per-100g stays unsurfaced.** Nothing consumes it yet; it is stored
+   and can be projected later without a re-crawl. Not worth widening every read
+   model for now.
+3. **Traces are not contains.** The allergen array splits in two:
+   `allergens` (contains) and `trace_allergens` (may contain traces).
+   Gousto does not publish the distinction, so its `trace_allergens` is always
+   empty and a capability flag says so - an empty traces list from Gousto means
+   "unknown", not "none", and agents must be able to tell.
+4. **Filtering excludes traces by default.** `exclude_allergens` matches
+   contains OR traces unless the caller relaxes it. Over-excluding is the only
+   safe default in an allergen-bearing dataset.
+5. **Vocabulary tools carry display names; recipe rows keep slugs.** Rather
+   than widening `v_recipe` with parallel name arrays, new list tools return
+   slug-to-name mappings with usage counts. Agents filter on slugs and label
+   with names.
+6. **`max_kcal` is replaced, not kept.** The generalised nutrient filter covers
+   it. The tool surface is young and has one consumer; no compatibility shim.
+7. **Every list-shaped tool pages, with one envelope.** A shared
+   `Page<T>(Items, Total, Skip, Take)` replaces the bespoke `SearchResult` and
+   wraps the vocabulary tools too. The consumer is a model with a context
+   window, not a UI with a scrollbar: an unpaged 800-row tag list is worse
+   than useless, it crowds out the recipes. `take` is capped at 100
+   everywhere; vocab tools default to 50 and order by `recipe_count` desc so
+   the first page is the one that matters. `Total` always reports the full
+   count, so an agent knows it saw a page and not the world.
+   `list_sources` and `get_scrape_status` stay unpaged - they return one row
+   per source by construction.
+8. **Prompts, not resources.** The server ships MCP prompts (parameterised
+   flow templates, surfaced as slash-commands in clients) but no MCP
+   resources: agents drive this server through tools, and a resource surface
+   would duplicate `get_recipe` for nothing.
+9. **The server stays a stateless read layer.** No plan storage. The one
+   compute tool, `get_shopping_list`, aggregates ingredient rows for chosen
+   recipes but does not merge across recipes or sources - cross-source
+   ingredient identity stays deliberately unsolved, and the calling model
+   does the merging. Rows are tagged by recipe so nothing is ambiguous.
 
-- Ingredients are box SKUs with **no amounts**. Only `in_box` counts per portion
-  size, under `portion_sizes[].ingredients_skus[]`.
-- Pantry items are separate, in `basics[]`.
-- Allergens are nested inside each ingredient, not listed at recipe level.
-- `prep_times` varies by portion count: `{for_2: 40, for_4: 45}`.
+## View changes
 
-### HelloFresh
+### `v_recipe` - new columns
 
-`https://www.hellofresh.co.uk/gw/recipes/recipes/search?country=GB&locale=en-GB&skip=N&take=8`
+All per portion. Each source's `RecipeViewSql` contributes them; the canonical
+list in `RecipeViewColumns` (ISourceSchema.cs) and the empty-view typing in
+`UnionViewBuilder` grow to match.
 
-The search response returns **complete** recipe objects (ingredients, yields,
-steps, nutrition, allergens, utensils, tags), so no detail call is needed. One
-paginated pass is the whole crawl.
+| Column | Gousto | HelloFresh |
+|---|---|---|
+| `energy_kj` | `n.energy_kj` | pivot `'Energy (kJ)'` |
+| `fat_g` | `n.fat_grams` | pivot `'Fat'` |
+| `saturates_g` | `n.saturated_fat_grams` | pivot `'of which saturates'` |
+| `carbs_g` | `n.carbs_grams` | pivot `'Carbohydrate'` |
+| `sugars_g` | `n.sugars_grams` | pivot `'of which sugars'` |
+| `fibre_g` | `n.fibre_grams` | pivot `'Dietary Fibre'` |
+| `protein_g` | `n.protein_grams` | pivot `'Protein'` |
+| `salt_g` | `n.salt_grams` | pivot `'Salt'` |
+| `serving_size_g` | `n.net_weight_grams` | `r.serving_size_grams` |
+| `rating_avg` | `r.rating_average` | `r.average_rating` |
+| `rating_count` | `r.rating_count` | `r.ratings_count` |
+| `trace_allergens` | `ARRAY[]::text[]` | lateral agg where `traces_of` |
+| `website_url` | derived from slug | `r.website_url` |
 
-The `products` filter is required, not optional. Without it the endpoint returns
-add-on products - loose fruit, yoghurt, a baguette - alongside recipes, and a
-meal plan would end up offering a baguette as a dinner. Measured live: 35,084
-items unfiltered against 24,545 recipes with
-`products=classic-box|veggie-box|meal-plan|classic-plan`. The 3,880 figure in the
-original HAR was a cuisine-filtered query, not the catalogue.
+- HelloFresh pivot: one lateral join,
+  `SELECT max(amount) FILTER (WHERE name = '...') AS ...` per nutrient,
+  replacing the current single-row `'Energy (kcal)'` join. Row names pinned to
+  the fixture-verified strings above.
+- HelloFresh `allergens` lateral gains `WHERE NOT ra.traces_of`; a sibling
+  aggregate builds `trace_allergens`.
+- Gousto `website_url`: the slug is taken from the recipe URL at normalise
+  time, so `'https://www.gousto.co.uk/cookbook/recipes/' || r.slug`
+  reconstructs it. Verify the pattern against the committed fixtures during
+  implementation; if the payload URL differs, store it instead (migration +
+  re-normalise) rather than guessing.
+- `search_text` gains the recipe's distinct ingredient names (aggregated
+  string per source). Free text then finds recipes by what is in them -
+  "lemongrass curry" currently misses every recipe where lemongrass is only
+  an ingredient. `includeIngredients` stays for strict must-contain filtering.
 
-At 8 per page and a 2 second delay, a full pass is roughly 3,070 requests and
-about 1 hour 45 minutes.
+### Performance gate
 
-Requires `Authorization: Bearer <jwt>` plus `x-requested-by: organic-growth`. The
-token is anonymous (`iss: senf`, no user claim, roughly 30 day expiry) and is
-embedded in the payload of `https://www.hellofresh.co.uk/recipes`. The crawler
-fetches that page with a browser user agent, extracts the token, caches it until
-`exp - 1 day`, and refetches once on a 401/403 before failing the run.
+Search computes `to_tsvector` plus five LATERAL aggregates per row over
+roughly 75k view rows, twice per query (count + page), with no supporting
+indexes. PR 1's integration tests time a representative search against a
+realistic row count (fixtures multiplied). Under ~300ms the plain view
+ships; over, `v_recipe` becomes a materialized view refreshed at startup and
+after each normalise run. The fallback is designed now, built only if the
+number demands it.
 
-Cloudflare bot management is in front of this host, and it blocks by IP
-reputation. Some ProtonVPN exits are refused outright with a WAF block - "Sorry,
-you have been blocked", no challenge to solve - while others on the same
-provider and country serve 200. This is not a client fingerprint problem, so a
-headless browser or FlareSolverr does not help: there is nothing to solve.
-Reconnecting gluetun until an exit works is the remedy. Verified live: one Proton
-London IP was blocked and another served the page normally.
+### New vocabulary views
 
-HelloFresh quirks:
+`ISourceSchema` gains one SQL property per view, same pattern as
+`RecipeViewSql`. `UnionViewBuilder` unions them.
 
-- Quantities live in `yields[]` per portion count, referencing `ingredients[]` by
-  id: `{yields: 2, ingredients: [{id, amount, unit}]}`.
-- `prepTime` / `totalTime` are ISO 8601 durations (`PT20M`).
-- Nutrition is a typed array, per portion.
-
-## Architecture
-
-```
-src/
-  Mealplan.Domain/                    entities, enums, source interfaces
-  Mealplan.Infrastructure/            EF contexts, Hangfire, HTTP, normalise jobs
-  Mealplan.Infrastructure.HelloFresh/ crawler + normaliser + schema
-  Mealplan.Infrastructure.Gousto/     crawler + normaliser + schema
-  Mealplan.Scraper/                   worker host      (behind VPN)
-  Mealplan.Mcp/                       MCP server host  (direct network)
-tests/
-  Mealplan.Tests/                     xUnit, normalisers against real fixtures
-  Mealplan.IntegrationTests/          Testcontainers Postgres
-```
-
-Dependencies flow inward. `Domain` references nothing.
-
-### Source contract
-
-A source project implements three interfaces and is picked up by an assembly
-scan of `Mealplan.Infrastructure.*`:
-
-```csharp
-public interface ISourceCrawler
-{
-    string Source { get; }
-    IAsyncEnumerable<RawDocument> CrawlAsync(CrawlRequest request, CancellationToken ct);
-}
-
-public interface ISourceNormalizer
-{
-    string Source { get; }
-    Task NormalizeAsync(RawDocument document, CancellationToken ct);
-}
-
-public interface ISourceSchema
-{
-    string Source { get; }
-    string Schema { get; }
-    SourceCapabilities Capabilities { get; }
-    string RecipeViewProjection { get; }
-}
-```
-
-`CrawlAsync` yields documents lazily, so Gousto's two phase crawl and
-HelloFresh's single pass both fit without a shared page template. Paging, auth,
-rate limiting and retry policy are the source's own business.
-
-### Raw layer - schema `scrape`
-
-```
-scrape.run       (id, source, kind, started_at, finished_at, status, stats jsonb,
-                  cursor jsonb, error)
-scrape.document  (id, source, doc_type, source_key, version,
-                  payload jsonb, content_hash bytea,
-                  first_seen_at, last_seen_at, run_id,
-                  normalized_at, normalize_error)
-```
-
-`doc_type` is one of `recipe_summary`, `recipe`, `taxonomy`.
-
-On each fetch, the payload is hashed:
-
-| Case | Action |
+| View | Columns |
 |---|---|
-| hash matches latest version | `UPDATE last_seen_at` only, no normalisation |
-| hash differs | `INSERT` at `version + 1`, queue normalisation |
-| never seen | `INSERT` at version 1, queue normalisation |
+| `v_allergen` | source, slug, name, recipe_count, trace_count |
+| `v_cuisine` | source, slug, name, recipe_count |
+| `v_tag` | source, slug, name, recipe_count |
+| `v_ingredient` | source, name, family, recipe_count |
 
-`scrape.run.cursor` holds the last completed page so an interrupted crawl
-resumes rather than restarting.
+- Gousto contributes its categories to `v_tag` (matching how `v_recipe.tags`
+  already presents them) and nothing to `family` in `v_ingredient`.
+- `trace_count` is 0 for Gousto; the capability flag explains why.
 
-### Normalised layer - one schema per source
+## Capability changes
 
-Per source, e.g. `hellofresh`:
+`SourceCapabilities` gains:
+
+| Flag | Gousto | HelloFresh |
+|---|---|---|
+| `HasTraceAllergens` | false | true |
+| `HasUtensils` | false | true |
+
+Both surface through `list_sources` and `RecipeDetail` notes. The Gousto
+caveat text extends to state that trace allergens are not published.
+
+## Read model changes
+
+New record, all fields nullable, all per portion:
 
 ```
-recipe                   (id, source_key, name, headline, description,
-                          difficulty, total_minutes, image_url, search_vector)
-recipe_yield             (recipe_id, portions, prep_minutes, is_offered)
-recipe_yield_ingredient  (recipe_yield_id, ingredient_id, amount, unit)
-ingredient               (id, source_key, name, family)
-recipe_step              (recipe_id, index, instruction)
-recipe_pantry_item       (recipe_id, name)
-allergen / recipe_allergen
-nutrition                (recipe_id, portions, type, name, amount, unit)
-cuisine / recipe_cuisine
-tag / recipe_tag
+NutritionPanel(Kcal, Kj, FatGrams, SaturatesGrams, CarbsGrams, SugarsGrams,
+               FibreGrams, ProteinGrams, SaltGrams)
 ```
 
-Both sources are portion dimensioned, so quantities hang off `recipe_yield`
-rather than `recipe`. Gousto rows carry null `amount` and `unit` - it has no
-quantity data and none is invented.
+- `RecipeSummary` adds: `Nutrition` (full panel - agents pick recipes on
+  macros without N `get_recipe` calls), `RatingAverage`, `RatingCount`,
+  `TraceAllergens`. The bare `Kcal` field is absorbed into the panel.
+- `RecipeDetail` adds the same, plus `ServingSizeGrams`, `WebsiteUrl`,
+  `Utensils` (per-source read like pantry items, empty + flagged for Gousto),
+  `OfferedPortions` (every portion count the recipe is offered at), and
+  `UpdatedAt` (when the recipe last changed upstream).
+- `get_recipe` failures become distinguishable: an unknown id is not-found;
+  a known id at an unoffered portion count returns an error naming the
+  offered counts, so the agent learns the fix from the failure.
+- `SourceInfo` and `SourceNotes` add the two new flags.
+- `Page<T>(Items, Total, Skip, Take)` (decision 7) carries every list
+  response: `Page<RecipeSummary>` retires `SearchResult`, and the vocabulary
+  tools return `Page<AllergenInfo>` etc. rather than bare lists.
+- `ShoppingListRow(RecipeName, Source, Ingredient, Amount, Unit,
+  IsPantryItem)` backs `get_shopping_list`; a null amount carries the same
+  meaning as everywhere else - not published, not zero.
 
-Each source gets its own `DbContext` with its own migration history table inside
-its own schema, so adding a source never collides with another's migrations.
-`ScrapeDbContext` owns the `scrape` schema and the public views.
+## Search changes
 
-### Cross-source reads - union views
+`search_recipes` parameter changes:
 
-```sql
-CREATE VIEW public.v_recipe AS
-  SELECT 'hellofresh' AS source, id, name, headline, total_minutes,
-         portions, prep_minutes, search_vector
-    FROM hellofresh.recipe JOIN hellofresh.recipe_yield ...
-  UNION ALL
-  SELECT 'gousto', ... FROM gousto.recipe JOIN gousto.recipe_yield ...;
-```
+- `nutrientFilters`: array of `{nutrient, min?, max?}` with `nutrient` an enum
+  of `kcal | kj | fat | saturates | carbs | sugars | fibre | protein | salt`.
+  Values are grams per portion (kcal/kj in their own units). A filter on a
+  nutrient excludes recipes with no published value for it - same rule as
+  `maxPrepMinutes` today. Replaces `maxKcal`.
+- `excludeTraces` (default `true`): whether `excludeAllergens` also matches
+  may-contain-traces. Setting it false narrows to confirmed contains only.
+- `excludeIngredients`: dislikes ("no mushrooms"). Same ILIKE substring
+  semantics as `includeIngredients`; any match excludes. Over-excluding is
+  the right direction for dislikes as it is for allergens.
+- `maxTotalMinutes`: same null-excludes rule as `maxPrepMinutes`. Difficulty
+  stays output-only: it is HelloFresh-only, so under the null-excludes rule a
+  difficulty filter would silently drop every Gousto recipe.
+- `minRating`: recipes with no rating are excluded when set.
+- `sort`: `name | rating | kcal | random`. Default `name` (current
+  behaviour). `rating` orders desc with count as tie-break; `kcal` asc.
+  `random` takes an optional integer `seed` (setseed-based ordering) so
+  paging is stable within a seed and a new seed reshuffles - agents pass
+  e.g. the ISO week number and each week's plan draws from a fresh page one
+  instead of the same alphabetical top slice.
 
-Views default to 2 portions unless a portion count is requested.
+SQL side: `RecipeQueryService` builds the nutrient clauses from a whitelist
+map of enum to column - the enum never reaches the SQL string.
 
-The views are not written into a migration. Each source contributes its own
-`SELECT` through `ISourceSchema`, and the views are rebuilt from every registered
-source at MCP startup. A migration would have to be edited for each new source -
-exactly the coupling per-source schemas exist to avoid. Adding a source therefore
-costs nothing here at all.
+## New tools
 
-Text search runs `to_tsvector` over the view's `search_text`, with a `pg_trgm`
-word-similarity fallback for typos. The original plan called for a stored
-generated `tsvector` column with a GIN index per source; at a few thousand
-recipes the computed version is fast enough and keeps the source schemas simpler.
-Add the stored column and index when the row count makes it worth it.
-
-## MCP surface
-
-Streamable HTTP, read only.
+All four page per decision 7 (`skip`/`take`, `recipe_count` desc, take
+capped at 100) and accept an optional `sources` filter.
 
 | Tool | Purpose |
 |---|---|
-| `search_recipes` | query, sources, maxPrepMinutes, portions, cuisines, excludeAllergens, includeIngredients, kcalMax, skip, take |
-| `get_recipe` | full normalised recipe as a stable DTO, same shape for every source |
-| `list_sources` | recipe counts and capability flags |
-| `get_scrape_status` | last run per source, freshness |
+| `list_allergens` | Every allergen slug + display name per source, with recipe and traces counts. The authoritative input for `excludeAllergens` - agents check it before filtering so a misspelt slug does not silently match nothing. Allergen vocabularies are small enough that page one is normally the whole list. |
+| `list_cuisines` | Cuisine slugs + names + counts, for `cuisines`. |
+| `list_tags` | Tag slugs + names + counts. Also becomes a `tags` filter on `search_recipes` (cheap: column already in the view). |
+| `search_ingredients` | Text-filtered ingredient catalogue: source, name, family, recipe count. Lets agents resolve "garlic" to what each source actually calls it before using `includeIngredients`. |
+| `get_shopping_list` | Takes `[{source, recipeId, portions}]` (up to ~14 refs), returns flat rows of `{recipe, source, ingredient, amount, unit, isPantryItem}` - shipped ingredients plus Gousto pantry items flagged, since a shopper must know what the box will not contain. No steps, no nutrition, no merging (decision 9). Not paged: bounded by the ref cap. |
 
-Capability flags exist so the calling model knows what a source cannot tell it:
+There is no batch `get_recipe`: planning works off summaries (which carry the
+nutrition panel), shopping off `get_shopping_list`, and cooking fetches one
+recipe at a time.
 
-```json
-[
-  {"source": "hellofresh", "hasIngredientQuantities": true,  "hasPantryItems": false},
-  {"source": "gousto",     "hasIngredientQuantities": false, "hasPantryItems": true}
-]
+Tool descriptions state the safety semantics explicitly: traces default,
+Gousto's unknown-traces caveat, null-excluding filter behaviour, and that
+`total` may exceed the page returned.
+
+## MCP prompts
+
+Registered via `WithPrompts` alongside the tools (decision 8). Each renders a
+parameterised instruction template:
+
+| Prompt | Args | Flow it encodes |
+|---|---|---|
+| `plan_week` | people, nights, allergens, dislikes, kcal/protein targets | `list_sources` for capabilities, `list_allergens` to resolve slugs, `search_recipes` with `excludeAllergens` + `nutrientFilters` + seeded random sort, finish with `get_shopping_list`. |
+| `find_recipe` | craving free text, constraints | Lighter single-recipe flow: resolve constraints, search, end in `get_recipe`. |
+| `whats_available` | none | Orientation: sources, counts, capability caveats, top cuisines and tags via the vocab tools. |
+
+The prompts are the documentation of record for the safe flow - allergen slug
+resolution before filtering, traces semantics, portion validity.
+
+## MCP capabilities
+
+Beyond prompts, three capability upgrades ride along:
+
+- **Server instructions.** `ServerInstructions` text delivered at initialize,
+  before any tool call - the one channel guaranteed to reach every agent.
+  A short paragraph: resolve allergen slugs via `list_allergens` before
+  filtering, traces semantics, null means not-published, portion counts vary
+  by source, page one is not the world. Written incrementally - each PR
+  extends it to match the surface it ships.
+
+- **Tool annotations.** Every tool is marked `ReadOnly = true`,
+  `Idempotent = true`, `OpenWorld = false` on its `[McpServerTool]`
+  attribute. Clients use the hints for permission UX - a read-only tool can
+  be auto-approved instead of prompting per call, which is the correct
+  treatment for a server that cannot write.
+- **Structured output.** `UseStructuredContent = true` on every tool, so
+  results return as `structuredContent` with an output schema generated from
+  the DTOs rather than JSON-in-a-text-block. The schema also encodes which
+  fields are nullable, reinforcing the null-means-not-published contract.
+- **Completions.** A completion handler backs the prompt arguments: allergen,
+  cuisine and source args autocomplete from the vocab views as the user
+  types. Thin, since `v_allergen` and friends are exactly the needed lookup.
+
+Not adopted: sampling (a read layer generates nothing), elicitation (every
+input is a plain argument), logging notifications (`get_scrape_status`
+answers freshness), `list_changed` (the tool list is static), resources
+(decision 8).
+
+## Usage audit
+
+Analytics, not a security trail: which tools, filters and prompts get used,
+what returns nothing, what errors agents hit. Rows are droppable - writes are
+fire-and-forget and never fail or slow a call.
+
+### Identity - semi-anonymous by construction
+
+There is no auth and none is added. "Who" is what the transport provides:
+
+- `audit.session` - one row at first contact per MCP session: session id,
+  first_seen_at, client name and version (from the initialize handshake),
+  user agent, and `sha256(ip + daily-rotating salt)`.
+- Within a session, ordering `tool_call` rows by time is the trace of one
+  agent walking the surface. Across days, linking a person is impossible by
+  construction: the salt rotates daily and is never stored.
+- Because identity degrades by design, args are stored verbatim - the
+  health-adjacent filters (allergens, nutrients) cannot be tied to a person
+  beyond one day. This trade is deliberate and this line documents it.
+
+### Schema and capture
+
+```
+audit.session   (id, first_seen_at, client_name, client_version,
+                 user_agent, ip_hash)
+audit.tool_call (id, session_id, kind, name, args jsonb, called_at,
+                 duration_ms, result_count, is_error, error_kind)
 ```
 
-Meal plans are not persisted. The calling AI holds the plan; this server is a
-read layer over recipe data.
+- `kind` is `tool` or `prompt`. Completions are not logged: per-keystroke
+  volume, partial typing, no insight.
+- `result_count` is the page row count (null hit/miss for `get_recipe`), so
+  zero-result searches - the strongest surface-improvement signal - are
+  queryable directly.
+- Implemented once via the SDK's call filter, not per tool: capture, enqueue
+  to a channel, background writer inserts. The MCP host creates the `audit`
+  schema idempotently at startup alongside the views.
+- Retention: a daily hosted-service sweep deletes rows older than 90 days.
+  No dashboard and no MCP tool - this is read with SQL.
 
-## Scraping operations
+## Hardening
 
-Hangfire with Postgres storage, so jobs, retries and history live in the same
-database and there is a dashboard to watch and requeue crawls.
-
-```
-RequestDelay    00:00:02 plus 50% jitter
-MaxConcurrency  1 per source
-PageSize        8 (HelloFresh) / 16 (Gousto)
-Schedule        per source, UTC: hellofresh Sunday 03:00 (0 3 * * 0)
-                                 gousto     Wednesday 03:00 (0 3 * * 3)
-MaxRetries      5, exponential backoff capped at 5 minutes
-```
-
-A full HelloFresh pass is roughly 3,070 requests, about an hour and three
-quarters at this pace. One Hangfire worker runs jobs serially, so the two sources
-are staggered across the week rather than queueing behind each other on the same
-night - which also keeps each session from a single VPN exit shorter, and
-Cloudflare already scores those exits.
-
-Normalising runs hourly for every source, independently of crawling, so a failed
-crawl still gets whatever it stored turned into recipes.
-
-A source with no completed crawl is queued at startup. Without it a fresh
-deployment serves nothing until its scheduled night, which is up to a week away.
-The test is on runs rather than rows: a redeploy against an existing database
-finds a successful run and starts nothing, while a first attempt that failed or
-was cancelled is retried and resumes from its cursor.
-
-### VPN
-
-All scraper egress goes through a `gluetun` container holding the ProtonVPN
-WireGuard config. The scraper joins its network namespace:
-
-```yaml
-scraper:
-  network_mode: "service:gluetun"
-```
-
-If the tunnel drops, the scraper has no network at all - the killswitch is
-structural, not something the application has to remember. The MCP host stays on
-the normal bridge network and never touches the VPN.
-
-In the devcontainer, `gluetun` sits behind a compose profile, so day to day work
-needs neither VPN credentials nor `NET_ADMIN`. Enable the profile only to run a
-live crawl:
-
-```sh
-docker compose --profile vpn up -d
-```
-
-Tests never hit the network. Normalisers are tested against real payloads
-captured from the source APIs and committed as fixtures.
-
-## Configuration
-
-Compose reads a gitignored `.env`; `.env.example` documents every key with dummy
-values. Application config uses the Options pattern, bound from environment
-variables in containers and user-secrets locally. Startup fails loudly on a
-missing required setting.
+The server is public and unauthenticated, and every search reaches Postgres.
+ASP.NET's built-in rate limiter, fixed window per client IP (the forwarded
+header is already configured), set generously - around 120 requests a minute
+- so no real agent ever sees a 429 but a misbehaving loop cannot hammer the
+database. No new dependency.
 
 ## Delivery
 
-Each PR leaves `main` working and is independently reviewable. Gousto lands first
-because it needs no auth, which proves the source abstraction; HelloFresh then
-stresses it with token handling and anti-bot measures.
+Five PRs, each leaving main working. PR 5 is independent of the rest and can
+merge first - a baseline week of current-surface usage would show what PRs
+1-4 change:
 
-| # | PR |
-|---|---|
-| 1 | `chore: devcontainer and project plan` |
-| 2 | `feat: solution skeleton, build props and CI` |
-| 3 | `feat: scrape schema and raw document store` |
-| 4 | `feat: source abstractions and scraper host` |
-| 5 | `feat: gousto crawler, normaliser and schema` |
-| 6 | `feat: hellofresh crawler, normaliser and schema` |
-| 7 | `feat: union views and mcp read tools` |
-| 8 | `feat: gluetun compose and deploy docs` |
+| # | PR | Contents |
+|---|---|---|
+| 1 | `feat: per-portion nutrition and ratings through the shared views` | v_recipe columns, ingredient-aware search_text, performance gate, NutritionPanel, nutrientFilters, minRating, sort, maxKcal removal, Page envelope replacing SearchResult, tool annotations + structured output, server instructions, offeredPortions/updatedAt/portion-error on detail, MCP client round-trip test |
+| 2 | `feat: distinguish trace allergens from contains` | allergen split, capability flags, excludeTraces, utensils on detail |
+| 3 | `feat: vocabulary tools` | four vocab views, four tools, tags filter |
+| 4 | `feat: shopping list, prompts and planning filters` | get_shopping_list, the three prompts, prompt-argument completions, excludeIngredients, maxTotalMinutes, seeded random sort |
+| 5 | `feat: usage audit for the mcp surface` | audit schema, call filter + background writer, salt rotation, retention sweep, rate limiter |
+
+Each PR that changes the surface also updates a terse tools table in the
+README - the MCP-native descriptions stay canonical; the table is for humans
+browsing the repo.
+
+## Tests
+
+- Integration (Testcontainers): view projection per source against normalised
+  fixture data - the HelloFresh pivot names and Gousto basis selection are the
+  riskiest lines in this plan and get explicit assertions. Nutrient range,
+  rating and traces filter behaviour, including the null-excludes rule.
+- Unit: query clause building from `nutrientFilters` (whitelist mapping,
+  min/max combinations), read model mapping, paging envelope (take clamp,
+  total vs page size, count-desc ordering).
+- Integration: seeded random sort is stable across pages within a seed and
+  differs across seeds; `get_shopping_list` returns pantry rows flagged for
+  Gousto and measured rows for HelloFresh; prompt templates render with all
+  argument combinations; completions return live slugs from the vocab views.
+- Audit: one session row per MCP session however many calls; a failing or
+  slow audit write never fails or delays the tool call; the sweep deletes
+  only rows past retention; same IP hashes differently across salt days.
+- Protocol round-trip: one integration test hosts the real server in-process
+  and drives it with the SDK's McpClient - initialize (instructions and
+  capabilities), tools/list schemas, one call per tool, one render per
+  prompt. The serialization contract agents actually consume, tested where
+  nothing else covers it.
+- Performance: the PR 1 benchmark doubles as a regression test - search
+  against the multiplied fixture set must stay under the gate.
+- Fixture-driven normaliser tests are untouched - no normaliser changes.
 
 ## Open questions
 
-- ProtonVPN WireGuard config and preferred exit country.
-- Deployment host for the two containers.
-- Whether persisted meal plans and shopping lists are wanted later. That needs
-  cross-source ingredient identity, which today's schema deliberately omits.
+- Whether Gousto's per-100g panel earns a place on `RecipeDetail` once a
+  consumer wants it (decision 2 defers, does not reject).
