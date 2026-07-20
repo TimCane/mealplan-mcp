@@ -120,6 +120,45 @@ public sealed record ScrapeStatus(
     string? LastError);
 
 /// <summary>
+/// One allergen in a source's vocabulary. Slug is the filter token - it matches
+/// the recipe rows' allergen arrays exactly, so a value read here is safe to
+/// pass to excludeAllergens. TraceCount is 0 for a source whose
+/// hasTraceAllergens flag is false: unknown, not none.
+/// </summary>
+public sealed record AllergenInfo(
+    string Source,
+    string Slug,
+    string Name,
+    int RecipeCount,
+    int TraceCount);
+
+public sealed record CuisineInfo(
+    string Source,
+    string Slug,
+    string Name,
+    int RecipeCount);
+
+/// <summary>
+/// Slug is whatever token the recipe rows' tags array carries for the source -
+/// a real slug where one is published, the display title where not.
+/// </summary>
+public sealed record TagInfo(
+    string Source,
+    string Slug,
+    string Name,
+    int RecipeCount);
+
+/// <summary>
+/// An ingredient as one source names it. Family is the source's own grouping
+/// and null for sources that do not publish one.
+/// </summary>
+public sealed record IngredientInfo(
+    string Source,
+    string Name,
+    string? Family,
+    int RecipeCount);
+
+/// <summary>
 /// A nutrient a search can range-filter on. Serialised by the names the tool
 /// surface documents, so the wire values stay stable if members are renamed.
 /// </summary>
@@ -169,6 +208,9 @@ public sealed record RecipeSearchQuery
     public int? MaxPrepMinutes { get; init; }
 
     public IReadOnlyList<string>? Cuisines { get; init; }
+
+    /// <summary>Tag slugs as list_tags reports them. Matches any.</summary>
+    public IReadOnlyList<string>? Tags { get; init; }
 
     /// <summary>Recipes carrying any of these allergens are excluded.</summary>
     public IReadOnlyList<string>? ExcludeAllergens { get; init; }

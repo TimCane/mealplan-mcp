@@ -84,6 +84,7 @@ public class RecipeQueryService
 
         AddArrayFilter(where, parameters, "sources", query.Sources, "r.source = ANY(@sources)");
         AddArrayFilter(where, parameters, "cuisines", query.Cuisines, "r.cuisines && @cuisines");
+        AddArrayFilter(where, parameters, "tags", query.Tags, "r.tags && @tags");
 
         // Traces count as carrying the allergen unless the caller relaxes it -
         // over-excluding is the only safe default here.
@@ -497,6 +498,153 @@ public class RecipeQueryService
             capabilities.HasTraceAllergens,
             capabilities.HasUtensils,
             caveats.Count == 0 ? null : string.Join(" ", caveats));
+    }
+
+    public async Task<Page<AllergenInfo>> ListAllergensAsync(
+        IReadOnlyList<string>? sources = null,
+        int skip = 0,
+        int take = 50,
+        CancellationToken ct = default)
+    {
+        return await VocabularyPageAsync(
+            "v_allergen",
+            "v.source, v.slug, v.name, v.recipe_count, v.trace_count",
+
+            // trace_count breaks the tie so a traces-only allergen still ranks
+            // above vocabulary no recipe carries at all.
+            "v.recipe_count DESC, v.trace_count DESC, v.name, v.source",
+            sources,
+            textFilter: null,
+            skip,
+            take,
+            reader => new AllergenInfo(
+                reader.GetString(0),
+                reader.GetString(1),
+                reader.GetString(2),
+                reader.GetInt32(3),
+                reader.GetInt32(4)),
+            ct);
+    }
+
+    public async Task<Page<CuisineInfo>> ListCuisinesAsync(
+        IReadOnlyList<string>? sources = null,
+        int skip = 0,
+        int take = 50,
+        CancellationToken ct = default)
+    {
+        return await VocabularyPageAsync(
+            "v_cuisine",
+            "v.source, v.slug, v.name, v.recipe_count",
+            "v.recipe_count DESC, v.name, v.source",
+            sources,
+            textFilter: null,
+            skip,
+            take,
+            reader => new CuisineInfo(
+                reader.GetString(0),
+                reader.GetString(1),
+                reader.GetString(2),
+                reader.GetInt32(3)),
+            ct);
+    }
+
+    public async Task<Page<TagInfo>> ListTagsAsync(
+        IReadOnlyList<string>? sources = null,
+        int skip = 0,
+        int take = 50,
+        CancellationToken ct = default)
+    {
+        return await VocabularyPageAsync(
+            "v_tag",
+            "v.source, v.slug, v.name, v.recipe_count",
+            "v.recipe_count DESC, v.name, v.source",
+            sources,
+            textFilter: null,
+            skip,
+            take,
+            reader => new TagInfo(
+                reader.GetString(0),
+                reader.GetString(1),
+                reader.GetString(2),
+                reader.GetInt32(3)),
+            ct);
+    }
+
+    public async Task<Page<IngredientInfo>> SearchIngredientsAsync(
+        string? query = null,
+        IReadOnlyList<string>? sources = null,
+        int skip = 0,
+        int take = 50,
+        CancellationToken ct = default)
+    {
+        return await VocabularyPageAsync(
+            "v_ingredient",
+            "v.source, v.name, v.family, v.recipe_count",
+            "v.recipe_count DESC, v.name, v.source",
+            sources,
+            string.IsNullOrWhiteSpace(query)
+                ? null
+                : ("(v.name ILIKE '%' || @query || '%' OR v.family ILIKE '%' || @query || '%')",
+                    new NpgsqlParameter("query", query)),
+            skip,
+            take,
+            reader => new IngredientInfo(
+                reader.GetString(0),
+                reader.GetString(1),
+                Nullable(reader, 2, r => r.GetString(2)),
+                reader.GetInt32(3)),
+            ct);
+    }
+
+    /// <summary>
+    /// One page of a vocabulary view: optional source narrowing, count-desc
+    /// ordering and the shared envelope. View, columns and order are fixed
+    /// strings chosen by the caller above - nothing user-supplied reaches the
+    /// SQL text.
+    /// </summary>
+    private async Task<Page<T>> VocabularyPageAsync<T>(
+        string view,
+        string columns,
+        string orderBy,
+        IReadOnlyList<string>? sources,
+        (string Clause, NpgsqlParameter Parameter)? textFilter,
+        int skip,
+        int take,
+        Func<NpgsqlDataReader, T> map,
+        CancellationToken ct)
+    {
+        var where = new StringBuilder("true");
+        var parameters = new List<NpgsqlParameter>();
+
+        AddArrayFilter(where, parameters, "sources", sources, "v.source = ANY(@sources)");
+
+        if (textFilter is { } filter)
+        {
+            where.Append(" AND ").Append(filter.Clause);
+            parameters.Add(filter.Parameter);
+        }
+
+        var total = await ScalarAsync(
+            $"SELECT count(*) FROM public.{view} v WHERE {where}",
+            parameters,
+            ct);
+
+        skip = Math.Max(skip, 0);
+        take = Math.Clamp(take, 1, 100);
+
+        var rows = await ReadAsync(
+            $"""
+             SELECT {columns}
+             FROM public.{view} v
+             WHERE {where}
+             ORDER BY {orderBy}
+             OFFSET @skip LIMIT @take
+             """,
+            [.. parameters, new NpgsqlParameter("skip", skip), new NpgsqlParameter("take", take)],
+            map,
+            ct);
+
+        return new Page<T>(rows, (int)total, skip, take);
     }
 
     public async Task<IReadOnlyList<SourceInfo>> ListSourcesAsync(CancellationToken ct = default)
