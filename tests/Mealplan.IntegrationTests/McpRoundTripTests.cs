@@ -53,7 +53,8 @@ public sealed class McpRoundTripTests(CrossSourceViewFixture fixture) : IAsyncLi
         var tools = await _client.ListToolsAsync();
 
         tools.Select(t => t.Name).Should().BeEquivalentTo(
-            "search_recipes", "get_recipe", "list_sources", "get_scrape_status");
+            "search_recipes", "get_recipe", "list_sources", "get_scrape_status",
+            "list_allergens", "list_cuisines", "list_tags", "search_ingredients");
 
         foreach (var tool in tools)
         {
@@ -144,6 +145,40 @@ public sealed class McpRoundTripTests(CrossSourceViewFixture fixture) : IAsyncLi
         sources.EnumerateArray().Select(s => s.GetProperty("source").GetString())
             .Should().Equal("gousto", "hellofresh");
         status.EnumerateArray().Should().HaveCount(2);
+    }
+
+    [Fact]
+    public async Task Vocabulary_tools_return_paged_slug_to_name_mappings()
+    {
+        var allergens = AsJson(await _client.CallToolAsync(
+            "list_allergens",
+            new Dictionary<string, object?> { ["sources"] = new[] { "hellofresh" } }));
+
+        allergens.GetProperty("total").GetInt32().Should().BeGreaterThan(0);
+        allergens.GetProperty("items").EnumerateArray()
+            .Should().Contain(a =>
+                a.GetProperty("slug").GetString() == "mustard"
+                && a.GetProperty("traceCount").GetInt32() > 0,
+                "the traces-only carrier must reach the wire under its canonical slug");
+
+        var cuisines = AsJson(await _client.CallToolAsync("list_cuisines"));
+        cuisines.GetProperty("items").EnumerateArray()
+            .Should().Contain(c => c.GetProperty("name").GetString() == "Italian");
+
+        var tags = AsJson(await _client.CallToolAsync("list_tags"));
+        var slug = tags.GetProperty("items")[0].GetProperty("slug").GetString();
+
+        var filtered = AsJson(await _client.CallToolAsync(
+            "search_recipes",
+            new Dictionary<string, object?> { ["tags"] = new[] { slug } }));
+        filtered.GetProperty("total").GetInt32()
+            .Should().BeGreaterThan(0, "the busiest tag's slug must round-trip into the filter");
+
+        var ingredients = AsJson(await _client.CallToolAsync(
+            "search_ingredients",
+            new Dictionary<string, object?> { ["query"] = "garlic" }));
+        ingredients.GetProperty("items").EnumerateArray()
+            .Should().Contain(i => i.GetProperty("name").GetString() == "Garlic Clove");
     }
 
     /// <summary>
