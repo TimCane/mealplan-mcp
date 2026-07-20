@@ -65,6 +65,7 @@ public static class RecipeViewColumns
         "rating_count",
         "cuisines",
         "allergens",
+        "trace_allergens",
         "tags",
         "image_url",
         "website_url",

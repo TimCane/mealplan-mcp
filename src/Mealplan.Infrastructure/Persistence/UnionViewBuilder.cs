@@ -139,7 +139,8 @@ public class UnionViewBuilder(ILogger<UnionViewBuilder> logger)
                 or "carbs_g" or "sugars_g" or "fibre_g" or "protein_g"
                 or "salt_g" or "serving_size_g" or "rating_avg" =>
                 $"NULL::double precision AS {column}",
-            "cuisines" or "allergens" or "tags" => $"NULL::text[] AS {column}",
+            "cuisines" or "allergens" or "trace_allergens" or "tags" =>
+                $"NULL::text[] AS {column}",
             "recipe_id" => $"NULL::uuid AS {column}",
             _ => $"NULL::text AS {column}",
         }));
