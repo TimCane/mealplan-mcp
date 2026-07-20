@@ -30,6 +30,31 @@ public interface ISourceSchema
     /// quantities selects NULL for amount and unit rather than inventing them.
     /// </summary>
     string RecipeIngredientViewSql { get; }
+
+    /// <summary>
+    /// The source's allergen vocabulary with usage counts: slugs as they appear
+    /// in v_recipe's arrays, so a value read here is guaranteed to work as an
+    /// exclusion filter. A source that publishes no traces data selects 0 for
+    /// trace_count - unknown, not none, per its capability flag.
+    /// </summary>
+    string AllergenViewSql { get; }
+
+    /// <summary>As <see cref="AllergenViewSql"/>, for cuisines.</summary>
+    string CuisineViewSql { get; }
+
+    /// <summary>
+    /// As <see cref="AllergenViewSql"/>, for tags. The slug column carries
+    /// whatever token v_recipe's tags array holds for this source, even where
+    /// the source publishes no real slug.
+    /// </summary>
+    string TagViewSql { get; }
+
+    /// <summary>
+    /// The source's ingredient catalogue by name: what each source actually
+    /// calls things, so a caller can resolve "garlic" before filtering on it.
+    /// Family is NULL for sources that do not group ingredients.
+    /// </summary>
+    string IngredientViewSql { get; }
 }
 
 /// <summary>
@@ -80,5 +105,38 @@ public static class RecipeViewColumns
         "ingredient_name",
         "amount",
         "unit",
+    ];
+
+    public static IReadOnlyList<string> Allergen { get; } =
+    [
+        "source",
+        "slug",
+        "name",
+        "recipe_count",
+        "trace_count",
+    ];
+
+    public static IReadOnlyList<string> Cuisine { get; } =
+    [
+        "source",
+        "slug",
+        "name",
+        "recipe_count",
+    ];
+
+    public static IReadOnlyList<string> Tag { get; } =
+    [
+        "source",
+        "slug",
+        "name",
+        "recipe_count",
+    ];
+
+    public static IReadOnlyList<string> Ingredient { get; } =
+    [
+        "source",
+        "name",
+        "family",
+        "recipe_count",
     ];
 }

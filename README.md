@@ -102,8 +102,12 @@ browsing the repo.
 
 | Tool | Returns |
 |---|---|
-| `search_recipes` | A page of summaries with the per-portion nutrition panel, rating and allergens split into contains and may-contain-traces. Filters: free text (name, description, ingredients), sources, portions, cuisines, allergens (traces excluded too unless `excludeTraces` is false), ingredients, prep time, nutrient ranges, minimum rating. Sorts by name, rating, kcal, or seeded random. |
+| `search_recipes` | A page of summaries with the per-portion nutrition panel, rating and allergens split into contains and may-contain-traces. Filters: free text (name, description, ingredients), sources, portions, cuisines, tags, allergens (traces excluded too unless `excludeTraces` is false), ingredients, prep time, nutrient ranges, minimum rating. Sorts by name, rating, kcal, or seeded random. |
 | `get_recipe` | Full detail at one portion count: ingredients, steps, utensils, nutrition, serving size, offered portion counts, website URL. A wrong portion count fails naming the counts that work. |
+| `list_allergens` | Allergen slugs and display names per source with contains and traces counts. The authoritative input for `excludeAllergens`; `traceCount` is 0 where `hasTraceAllergens` is false - unknown, not none. |
+| `list_cuisines` | Cuisine slugs, names and recipe counts per source. |
+| `list_tags` | Tag slugs, names and recipe counts per source. Tokens differ per source; feed them to the `tags` filter. |
+| `search_ingredients` | Text-filtered ingredient catalogue: what each source calls things, with family where published. Resolves names for `includeIngredients`. |
 | `list_sources` | One row per source: recipe count and capability flags. |
 | `get_scrape_status` | Last crawl and pending-normalisation counts per source. |
 

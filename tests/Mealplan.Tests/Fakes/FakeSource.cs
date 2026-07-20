@@ -78,4 +78,12 @@ public class FakeSchema(string source = "fake") : ISourceSchema
     public string RecipeViewSql => "SELECT NULL WHERE false";
 
     public string RecipeIngredientViewSql => "SELECT NULL WHERE false";
+
+    public string AllergenViewSql => "SELECT NULL WHERE false";
+
+    public string CuisineViewSql => "SELECT NULL WHERE false";
+
+    public string TagViewSql => "SELECT NULL WHERE false";
+
+    public string IngredientViewSql => "SELECT NULL WHERE false";
 }

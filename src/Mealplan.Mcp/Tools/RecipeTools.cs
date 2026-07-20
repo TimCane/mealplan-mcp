@@ -40,8 +40,11 @@ public class RecipeTools(RecipeQueryService recipes)
         int portions = 2,
         [Description("Exclude recipes needing longer than this to prepare. Recipes with no published prep time are excluded.")]
         int? maxPrepMinutes = null,
-        [Description("Cuisine slugs, e.g. [\"italian\"]. Matches any.")]
+        [Description("Cuisine slugs, e.g. [\"italian\"]. Matches any. Resolve with list_cuisines.")]
         string[]? cuisines = null,
+        [Description("Tag slugs, e.g. [\"pasta-noodles\"]. Matches any. Resolve with list_tags - "
+            + "tokens differ per source.")]
+        string[]? tags = null,
         [Description("Allergen slugs to avoid, e.g. [\"milk\",\"gluten\"]. Any match excludes "
             + "the recipe, in confirmed contains and - by default - may-contain-traces alike.")]
         string[]? excludeAllergens = null,
@@ -75,6 +78,7 @@ public class RecipeTools(RecipeQueryService recipes)
                 Portions = portions,
                 MaxPrepMinutes = maxPrepMinutes,
                 Cuisines = cuisines,
+                Tags = tags,
                 ExcludeAllergens = excludeAllergens,
                 ExcludeTraces = excludeTraces,
                 IncludeIngredients = includeIngredients,
@@ -120,6 +124,97 @@ public class RecipeTools(RecipeQueryService recipes)
             // and the message carries the portion counts that would succeed.
             throw new McpException(ex.Message);
         }
+    }
+
+    [McpServerTool(
+        Name = "list_allergens",
+        ReadOnly = true,
+        Idempotent = true,
+        OpenWorld = false,
+        UseStructuredContent = true)]
+    [Description(
+        "Every allergen slug and display name per source, with counts of recipes "
+        + "confirmed to contain it and recipes that may contain traces. The "
+        + "authoritative input for excludeAllergens - check slugs here before "
+        + "filtering, because a misspelt slug silently matches nothing. "
+        + "traceCount is 0 for sources whose hasTraceAllergens flag is false: "
+        + "unknown, not none. Ordered by recipe count; total reports the full "
+        + "count, though page one is normally the whole list.")]
+    public async Task<Page<AllergenInfo>> ListAllergensAsync(
+        [Description("Restrict to these source slugs. Omit for all.")]
+        string[]? sources = null,
+        [Description("Rows to skip, for paging.")] int skip = 0,
+        [Description("Rows to return, 1 to 100. Defaults to 50.")] int take = 50,
+        CancellationToken ct = default)
+    {
+        return await recipes.ListAllergensAsync(sources, skip, take, ct);
+    }
+
+    [McpServerTool(
+        Name = "list_cuisines",
+        ReadOnly = true,
+        Idempotent = true,
+        OpenWorld = false,
+        UseStructuredContent = true)]
+    [Description(
+        "Cuisine slugs and display names per source with recipe counts, ordered "
+        + "by count. The authoritative input for the cuisines search filter. "
+        + "total reports the full count - page if it exceeds the rows returned.")]
+    public async Task<Page<CuisineInfo>> ListCuisinesAsync(
+        [Description("Restrict to these source slugs. Omit for all.")]
+        string[]? sources = null,
+        [Description("Rows to skip, for paging.")] int skip = 0,
+        [Description("Rows to return, 1 to 100. Defaults to 50.")] int take = 50,
+        CancellationToken ct = default)
+    {
+        return await recipes.ListCuisinesAsync(sources, skip, take, ct);
+    }
+
+    [McpServerTool(
+        Name = "list_tags",
+        ReadOnly = true,
+        Idempotent = true,
+        OpenWorld = false,
+        UseStructuredContent = true)]
+    [Description(
+        "Tag slugs and display names per source with recipe counts, ordered by "
+        + "count. The authoritative input for the tags search filter; tokens "
+        + "differ per source, so filter with the slugs listed here rather than "
+        + "guessed ones. total reports the full count - tag vocabularies can run "
+        + "to hundreds of rows, so page one is not the world.")]
+    public async Task<Page<TagInfo>> ListTagsAsync(
+        [Description("Restrict to these source slugs. Omit for all.")]
+        string[]? sources = null,
+        [Description("Rows to skip, for paging.")] int skip = 0,
+        [Description("Rows to return, 1 to 100. Defaults to 50.")] int take = 50,
+        CancellationToken ct = default)
+    {
+        return await recipes.ListTagsAsync(sources, skip, take, ct);
+    }
+
+    [McpServerTool(
+        Name = "search_ingredients",
+        ReadOnly = true,
+        Idempotent = true,
+        OpenWorld = false,
+        UseStructuredContent = true)]
+    [Description(
+        "The ingredient catalogue as each source names it, filtered by free "
+        + "text against name and family. Use it to resolve a household name to "
+        + "what a source actually calls it before relying on includeIngredients. "
+        + "family is the source's own grouping and null "
+        + "where none is published. Ordered by recipe count; total reports the "
+        + "full match count.")]
+    public async Task<Page<IngredientInfo>> SearchIngredientsAsync(
+        [Description("Substring matched against ingredient name and family, e.g. \"garlic\". Omit to list all.")]
+        string? query = null,
+        [Description("Restrict to these source slugs. Omit for all.")]
+        string[]? sources = null,
+        [Description("Rows to skip, for paging.")] int skip = 0,
+        [Description("Rows to return, 1 to 100. Defaults to 50.")] int take = 50,
+        CancellationToken ct = default)
+    {
+        return await recipes.SearchIngredientsAsync(query, sources, skip, take, ct);
     }
 
     [McpServerTool(

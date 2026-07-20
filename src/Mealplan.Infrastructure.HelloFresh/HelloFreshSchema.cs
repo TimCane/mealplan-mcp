@@ -69,7 +69,7 @@ public class HelloFreshSchema : ISourceSchema
             COALESCE(cu.slugs, ARRAY[]::text[]) AS cuisines,
             COALESCE(al.slugs, ARRAY[]::text[]) AS allergens,
             COALESCE(tr.slugs, ARRAY[]::text[]) AS trace_allergens,
-            COALESCE(tg.names, ARRAY[]::text[]) AS tags,
+            COALESCE(tg.slugs, ARRAY[]::text[]) AS tags,
             r.image_url           AS image_url,
             r.website_url         AS website_url,
             concat_ws(' ', r.name, r.headline, r.description, ing.names) AS search_text
@@ -115,7 +115,7 @@ public class HelloFreshSchema : ISourceSchema
             WHERE ra.recipe_id = r.id AND ra.traces_of
         ) tr ON true
         LEFT JOIN LATERAL (
-            SELECT array_agg(t.name::text ORDER BY t.name) AS names
+            SELECT array_agg(t.slug::text ORDER BY t.slug) AS slugs
             FROM hellofresh.recipe_tag rt
             JOIN hellofresh.tag t ON t.id = rt.tag_id
             WHERE rt.recipe_id = r.id
@@ -133,5 +133,62 @@ public class HelloFreshSchema : ISourceSchema
         FROM hellofresh.recipe_yield_ingredient yi
         JOIN hellofresh.recipe_yield y ON y.id = yi.yield_id
         JOIN hellofresh.ingredient i ON i.id = yi.ingredient_id
+        """;
+
+    /// <summary>
+    /// Traces arrive as separate allergen entities slugged "traces-of-x", named
+    /// the same as their canonical counterpart. Stripping the prefix folds each
+    /// pair into one row whose slug matches both of v_recipe's arrays, with
+    /// contains and traces usage counted apart.
+    /// </summary>
+    public string AllergenViewSql => """
+        SELECT
+            'hellofresh'                                      AS source,
+            regexp_replace(a.slug::text, '^traces-of-', '')   AS slug,
+            min(a.name::text)                                 AS name,
+            (count(DISTINCT ra.recipe_id) FILTER (WHERE NOT ra.traces_of))::int AS recipe_count,
+            (count(DISTINCT ra.recipe_id) FILTER (WHERE ra.traces_of))::int     AS trace_count
+        FROM hellofresh.allergen a
+        LEFT JOIN hellofresh.recipe_allergen ra ON ra.allergen_id = a.id
+        GROUP BY regexp_replace(a.slug::text, '^traces-of-', '')
+        """;
+
+    public string CuisineViewSql => """
+        SELECT
+            'hellofresh'                        AS source,
+            c.slug::text                        AS slug,
+            c.name::text                        AS name,
+            count(DISTINCT rc.recipe_id)::int   AS recipe_count
+        FROM hellofresh.cuisine c
+        LEFT JOIN hellofresh.recipe_cuisine rc ON rc.cuisine_id = c.id
+        GROUP BY c.slug, c.name
+        """;
+
+    public string TagViewSql => """
+        SELECT
+            'hellofresh'                        AS source,
+            t.slug::text                        AS slug,
+            t.name::text                        AS name,
+            count(DISTINCT rt.recipe_id)::int   AS recipe_count
+        FROM hellofresh.tag t
+        LEFT JOIN hellofresh.recipe_tag rt ON rt.tag_id = t.id
+        GROUP BY t.slug, t.name
+        """;
+
+    /// <summary>
+    /// Grouped by name and family rather than id: HelloFresh keeps one entity
+    /// per external id, so the same name can appear under several ids and the
+    /// catalogue would list it once per id otherwise.
+    /// </summary>
+    public string IngredientViewSql => """
+        SELECT
+            'hellofresh'                        AS source,
+            i.name::text                        AS name,
+            i.family::text                      AS family,
+            count(DISTINCT y.recipe_id)::int    AS recipe_count
+        FROM hellofresh.ingredient i
+        LEFT JOIN hellofresh.recipe_yield_ingredient yi ON yi.ingredient_id = i.id
+        LEFT JOIN hellofresh.recipe_yield y ON y.id = yi.yield_id
+        GROUP BY i.name, i.family
         """;
 }

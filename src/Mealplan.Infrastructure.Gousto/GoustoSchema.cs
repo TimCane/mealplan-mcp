@@ -108,4 +108,60 @@ public class GoustoSchema : ISourceSchema
         JOIN gousto.recipe_yield y ON y.id = yi.yield_id
         JOIN gousto.ingredient i ON i.id = yi.ingredient_id
         """;
+
+    /// <summary>
+    /// trace_count is a constant 0: Gousto publishes no may-contain-traces data,
+    /// so the count is unknown rather than none - the HasTraceAllergens flag is
+    /// how a caller tells the difference.
+    /// </summary>
+    public string AllergenViewSql => """
+        SELECT
+            'gousto'                            AS source,
+            al.slug::text                       AS slug,
+            al.title::text                      AS name,
+            count(DISTINCT ra.recipe_id)::int   AS recipe_count,
+            0                                   AS trace_count
+        FROM gousto.allergen al
+        LEFT JOIN gousto.recipe_allergen ra ON ra.allergen_id = al.id
+        GROUP BY al.slug, al.title
+        """;
+
+    public string CuisineViewSql => """
+        SELECT
+            'gousto'                    AS source,
+            c.slug::text                AS slug,
+            c.title::text               AS name,
+            count(DISTINCT r.id)::int   AS recipe_count
+        FROM gousto.cuisine c
+        LEFT JOIN gousto.recipe r ON r.cuisine_id = c.id
+        GROUP BY c.slug, c.title
+        """;
+
+    /// <summary>
+    /// Categories have titles but no slug, and v_recipe's tags array carries the
+    /// titles, so the title is the filter token as well as the display name.
+    /// </summary>
+    public string TagViewSql => """
+        SELECT
+            'gousto'                            AS source,
+            cat.title::text                     AS slug,
+            cat.title::text                     AS name,
+            count(DISTINCT rc.recipe_id)::int   AS recipe_count
+        FROM gousto.category cat
+        LEFT JOIN gousto.recipe_category rc ON rc.category_id = cat.id
+        GROUP BY cat.title
+        """;
+
+    /// <summary>Family is NULL throughout: Gousto does not group ingredients.</summary>
+    public string IngredientViewSql => """
+        SELECT
+            'gousto'                            AS source,
+            i.name::text                        AS name,
+            NULL::text                          AS family,
+            count(DISTINCT y.recipe_id)::int    AS recipe_count
+        FROM gousto.ingredient i
+        LEFT JOIN gousto.recipe_yield_ingredient yi ON yi.ingredient_id = i.id
+        LEFT JOIN gousto.recipe_yield y ON y.id = yi.yield_id
+        GROUP BY i.name
+        """;
 }

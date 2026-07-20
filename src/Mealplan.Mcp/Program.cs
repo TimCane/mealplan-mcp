@@ -44,7 +44,11 @@ builder.Services
             + "contains and may-contain-traces; excludeAllergens matches both "
             + "unless excludeTraces is set false. A source with "
             + "hasTraceAllergens false publishes no traces data, so its empty "
-            + "traceAllergens means unknown, not none.";
+            + "traceAllergens means unknown, not none. Filter slugs are per "
+            + "source: resolve allergens with list_allergens, cuisines and "
+            + "tags with list_cuisines and list_tags, and ingredient names "
+            + "with search_ingredients before filtering - a guessed slug "
+            + "silently matches nothing.";
     })
     .WithHttpTransport()
     .WithTools<RecipeTools>();
