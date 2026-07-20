@@ -105,6 +105,12 @@ public class RecipeQueryService
             parameters.Add(new("max_prep", maxPrep));
         }
 
+        if (query.MaxTotalMinutes is { } maxTotal)
+        {
+            where.Append(" AND r.total_minutes IS NOT NULL AND r.total_minutes <= @max_total");
+            parameters.Add(new("max_total", maxTotal));
+        }
+
         AppendNutrientFilters(where, parameters, query.NutrientFilters);
 
         if (query.MinRating is { } minRating)
@@ -134,6 +140,25 @@ public class RecipeQueryService
                 """);
 
             parameters.Add(new("include_ingredients", ingredients.ToArray()));
+        }
+
+        if (query.ExcludeIngredients is { Count: > 0 } dislikes)
+        {
+            // Any match excludes: one disliked ingredient is enough to strike
+            // the recipe, however the source spells the rest of it.
+            where.Append("""
+                 AND NOT EXISTS (
+                    SELECT 1
+                    FROM public.v_recipe_ingredient i
+                    JOIN unnest(@exclude_ingredients) AS needle
+                      ON i.ingredient_name ILIKE '%' || needle || '%'
+                    WHERE i.recipe_id = r.recipe_id
+                      AND i.source = r.source
+                      AND i.portions = r.portions
+                 )
+                """);
+
+            parameters.Add(new("exclude_ingredients", dislikes.ToArray()));
         }
 
         var total = await ScalarAsync(
@@ -361,6 +386,105 @@ public class RecipeQueryService
             await PantryItemsAsync(source, summary.RecipeId, ct),
             await UtensilsAsync(source, summary.RecipeId, ct),
             Notes(schema));
+    }
+
+    /// <summary>
+    /// A shopping list is bounded by this many recipe refs - two weeks of
+    /// dinners - so the result needs no paging.
+    /// </summary>
+    public const int ShoppingListMaxRecipes = 14;
+
+    /// <summary>
+    /// Flat ingredient rows for the chosen recipes at their chosen portion
+    /// counts: shipped ingredients plus pantry items flagged, since a shopper
+    /// must know what the box will not contain. Rows are tagged by recipe and
+    /// never merged across recipes or sources - cross-source ingredient
+    /// identity stays deliberately unsolved, and the calling model does the
+    /// merging. A bad ref fails the whole call rather than silently thinning
+    /// the list.
+    /// </summary>
+    public async Task<IReadOnlyList<ShoppingListRow>> ShoppingListAsync(
+        IReadOnlyList<ShoppingListRef> recipes,
+        CancellationToken ct = default)
+    {
+        if (recipes.Count == 0)
+        {
+            throw new ArgumentException("At least one recipe ref is required.", nameof(recipes));
+        }
+
+        if (recipes.Count > ShoppingListMaxRecipes)
+        {
+            throw new ArgumentException(
+                $"At most {ShoppingListMaxRecipes} recipes per shopping list; "
+                + $"{recipes.Count} were requested.",
+                nameof(recipes));
+        }
+
+        var rows = new List<ShoppingListRow>();
+
+        foreach (var reference in recipes)
+        {
+            // Registered-source check up front, so an unknown source fails
+            // naming itself rather than as an empty recipe lookup.
+            Schema(reference.Source);
+
+            var parameters = new List<NpgsqlParameter>
+            {
+                new("source", reference.Source),
+                new("recipe_id", reference.RecipeId),
+                new("portions", reference.Portions),
+            };
+
+            var names = await ReadAsync(
+                """
+                SELECT r.name FROM public.v_recipe r
+                WHERE r.source = @source AND r.recipe_id = @recipe_id AND r.portions = @portions
+                """,
+                parameters,
+                reader => reader.GetString(0),
+                ct);
+
+            if (names.Count == 0)
+            {
+                var offered = await OfferedPortionsAsync(reference.Source, reference.RecipeId, ct);
+
+                if (offered.Count == 0)
+                {
+                    throw new KeyNotFoundException(
+                        $"Recipe {reference.RecipeId} from {reference.Source} does not exist.");
+                }
+
+                throw new PortionsNotOfferedException(
+                    reference.Source, reference.RecipeId, reference.Portions, offered);
+            }
+
+            var name = names[0];
+
+            rows.AddRange(await ReadAsync(
+                """
+                SELECT i.ingredient_name, i.amount, i.unit
+                FROM public.v_recipe_ingredient i
+                WHERE i.source = @source AND i.recipe_id = @recipe_id AND i.portions = @portions
+                ORDER BY i.ingredient_name
+                """,
+                parameters,
+                reader => new ShoppingListRow(
+                    name,
+                    reference.Source,
+                    reader.GetString(0),
+                    Nullable(reader, 1, r => r.GetDouble(1)),
+                    Nullable(reader, 2, r => r.GetString(2)),
+                    IsPantryItem: false),
+                ct));
+
+            // Pantry items carry no amounts: the source assumes the shopper
+            // already has them, and only names what to check for.
+            rows.AddRange((await PantryItemsAsync(reference.Source, reference.RecipeId, ct))
+                .Select(title => new ShoppingListRow(
+                    name, reference.Source, title, null, null, IsPantryItem: true)));
+        }
+
+        return rows;
     }
 
     private async Task<IReadOnlyList<int>> OfferedPortionsAsync(

@@ -16,7 +16,7 @@ namespace Mealplan.Mcp.Tools;
 /// from the records, which also encodes which fields are nullable.
 /// </remarks>
 [McpServerToolType]
-public class RecipeTools(RecipeQueryService recipes)
+public class RecipeTools(RecipeQueryService service)
 {
     [McpServerTool(
         Name = "search_recipes",
@@ -40,6 +40,8 @@ public class RecipeTools(RecipeQueryService recipes)
         int portions = 2,
         [Description("Exclude recipes needing longer than this to prepare. Recipes with no published prep time are excluded.")]
         int? maxPrepMinutes = null,
+        [Description("Exclude recipes whose total time exceeds this. Recipes with no published total time are excluded.")]
+        int? maxTotalMinutes = null,
         [Description("Cuisine slugs, e.g. [\"italian\"]. Matches any. Resolve with list_cuisines.")]
         string[]? cuisines = null,
         [Description("Tag slugs, e.g. [\"pasta-noodles\"]. Matches any. Resolve with list_tags - "
@@ -55,6 +57,9 @@ public class RecipeTools(RecipeQueryService recipes)
         bool excludeTraces = true,
         [Description("Ingredient names that must all appear, e.g. [\"chicken\"]. Substring match.")]
         string[]? includeIngredients = null,
+        [Description("Dislikes, e.g. [\"mushroom\"]. Any substring match excludes the recipe - "
+            + "over-excluding is the right direction for dislikes as it is for allergens.")]
+        string[]? excludeIngredients = null,
         [Description("Per-portion nutrient ranges, e.g. [{\"nutrient\":\"protein\",\"min\":30}]. "
             + "Grams per portion; kcal and kj in their own units. Recipes with no "
             + "published value for a filtered nutrient are excluded.")]
@@ -70,18 +75,20 @@ public class RecipeTools(RecipeQueryService recipes)
         [Description("Rows to return, 1 to 100. Defaults to 20.")] int take = 20,
         CancellationToken ct = default)
     {
-        return await recipes.SearchAsync(
+        return await service.SearchAsync(
             new RecipeSearchQuery
             {
                 Query = query,
                 Sources = sources,
                 Portions = portions,
                 MaxPrepMinutes = maxPrepMinutes,
+                MaxTotalMinutes = maxTotalMinutes,
                 Cuisines = cuisines,
                 Tags = tags,
                 ExcludeAllergens = excludeAllergens,
                 ExcludeTraces = excludeTraces,
                 IncludeIngredients = includeIngredients,
+                ExcludeIngredients = excludeIngredients,
                 NutrientFilters = nutrientFilters,
                 MinRating = minRating,
                 Sort = sort,
@@ -116,7 +123,7 @@ public class RecipeTools(RecipeQueryService recipes)
     {
         try
         {
-            return await recipes.GetAsync(source, recipeId, portions, ct);
+            return await service.GetAsync(source, recipeId, portions, ct);
         }
         catch (PortionsNotOfferedException ex)
         {
@@ -147,7 +154,7 @@ public class RecipeTools(RecipeQueryService recipes)
         [Description("Rows to return, 1 to 100. Defaults to 50.")] int take = 50,
         CancellationToken ct = default)
     {
-        return await recipes.ListAllergensAsync(sources, skip, take, ct);
+        return await service.ListAllergensAsync(sources, skip, take, ct);
     }
 
     [McpServerTool(
@@ -167,7 +174,7 @@ public class RecipeTools(RecipeQueryService recipes)
         [Description("Rows to return, 1 to 100. Defaults to 50.")] int take = 50,
         CancellationToken ct = default)
     {
-        return await recipes.ListCuisinesAsync(sources, skip, take, ct);
+        return await service.ListCuisinesAsync(sources, skip, take, ct);
     }
 
     [McpServerTool(
@@ -189,7 +196,7 @@ public class RecipeTools(RecipeQueryService recipes)
         [Description("Rows to return, 1 to 100. Defaults to 50.")] int take = 50,
         CancellationToken ct = default)
     {
-        return await recipes.ListTagsAsync(sources, skip, take, ct);
+        return await service.ListTagsAsync(sources, skip, take, ct);
     }
 
     [McpServerTool(
@@ -214,7 +221,42 @@ public class RecipeTools(RecipeQueryService recipes)
         [Description("Rows to return, 1 to 100. Defaults to 50.")] int take = 50,
         CancellationToken ct = default)
     {
-        return await recipes.SearchIngredientsAsync(query, sources, skip, take, ct);
+        return await service.SearchIngredientsAsync(query, sources, skip, take, ct);
+    }
+
+    [McpServerTool(
+        Name = "get_shopping_list",
+        ReadOnly = true,
+        Idempotent = true,
+        OpenWorld = false,
+        UseStructuredContent = true)]
+    [Description(
+        "Flat shopping rows for up to 14 chosen recipes at their chosen portion "
+        + "counts: one row per ingredient, tagged by recipe and source. Rows "
+        + "with isPantryItem true are staples the box will not contain and the "
+        + "shopper must have at home. Nothing is merged across recipes or "
+        + "sources - identical ingredients appear once per recipe, and the "
+        + "caller does the combining. A null amount means the source publishes "
+        + "no quantities (see hasIngredientQuantities), not zero. A ref with an "
+        + "unknown id or an unoffered portion count fails the whole call, "
+        + "naming the problem.")]
+    public async Task<IReadOnlyList<ShoppingListRow>> GetShoppingListAsync(
+        [Description("Recipes to shop for, e.g. [{\"source\":\"gousto\",\"recipeId\":\"...\",\"portions\":2}]. "
+            + "Up to 14; portions must be a count the recipe is offered at.")]
+        ShoppingListRef[] recipes,
+        CancellationToken ct = default)
+    {
+        try
+        {
+            return await service.ShoppingListAsync(recipes, ct);
+        }
+        catch (Exception ex) when (
+            ex is PortionsNotOfferedException or KeyNotFoundException or ArgumentException)
+        {
+            // One bad ref fails the whole list - a plan silently missing a
+            // night's ingredients is worse than an error naming the fix.
+            throw new McpException(ex.Message);
+        }
     }
 
     [McpServerTool(
@@ -229,7 +271,7 @@ public class RecipeTools(RecipeQueryService recipes)
         + "amounts: Gousto ships boxes and publishes none.")]
     public async Task<IReadOnlyList<SourceInfo>> ListSourcesAsync(CancellationToken ct = default)
     {
-        return await recipes.ListSourcesAsync(ct);
+        return await service.ListSourcesAsync(ct);
     }
 
     [McpServerTool(
@@ -243,6 +285,6 @@ public class RecipeTools(RecipeQueryService recipes)
         + "still waiting to be normalised. Useful when results look thin.")]
     public async Task<IReadOnlyList<ScrapeStatus>> GetScrapeStatusAsync(CancellationToken ct = default)
     {
-        return await recipes.ScrapeStatusAsync(ct);
+        return await service.ScrapeStatusAsync(ct);
     }
 }

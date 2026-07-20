@@ -158,6 +158,27 @@ public sealed record IngredientInfo(
     string? Family,
     int RecipeCount);
 
+/// <summary>One recipe at one portion count, as get_shopping_list takes it.</summary>
+public sealed record ShoppingListRef(
+    string Source,
+    Guid RecipeId,
+    int Portions);
+
+/// <summary>
+/// One line of a shopping list, tagged by the recipe it belongs to so nothing
+/// is ambiguous - the server does not merge rows across recipes or sources;
+/// the calling model does. A pantry row is an item the box will not contain
+/// and the shopper must have at home. A null amount means the source did not
+/// publish one - not zero.
+/// </summary>
+public sealed record ShoppingListRow(
+    string RecipeName,
+    string Source,
+    string Ingredient,
+    double? Amount,
+    string? Unit,
+    bool IsPantryItem);
+
 /// <summary>
 /// A nutrient a search can range-filter on. Serialised by the names the tool
 /// surface documents, so the wire values stay stable if members are renamed.
@@ -207,6 +228,9 @@ public sealed record RecipeSearchQuery
 
     public int? MaxPrepMinutes { get; init; }
 
+    /// <summary>Same null-excludes rule as <see cref="MaxPrepMinutes"/>.</summary>
+    public int? MaxTotalMinutes { get; init; }
+
     public IReadOnlyList<string>? Cuisines { get; init; }
 
     /// <summary>Tag slugs as list_tags reports them. Matches any.</summary>
@@ -224,6 +248,14 @@ public sealed record RecipeSearchQuery
 
     /// <summary>Recipes must contain every one of these ingredients.</summary>
     public IReadOnlyList<string>? IncludeIngredients { get; init; }
+
+    /// <summary>
+    /// Dislikes: recipes containing any of these ingredients are excluded, on
+    /// the same substring semantics as <see cref="IncludeIngredients"/>.
+    /// Over-excluding is the right direction for dislikes as it is for
+    /// allergens.
+    /// </summary>
+    public IReadOnlyList<string>? ExcludeIngredients { get; init; }
 
     public IReadOnlyList<NutrientFilter>? NutrientFilters { get; init; }
 

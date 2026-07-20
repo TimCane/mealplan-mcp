@@ -65,10 +65,25 @@ public class CrossSourceViewFixture : IAsyncLifetime
         await BuildViewsAsync();
     }
 
-    public async Task DisposeAsync() => await _container.DisposeAsync();
+    public async Task DisposeAsync()
+    {
+        if (_queryContext is not null)
+        {
+            await _queryContext.DisposeAsync();
+        }
 
+        await _container.DisposeAsync();
+    }
+
+    /// <summary>
+    /// All query services share one context: classes in this collection run
+    /// serially, and a context per call leaks its open connection until GC -
+    /// enough calls trip Postgres's connection cap mid-run.
+    /// </summary>
     public RecipeQueryService CreateQueryService() =>
-        new(ScrapeContext(), Schemas);
+        new(_queryContext ??= ScrapeContext(), Schemas);
+
+    private ScrapeDbContext? _queryContext;
 
     private async Task LoadFixturesAsync()
     {

@@ -153,6 +153,48 @@ public class CrossSourceQueryTests(CrossSourceViewFixture fixture)
     }
 
     [Fact]
+    public async Task Excluding_an_ingredient_strikes_every_recipe_containing_it()
+    {
+        var with = await Query().SearchAsync(new RecipeSearchQuery
+        {
+            Portions = 2,
+            IncludeIngredients = ["garlic"],
+        });
+
+        with.Items.Should().NotBeEmpty("the fixtures must exercise this filter");
+
+        var without = await Query().SearchAsync(new RecipeSearchQuery
+        {
+            Portions = 2,
+            ExcludeIngredients = ["garlic"],
+        });
+
+        without.Items.Select(r => r.RecipeId)
+            .Should().NotIntersectWith(with.Items.Select(r => r.RecipeId));
+
+        // One needle includes on contains and excludes on not-contains, so the
+        // two searches must partition the catalogue exactly.
+        var all = await Query().SearchAsync(new RecipeSearchQuery { Portions = 2 });
+        (with.Total + without.Total).Should().Be(all.Total);
+    }
+
+    [Fact]
+    public async Task A_recipe_with_no_published_total_time_is_excluded_rather_than_assumed_quick()
+    {
+        var result = await Query().SearchAsync(new RecipeSearchQuery
+        {
+            Portions = 3,
+            MaxTotalMinutes = 240,
+        });
+
+        // Gousto derives total time from prep time, which it publishes only
+        // for 2 and 4 portions - its 3-portion rows must drop out even under
+        // a cap this generous.
+        result.Items.Should().NotBeEmpty();
+        result.Items.Should().OnlyContain(r => r.TotalMinutes != null && r.TotalMinutes <= 240);
+    }
+
+    [Fact]
     public async Task Paging_is_stable_and_reports_the_total()
     {
         var first = await Query().SearchAsync(new RecipeSearchQuery { Portions = 2, Take = 1 });
