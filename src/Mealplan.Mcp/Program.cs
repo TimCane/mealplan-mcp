@@ -60,3 +60,6 @@ app.MapMcp("/mcp");
 app.MapHealthChecks("/health");
 
 await app.RunAsync();
+
+/// <summary>Named so WebApplicationFactory can host the server in tests.</summary>
+public partial class Program;

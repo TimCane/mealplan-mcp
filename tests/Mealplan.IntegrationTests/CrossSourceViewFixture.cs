@@ -37,6 +37,9 @@ public class CrossSourceViewFixture : IAsyncLifetime
     public IReadOnlyList<ISourceSchema> Schemas { get; } =
         [new GoustoSchema(), new HelloFreshSchema()];
 
+    /// <summary>For tests that host an app of their own against this database.</summary>
+    public string ConnectionString => _container.GetConnectionString();
+
     public async Task InitializeAsync()
     {
         await _container.StartAsync();
