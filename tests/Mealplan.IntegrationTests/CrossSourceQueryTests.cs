@@ -23,7 +23,8 @@ public class CrossSourceQueryTests(CrossSourceViewFixture fixture)
 
         result.Items.Should().OnlyContain(r => r.Name != string.Empty);
         result.Items.Should().OnlyContain(r => r.Portions == 2);
-        result.Items.Should().OnlyContain(r => r.Cuisines != null && r.Allergens != null);
+        result.Items.Should().OnlyContain(r =>
+            r.Cuisines != null && r.Allergens != null && r.TraceAllergens != null);
     }
 
     [Fact]
@@ -68,6 +69,40 @@ public class CrossSourceQueryTests(CrossSourceViewFixture fixture)
 
         filtered.Items.Should().NotContain(r => r.Allergens.Contains("gluten"));
         filtered.Items.Should().HaveCountLessThan(all.Items.Count);
+    }
+
+    [Fact]
+    public async Task Excluding_an_allergen_matches_traces_by_default()
+    {
+        // Both HelloFresh fixtures carry mustard only as may-contain-traces;
+        // the Gousto steak sandwich contains it outright.
+        var strict = await Query().SearchAsync(new RecipeSearchQuery
+        {
+            Portions = 2,
+            ExcludeAllergens = ["mustard"],
+        });
+
+        strict.Items.Should().NotBeEmpty("the filter must not empty the catalogue");
+        strict.Items.Should().NotContain(r => r.Source == "hellofresh",
+            "a traces-only carrier is excluded under the safe default");
+        strict.Items.Should().NotContain(r =>
+            r.Allergens.Contains("mustard") || r.TraceAllergens.Contains("mustard"));
+    }
+
+    [Fact]
+    public async Task Relaxing_excludeTraces_narrows_the_filter_to_confirmed_contains()
+    {
+        var relaxed = await Query().SearchAsync(new RecipeSearchQuery
+        {
+            Portions = 2,
+            ExcludeAllergens = ["mustard"],
+            ExcludeTraces = false,
+        });
+
+        relaxed.Items.Should().Contain(r => r.TraceAllergens.Contains("mustard"),
+            "traces-only carriers return when the caller relaxes the default");
+        relaxed.Items.Should().NotContain(r => r.Allergens.Contains("mustard"),
+            "confirmed carriers stay excluded either way");
     }
 
     [Fact]
@@ -155,6 +190,35 @@ public class CrossSourceQueryTests(CrossSourceViewFixture fixture)
     }
 
     [Fact]
+    public async Task HelloFresh_lists_utensils_and_gousto_reports_them_unpublished()
+    {
+        var hellofresh = await FirstDetail("hellofresh");
+        var gousto = await FirstDetail("gousto");
+
+        hellofresh.Utensils.Should().NotBeEmpty();
+        hellofresh.Notes.HasUtensils.Should().BeTrue();
+
+        gousto.Utensils.Should().BeEmpty();
+        gousto.Notes.HasUtensils.Should().BeFalse(
+            "an empty list from a source that publishes none must be attributable");
+    }
+
+    [Fact]
+    public async Task Gousto_notes_state_that_traces_are_unpublished()
+    {
+        var gousto = await FirstDetail("gousto");
+
+        gousto.Notes.HasTraceAllergens.Should().BeFalse();
+        gousto.Notes.Caveat.Should().Contain("may-contain-traces",
+            "an empty traces list must read as unknown, not none");
+
+        var hellofresh = await FirstDetail("hellofresh");
+
+        hellofresh.Notes.HasTraceAllergens.Should().BeTrue();
+        hellofresh.Notes.Caveat.Should().BeNull();
+    }
+
+    [Fact]
     public async Task Detail_includes_ordered_steps()
     {
         (await FirstDetail("gousto")).Steps.Should().NotBeEmpty();
@@ -191,9 +255,17 @@ public class CrossSourceQueryTests(CrossSourceViewFixture fixture)
         sources.Select(s => s.Source).Should().Equal("gousto", "hellofresh");
         sources.Should().OnlyContain(s => s.RecipeCount > 0);
 
-        sources.Single(s => s.Source == "gousto").HasIngredientQuantities.Should().BeFalse();
-        sources.Single(s => s.Source == "gousto").HasPantryItems.Should().BeTrue();
-        sources.Single(s => s.Source == "hellofresh").HasIngredientQuantities.Should().BeTrue();
+        var gousto = sources.Single(s => s.Source == "gousto");
+        var hellofresh = sources.Single(s => s.Source == "hellofresh");
+
+        gousto.HasIngredientQuantities.Should().BeFalse();
+        gousto.HasPantryItems.Should().BeTrue();
+        gousto.HasTraceAllergens.Should().BeFalse();
+        gousto.HasUtensils.Should().BeFalse();
+
+        hellofresh.HasIngredientQuantities.Should().BeTrue();
+        hellofresh.HasTraceAllergens.Should().BeTrue();
+        hellofresh.HasUtensils.Should().BeTrue();
     }
 
     [Fact]

@@ -81,6 +81,31 @@ public class ViewProjectionTests(CrossSourceViewFixture fixture)
     }
 
     [Fact]
+    public async Task HelloFresh_traces_split_out_of_contains_under_canonical_slugs()
+    {
+        var recipe = await Find("hellofresh", "rigatoni");
+
+        recipe.Allergens.Should().BeEquivalentTo(
+            ["cereals-containing-gluten", "crustaceans", "egg", "milk", "soya", "wheat"],
+            "contains must no longer carry the traces entries");
+
+        // Published as traces-of-soya etc; the view strips the prefix so an
+        // exclusion on "soya" matches contains and traces alike.
+        recipe.TraceAllergens.Should().BeEquivalentTo(
+            ["may-contain-traces-of-allergens", "mustard", "soya"]);
+    }
+
+    [Fact]
+    public async Task Gousto_trace_allergens_are_empty_meaning_unknown_not_none()
+    {
+        var recipe = await Find("gousto", "steak");
+
+        recipe.Allergens.Should().NotBeEmpty();
+        recipe.TraceAllergens.Should().BeEmpty(
+            "gousto publishes no traces data and must not pretend otherwise");
+    }
+
+    [Fact]
     public async Task Free_text_finds_recipes_by_ingredient_words()
     {
         // Neither word appears in any name, headline or description - only in
@@ -109,6 +134,7 @@ public class ViewProjectionTests(CrossSourceViewFixture fixture)
         detail.Nutrition.Should().Be(summary.Nutrition);
         detail.RatingAverage.Should().Be(summary.RatingAverage);
         detail.RatingCount.Should().Be(summary.RatingCount);
+        detail.TraceAllergens.Should().Equal(summary.TraceAllergens);
     }
 
     private async Task<RecipeSummary> Find(string source, string query)
