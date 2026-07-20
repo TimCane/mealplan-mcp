@@ -1,10 +1,13 @@
+using System.Threading.RateLimiting;
 using Mealplan.Infrastructure;
 using Mealplan.Infrastructure.Audit;
 using Mealplan.Infrastructure.Persistence;
+using Mealplan.Mcp;
 using Mealplan.Mcp.Audit;
 using Mealplan.Mcp.Prompts;
 using Mealplan.Mcp.Tools;
 using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,8 +17,8 @@ builder.Services.AddHealthChecks();
 builder.Services.AddScoped<PromptCompletions>();
 builder.Services.AddSingleton<McpCallAuditor>();
 
-// The audit's address hash reads the connection's remote address, which
-// forwarding must first correct.
+// The audit's address hash and the rate limiter's partitions both read the
+// connection's remote address, which forwarding must first correct.
 builder.Services.AddHttpContextAccessor();
 
 // The proxy terminates TLS and forwards plain HTTP, so without these the app
@@ -23,7 +26,7 @@ builder.Services.AddHttpContextAccessor();
 // builds points somewhere unreachable. OAuth metadata is the case that breaks
 // outright: a resource URI advertised as http:// is rejected by MCP clients.
 // XForwardedFor makes RemoteIpAddress the real client rather than the proxy -
-// without it every caller would hash to the proxy's address.
+// without it every caller would share one rate limit partition and one hash.
 // The allowlist is cleared because the proxy's address on the Docker network is
 // not stable, and nothing else can reach this container to spoof the headers.
 builder.Services.Configure<ForwardedHeadersOptions>(options =>
@@ -32,6 +35,30 @@ builder.Services.Configure<ForwardedHeadersOptions>(options =>
         | ForwardedHeaders.XForwardedProto | ForwardedHeaders.XForwardedHost;
     options.KnownIPNetworks.Clear();
     options.KnownProxies.Clear();
+});
+
+builder.Services
+    .AddOptions<RateLimitOptions>()
+    .Bind(builder.Configuration.GetSection(RateLimitOptions.SectionName))
+    .ValidateDataAnnotations()
+    .ValidateOnStart();
+
+// The server is public and unauthenticated, and every search reaches
+// Postgres. A generous fixed window per client address means no real agent
+// ever sees a 429 while a misbehaving loop cannot hammer the database.
+builder.Services.AddRateLimiter(limiter =>
+{
+    limiter.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
+
+    limiter.GlobalLimiter = PartitionedRateLimiter.Create<HttpContext, string>(http =>
+        RateLimitPartition.GetFixedWindowLimiter(
+            http.Connection.RemoteIpAddress?.ToString() ?? "unknown",
+            _ => new FixedWindowRateLimiterOptions
+            {
+                PermitLimit = http.RequestServices
+                    .GetRequiredService<IOptions<RateLimitOptions>>().Value.PermitsPerMinute,
+                Window = TimeSpan.FromMinutes(1),
+            }));
 });
 
 builder.Services
@@ -89,8 +116,10 @@ builder.Services
 var app = builder.Build();
 
 // First in the pipeline: everything downstream reads the corrected scheme,
-// host and client address off the request.
+// host and client address off the request - the rate limiter partitions on
+// the address, so it must run after the correction.
 app.UseForwardedHeaders();
+app.UseRateLimiter();
 
 // The scraper owns the migrations. This host only reads, but it does own the
 // cross-source views, which are derived from the registered sources rather than
