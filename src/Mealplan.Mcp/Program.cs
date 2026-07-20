@@ -1,5 +1,6 @@
 using Mealplan.Infrastructure;
 using Mealplan.Infrastructure.Persistence;
+using Mealplan.Mcp.Prompts;
 using Mealplan.Mcp.Tools;
 using Microsoft.AspNetCore.HttpOverrides;
 
@@ -7,6 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddMealplanInfrastructure(builder.Configuration);
 builder.Services.AddHealthChecks();
+builder.Services.AddScoped<PromptCompletions>();
 
 // The proxy terminates TLS and forwards plain HTTP, so without these the app
 // takes every request for http:// on an internal host and any absolute URL it
@@ -51,7 +53,11 @@ builder.Services
             + "silently matches nothing.";
     })
     .WithHttpTransport()
-    .WithTools<RecipeTools>();
+    .WithTools<RecipeTools>()
+    .WithPrompts<PlanningPrompts>()
+    .WithCompleteHandler(async (context, ct) =>
+        await context.Services!.GetRequiredService<PromptCompletions>()
+            .CompleteAsync(context.Params, ct));
 
 var app = builder.Build();
 
