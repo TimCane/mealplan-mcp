@@ -3,8 +3,8 @@ using Mealplan.Infrastructure.Reading;
 
 namespace Mealplan.IntegrationTests;
 
+[Collection(CrossSourceCollection.Name)]
 public class CrossSourceQueryTests(CrossSourceViewFixture fixture)
-    : IClassFixture<CrossSourceViewFixture>
 {
     [Fact]
     public async Task Search_returns_recipes_from_both_sources()
@@ -204,6 +204,114 @@ public class CrossSourceQueryTests(CrossSourceViewFixture fixture)
         statuses.Select(s => s.Source).Should().Equal("gousto", "hellofresh");
         statuses.Should().OnlyContain(s => s.LastRunStatus == null,
             "no crawl has run in this fixture");
+    }
+
+    [Fact]
+    public async Task Nutrient_filters_bound_the_range_and_exclude_unpublished_values()
+    {
+        var result = await Query().SearchAsync(new RecipeSearchQuery
+        {
+            Portions = 2,
+            NutrientFilters = [new NutrientFilter(Nutrient.Protein, Min: 40)],
+        });
+
+        // The steak sandwich publishes 40.9g protein; the rigatoni's 38.6g
+        // falls under the bound.
+        result.Items.Should().NotBeEmpty();
+        result.Items.Should().OnlyContain(r =>
+            r.Nutrition.ProteinGrams != null && r.Nutrition.ProteinGrams >= 40);
+
+        var band = await Query().SearchAsync(new RecipeSearchQuery
+        {
+            Portions = 2,
+            NutrientFilters = [new NutrientFilter(Nutrient.Kcal, Min: 600, Max: 700)],
+        });
+
+        band.Items.Should().NotBeEmpty();
+        band.Items.Should().OnlyContain(r =>
+            r.Nutrition.Kcal != null && r.Nutrition.Kcal >= 600 && r.Nutrition.Kcal <= 700);
+    }
+
+    [Fact]
+    public async Task Min_rating_excludes_recipes_rated_below_it()
+    {
+        var result = await Query().SearchAsync(new RecipeSearchQuery
+        {
+            Portions = 2,
+            MinRating = 1,
+        });
+
+        // The campfire orzotto fixture carries a 0 rating and must drop out.
+        result.Items.Should().NotBeEmpty();
+        result.Items.Should().OnlyContain(r => r.RatingAverage != null && r.RatingAverage >= 1);
+    }
+
+    [Fact]
+    public async Task Rating_sort_puts_the_best_rated_first()
+    {
+        var result = await Query().SearchAsync(new RecipeSearchQuery
+        {
+            Portions = 2,
+            Sort = RecipeSort.Rating,
+        });
+
+        result.Items.Select(r => r.RatingAverage ?? -1).Should().BeInDescendingOrder();
+    }
+
+    [Fact]
+    public async Task Kcal_sort_puts_the_lightest_first()
+    {
+        var result = await Query().SearchAsync(new RecipeSearchQuery
+        {
+            Portions = 2,
+            Sort = RecipeSort.Kcal,
+        });
+
+        result.Items.Select(r => r.Nutrition.Kcal ?? double.MaxValue)
+            .Should().BeInAscendingOrder();
+    }
+
+    [Fact]
+    public async Task Seeded_random_sort_is_stable_within_a_seed_and_pages_without_tearing()
+    {
+        RecipeSearchQuery Seeded(int skip, int take) => new()
+        {
+            Portions = 2,
+            Sort = RecipeSort.Random,
+            Seed = 7,
+            Skip = skip,
+            Take = take,
+        };
+
+        var whole = (await Query().SearchAsync(Seeded(0, 100))).Items;
+        var again = (await Query().SearchAsync(Seeded(0, 100))).Items;
+
+        again.Select(r => r.RecipeId).Should().Equal(whole.Select(r => r.RecipeId),
+            "the same seed must draw the same shuffle");
+
+        var pageSize = 2;
+        var paged = new List<Guid>();
+
+        for (var skip = 0; skip < whole.Count; skip += pageSize)
+        {
+            paged.AddRange((await Query().SearchAsync(Seeded(skip, pageSize)))
+                .Items.Select(r => r.RecipeId));
+        }
+
+        paged.Should().Equal(whole.Select(r => r.RecipeId),
+            "pages read one at a time must compose to the whole shuffle");
+    }
+
+    [Fact]
+    public async Task Take_is_clamped_to_the_page_cap()
+    {
+        var result = await Query().SearchAsync(new RecipeSearchQuery
+        {
+            Portions = 2,
+            Take = 5000,
+        });
+
+        result.Take.Should().Be(100, "no caller may ask for the world in one page");
     }
 
     private async Task<RecipeDetail> FirstDetail(string source)
