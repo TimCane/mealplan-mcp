@@ -29,7 +29,7 @@ builder.Services
         options.ServerInfo = new()
         {
             Name = "mealplan",
-            Version = "0.2.0",
+            Version = "0.3.0",
         };
 
         // Delivered at initialize, before any tool call - the one channel
@@ -50,7 +50,13 @@ builder.Services
             + "source: resolve allergens with list_allergens, cuisines and "
             + "tags with list_cuisines and list_tags, and ingredient names "
             + "with search_ingredients before filtering - a guessed slug "
-            + "silently matches nothing.";
+            + "silently matches nothing. Dislikes go through "
+            + "excludeIngredients, where any match excludes. For shopping, "
+            + "get_shopping_list returns one row per ingredient per recipe "
+            + "with pantry staples flagged as not in the box; it never merges "
+            + "rows across recipes or sources - combine duplicates yourself. "
+            + "The plan_week, find_recipe and whats_available prompts encode "
+            + "these flows end to end.";
     })
     .WithHttpTransport()
     .WithTools<RecipeTools>()

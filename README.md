@@ -102,14 +102,21 @@ browsing the repo.
 
 | Tool | Returns |
 |---|---|
-| `search_recipes` | A page of summaries with the per-portion nutrition panel, rating and allergens split into contains and may-contain-traces. Filters: free text (name, description, ingredients), sources, portions, cuisines, tags, allergens (traces excluded too unless `excludeTraces` is false), ingredients, prep time, nutrient ranges, minimum rating. Sorts by name, rating, kcal, or seeded random. |
+| `search_recipes` | A page of summaries with the per-portion nutrition panel, rating and allergens split into contains and may-contain-traces. Filters: free text (name, description, ingredients), sources, portions, cuisines, tags, allergens (traces excluded too unless `excludeTraces` is false), must-contain and disliked ingredients, prep and total time, nutrient ranges, minimum rating. Sorts by name, rating, kcal, or seeded random. |
 | `get_recipe` | Full detail at one portion count: ingredients, steps, utensils, nutrition, serving size, offered portion counts, website URL. A wrong portion count fails naming the counts that work. |
 | `list_allergens` | Allergen slugs and display names per source with contains and traces counts. The authoritative input for `excludeAllergens`; `traceCount` is 0 where `hasTraceAllergens` is false - unknown, not none. |
 | `list_cuisines` | Cuisine slugs, names and recipe counts per source. |
 | `list_tags` | Tag slugs, names and recipe counts per source. Tokens differ per source; feed them to the `tags` filter. |
 | `search_ingredients` | Text-filtered ingredient catalogue: what each source calls things, with family where published. Resolves names for `includeIngredients`. |
+| `get_shopping_list` | Flat ingredient rows for up to 14 chosen recipes at chosen portion counts, tagged by recipe. Pantry rows are staples the box will not contain. Nothing is merged across recipes or sources - the caller combines duplicates. |
 | `list_sources` | One row per source: recipe count and capability flags. |
 | `get_scrape_status` | Last crawl and pending-normalisation counts per source. |
+
+The server also ships three MCP prompts - `plan_week`, `find_recipe` and
+`whats_available` - that encode the safe flow through the tools: resolve
+allergen slugs before filtering, leave traces excluded, seed the random sort
+with the week number, finish with the shopping list. Their allergen, cuisine,
+source and dislike arguments autocomplete from the live vocabularies.
 
 Call `list_sources` first. It reports what each source can and cannot say - most
 importantly `hasIngredientQuantities`, which is false for Gousto, because Gousto
