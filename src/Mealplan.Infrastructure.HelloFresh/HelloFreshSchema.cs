@@ -22,12 +22,15 @@ public class HelloFreshSchema : ISourceSchema
     /// <summary>
     /// HelloFresh publishes measured ingredients per portion count, which Gousto
     /// does not. It does not separate store-cupboard items - everything listed
-    /// arrives in the box.
+    /// arrives in the box. It flags "may contain traces of" apart from
+    /// "contains" and lists the utensils a recipe needs.
     /// </summary>
     public SourceCapabilities Capabilities { get; } = new(
         HasIngredientQuantities: true,
         HasPantryItems: false,
         HasNutrition: true,
+        HasTraceAllergens: true,
+        HasUtensils: true,
         PortionSizes: [2, 3, 4]);
 
     /// <summary>
@@ -35,6 +38,9 @@ public class HelloFreshSchema : ISourceSchema
     /// level here, unlike Gousto where they vary by yield. Nutrition rows are
     /// pivoted by their published names - the strings are pinned to what the
     /// committed fixtures carry, and the projection tests break if they drift.
+    /// Traces arrive as separate allergen entries slugged "traces-of-x"; the
+    /// trace aggregate strips the prefix to the canonical slug so one exclusion
+    /// value matches both arrays.
     /// </summary>
     public string RecipeViewSql => """
         SELECT
@@ -62,6 +68,7 @@ public class HelloFreshSchema : ISourceSchema
             r.ratings_count       AS rating_count,
             COALESCE(cu.slugs, ARRAY[]::text[]) AS cuisines,
             COALESCE(al.slugs, ARRAY[]::text[]) AS allergens,
+            COALESCE(tr.slugs, ARRAY[]::text[]) AS trace_allergens,
             COALESCE(tg.names, ARRAY[]::text[]) AS tags,
             r.image_url           AS image_url,
             r.website_url         AS website_url,
@@ -99,8 +106,14 @@ public class HelloFreshSchema : ISourceSchema
             SELECT array_agg(a.slug::text ORDER BY a.slug) AS slugs
             FROM hellofresh.recipe_allergen ra
             JOIN hellofresh.allergen a ON a.id = ra.allergen_id
-            WHERE ra.recipe_id = r.id
+            WHERE ra.recipe_id = r.id AND NOT ra.traces_of
         ) al ON true
+        LEFT JOIN LATERAL (
+            SELECT array_agg(DISTINCT regexp_replace(a.slug::text, '^traces-of-', '')) AS slugs
+            FROM hellofresh.recipe_allergen ra
+            JOIN hellofresh.allergen a ON a.id = ra.allergen_id
+            WHERE ra.recipe_id = r.id AND ra.traces_of
+        ) tr ON true
         LEFT JOIN LATERAL (
             SELECT array_agg(t.name::text ORDER BY t.name) AS names
             FROM hellofresh.recipe_tag rt

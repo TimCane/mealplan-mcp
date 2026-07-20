@@ -14,9 +14,17 @@ namespace Mealplan.Domain.Sources;
 /// the ingredients it sends.
 /// </param>
 /// <param name="HasNutrition">True when per-portion nutrition is published.</param>
+/// <param name="HasTraceAllergens">
+/// True when the source distinguishes "may contain traces of" from "contains".
+/// False means an empty traces list is "unknown", not "none" - Gousto publishes
+/// no traces data at all.
+/// </param>
+/// <param name="HasUtensils">True when the source lists the utensils a recipe needs.</param>
 /// <param name="PortionSizes">Portion counts the source publishes recipes for.</param>
 public sealed record SourceCapabilities(
     bool HasIngredientQuantities,
     bool HasPantryItems,
     bool HasNutrition,
+    bool HasTraceAllergens,
+    bool HasUtensils,
     IReadOnlyList<int> PortionSizes);

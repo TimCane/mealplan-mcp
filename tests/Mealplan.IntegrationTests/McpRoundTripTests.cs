@@ -113,6 +113,9 @@ public sealed class McpRoundTripTests(CrossSourceViewFixture fixture) : IAsyncLi
 
         detail.GetProperty("offeredPortions").EnumerateArray().Should().NotBeEmpty();
         detail.GetProperty("websiteUrl").GetString().Should().StartWith("https://");
+        detail.GetProperty("traceAllergens").ValueKind.Should().Be(JsonValueKind.Array,
+            "the traces split must reach the wire, not just the read model");
+        detail.GetProperty("utensils").EnumerateArray().Should().NotBeEmpty();
 
         var wrongPortions = await _client.CallToolAsync(
             "get_recipe",

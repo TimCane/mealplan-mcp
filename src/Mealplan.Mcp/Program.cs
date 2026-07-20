@@ -40,7 +40,11 @@ builder.Services
             + "list_sources, and on a wrong portion count get_recipe fails "
             + "naming the counts that work. Search results are one page, not "
             + "the world - total reports the full match count, and nutrition "
-            + "on each summary is per portion.";
+            + "on each summary is per portion. Allergens split into confirmed "
+            + "contains and may-contain-traces; excludeAllergens matches both "
+            + "unless excludeTraces is set false. A source with "
+            + "hasTraceAllergens false publishes no traces data, so its empty "
+            + "traceAllergens means unknown, not none.";
     })
     .WithHttpTransport()
     .WithTools<RecipeTools>();

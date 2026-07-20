@@ -16,12 +16,16 @@ public class GoustoSchema : ISourceSchema
     /// <summary>
     /// Gousto ships boxes, not measured ingredients: there is no amount or unit
     /// anywhere in the payload, only SKU codes and how many go in the box. It
-    /// does separate store-cupboard basics from what it sends.
+    /// does separate store-cupboard basics from what it sends. It publishes no
+    /// may-contain-traces data and no utensils, so both read as unknown rather
+    /// than none.
     /// </summary>
     public SourceCapabilities Capabilities { get; } = new(
         HasIngredientQuantities: false,
         HasPantryItems: true,
         HasNutrition: true,
+        HasTraceAllergens: false,
+        HasUtensils: false,
         PortionSizes: [1, 2, 3, 4, 5]);
 
     /// <summary>
@@ -56,6 +60,7 @@ public class GoustoSchema : ISourceSchema
             r.rating_count                AS rating_count,
             CASE WHEN c.slug IS NULL THEN ARRAY[]::text[] ELSE ARRAY[c.slug::text] END AS cuisines,
             COALESCE(a.slugs, ARRAY[]::text[])  AS allergens,
+            ARRAY[]::text[]                     AS trace_allergens,
             COALESCE(g.titles, ARRAY[]::text[]) AS tags,
             r.image_url                   AS image_url,
             r.website_url                 AS website_url,
