@@ -11,7 +11,7 @@ public class CrossSourceQueryTests(CrossSourceViewFixture fixture)
     {
         var result = await Query().SearchAsync(new RecipeSearchQuery { Portions = 2 });
 
-        result.Recipes.Select(r => r.Source).Distinct()
+        result.Items.Select(r => r.Source).Distinct()
             .Should().BeEquivalentTo(["gousto", "hellofresh"],
                 "the union view is the only place the two sources meet");
     }
@@ -21,9 +21,9 @@ public class CrossSourceQueryTests(CrossSourceViewFixture fixture)
     {
         var result = await Query().SearchAsync(new RecipeSearchQuery { Portions = 2 });
 
-        result.Recipes.Should().OnlyContain(r => r.Name != string.Empty);
-        result.Recipes.Should().OnlyContain(r => r.Portions == 2);
-        result.Recipes.Should().OnlyContain(r => r.Cuisines != null && r.Allergens != null);
+        result.Items.Should().OnlyContain(r => r.Name != string.Empty);
+        result.Items.Should().OnlyContain(r => r.Portions == 2);
+        result.Items.Should().OnlyContain(r => r.Cuisines != null && r.Allergens != null);
     }
 
     [Fact]
@@ -35,8 +35,8 @@ public class CrossSourceQueryTests(CrossSourceViewFixture fixture)
             Portions = 2,
         });
 
-        result.Recipes.Should().NotBeEmpty();
-        result.Recipes.Should().Contain(r => r.Name.Contains("Steak", StringComparison.OrdinalIgnoreCase));
+        result.Items.Should().NotBeEmpty();
+        result.Items.Should().Contain(r => r.Name.Contains("Steak", StringComparison.OrdinalIgnoreCase));
     }
 
     [Fact]
@@ -49,14 +49,14 @@ public class CrossSourceQueryTests(CrossSourceViewFixture fixture)
             Portions = 2,
         });
 
-        result.Recipes.Should().NotBeEmpty("a near miss should still find the recipe");
+        result.Items.Should().NotBeEmpty("a near miss should still find the recipe");
     }
 
     [Fact]
     public async Task Excluding_an_allergen_removes_the_recipes_carrying_it()
     {
         var all = await Query().SearchAsync(new RecipeSearchQuery { Portions = 2 });
-        var withGluten = all.Recipes.Where(r => r.Allergens.Contains("gluten")).ToList();
+        var withGluten = all.Items.Where(r => r.Allergens.Contains("gluten")).ToList();
 
         withGluten.Should().NotBeEmpty("the fixtures must exercise this filter");
 
@@ -66,8 +66,8 @@ public class CrossSourceQueryTests(CrossSourceViewFixture fixture)
             ExcludeAllergens = ["gluten"],
         });
 
-        filtered.Recipes.Should().NotContain(r => r.Allergens.Contains("gluten"));
-        filtered.Recipes.Should().HaveCountLessThan(all.Recipes.Count);
+        filtered.Items.Should().NotContain(r => r.Allergens.Contains("gluten"));
+        filtered.Items.Should().HaveCountLessThan(all.Items.Count);
     }
 
     [Fact]
@@ -79,8 +79,8 @@ public class CrossSourceQueryTests(CrossSourceViewFixture fixture)
             Sources = ["gousto"],
         });
 
-        result.Recipes.Should().NotBeEmpty();
-        result.Recipes.Should().OnlyContain(r => r.Source == "gousto");
+        result.Items.Should().NotBeEmpty();
+        result.Items.Should().OnlyContain(r => r.Source == "gousto");
     }
 
     [Fact]
@@ -94,7 +94,7 @@ public class CrossSourceQueryTests(CrossSourceViewFixture fixture)
 
         // Gousto publishes prep times only for 2 and 4 portions, so its 3-portion
         // rows have none. Treating null as fast would put them on a weeknight plan.
-        result.Recipes.Should().OnlyContain(r => r.PrepMinutes != null);
+        result.Items.Should().OnlyContain(r => r.PrepMinutes != null);
     }
 
     [Fact]
@@ -106,9 +106,9 @@ public class CrossSourceQueryTests(CrossSourceViewFixture fixture)
             IncludeIngredients = ["garlic"],
         });
 
-        result.Recipes.Should().NotBeEmpty();
+        result.Items.Should().NotBeEmpty();
 
-        foreach (var recipe in result.Recipes)
+        foreach (var recipe in result.Items)
         {
             var detail = await Query().GetAsync(recipe.Source, recipe.RecipeId, 2);
 
@@ -124,10 +124,10 @@ public class CrossSourceQueryTests(CrossSourceViewFixture fixture)
         var second = await Query().SearchAsync(
             new RecipeSearchQuery { Portions = 2, Skip = 1, Take = 1 });
 
-        first.Recipes.Should().HaveCount(1);
+        first.Items.Should().HaveCount(1);
         first.Total.Should().BeGreaterThan(1);
-        second.Recipes.Should().HaveCount(1);
-        second.Recipes[0].RecipeId.Should().NotBe(first.Recipes[0].RecipeId);
+        second.Items.Should().HaveCount(1);
+        second.Items[0].RecipeId.Should().NotBe(first.Items[0].RecipeId);
     }
 
     [Fact]
@@ -170,13 +170,17 @@ public class CrossSourceQueryTests(CrossSourceViewFixture fixture)
     }
 
     [Fact]
-    public async Task Asking_for_a_portion_count_a_recipe_lacks_returns_null()
+    public async Task Asking_for_a_portion_count_a_recipe_lacks_names_the_counts_that_work()
     {
         var recipe = (await Query().SearchAsync(
-            new RecipeSearchQuery { Portions = 2, Sources = ["hellofresh"] })).Recipes[0];
+            new RecipeSearchQuery { Portions = 2, Sources = ["hellofresh"] })).Items[0];
 
-        // HelloFresh publishes 2, 3 and 4 portions, never 9.
-        (await Query().GetAsync(recipe.Source, recipe.RecipeId, 9)).Should().BeNull();
+        // HelloFresh publishes 2, 3 and 4 portions, never 9. Unlike an unknown
+        // id, this fails with the offered counts so the caller learns the fix.
+        var act = () => Query().GetAsync(recipe.Source, recipe.RecipeId, 9);
+
+        (await act.Should().ThrowAsync<PortionsNotOfferedException>())
+            .Which.OfferedPortions.Should().Equal(2, 3, 4);
     }
 
     [Fact]
@@ -205,7 +209,7 @@ public class CrossSourceQueryTests(CrossSourceViewFixture fixture)
     private async Task<RecipeDetail> FirstDetail(string source)
     {
         var summary = (await Query().SearchAsync(
-            new RecipeSearchQuery { Portions = 2, Sources = [source] })).Recipes[0];
+            new RecipeSearchQuery { Portions = 2, Sources = [source] })).Items[0];
 
         return (await Query().GetAsync(source, summary.RecipeId, 2))!;
     }
