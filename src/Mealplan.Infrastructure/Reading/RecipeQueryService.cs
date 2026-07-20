@@ -62,19 +62,22 @@ public class RecipeQueryService
             new("portions", query.Portions),
         };
 
+        string? trigramClause = null;
+        var textClause = string.Empty;
+
         if (!string.IsNullOrWhiteSpace(query.Query))
         {
-            // Full text first, then trigram word similarity. Plain % compares
-            // whole strings, so one misspelled word against a long recipe title
-            // never reaches the threshold; <% scores the query against the best
-            // matching run of words instead.
-            where.Append("""
-                 AND (
-                    to_tsvector('english', r.search_text)
-                        @@ websearch_to_tsquery('english', @q)
-                    OR @q <% r.search_text
-                 )
-                """);
+            // Full text against the stored tsvector - its GIN index answers in
+            // milliseconds. The trigram arm is not OR-ed in: <% cannot serve
+            // that form from an index, and evaluating it per row put every
+            // text search over the performance gate. It runs as a second pass
+            // instead, only when full text finds nothing.
+            textClause = " AND r.search_tsv @@ websearch_to_tsquery('english', @q)";
+
+            // Plain % compares whole strings, so one misspelled word against a
+            // long recipe title never reaches the threshold; <% scores the
+            // query against the best matching run of words instead.
+            trigramClause = " AND @q <% r.search_text";
 
             parameters.Add(new("q", query.Query));
         }
@@ -129,9 +132,20 @@ public class RecipeQueryService
         }
 
         var total = await ScalarAsync(
-            $"SELECT count(*) FROM public.v_recipe r WHERE {where}",
+            $"SELECT count(*) FROM public.v_recipe r WHERE {where}{textClause}",
             parameters,
             ct);
+
+        if (total == 0 && trigramClause is not null)
+        {
+            // The typo fallback: same filters, trigram text match.
+            textClause = trigramClause;
+
+            total = await ScalarAsync(
+                $"SELECT count(*) FROM public.v_recipe r WHERE {where}{textClause}",
+                parameters,
+                ct);
+        }
 
         var take = Math.Clamp(query.Take, 1, 100);
 
@@ -155,7 +169,7 @@ public class RecipeQueryService
                     r.rating_avg, r.rating_count,
                     r.cuisines, r.allergens, r.tags, r.image_url
              FROM public.v_recipe r
-             WHERE {where}
+             WHERE {where}{textClause}
              ORDER BY {OrderBy(query.Sort)}
              OFFSET @skip LIMIT @take
              """,

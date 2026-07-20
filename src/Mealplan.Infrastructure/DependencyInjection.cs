@@ -31,6 +31,7 @@ public static class DependencyInjection
         services.TryAddSingletonTimeProvider();
         services.AddScoped<IRawDocumentStore, RawDocumentStore>();
         services.AddScoped<IScrapeRunStore, ScrapeRunStore>();
+        services.AddScoped<IRecipeViewRefresher, RecipeViewRefresher>();
 
         var sources = services.AddSourcesFromAssemblies(configuration);
         services.AddSourceOptions(configuration, sources);

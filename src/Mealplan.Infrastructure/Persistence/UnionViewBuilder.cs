@@ -10,10 +10,22 @@ namespace Mealplan.Infrastructure.Persistence;
 /// source contributes.
 /// </summary>
 /// <remarks>
+/// <para>
 /// Rebuilt at startup rather than written into a migration, because a migration
 /// would have to be edited every time a source is added - the coupling the
 /// per-source schemas exist to avoid. There are no shared normalised tables;
 /// these views are read-only projections over each source's own tables.
+/// </para>
+/// <para>
+/// v_recipe is materialized: computing its lateral aggregates live put a
+/// representative search at seconds against ~75k rows, an order of magnitude
+/// over the performance gate, so the designed fallback applies - refreshed
+/// here at startup and by <see cref="RecipeViewRefresher"/> after each
+/// normalise run. The stored to_tsvector column plus its GIN index is what
+/// makes free text cheap; the trigram GiST index serves the typo fallback.
+/// v_recipe_ingredient stays a plain view - it has no laterals and reads
+/// straight off indexed tables.
+/// </para>
 /// </remarks>
 public class UnionViewBuilder(ILogger<UnionViewBuilder> logger)
 {
@@ -27,6 +39,10 @@ public class UnionViewBuilder(ILogger<UnionViewBuilder> logger)
 
         var db = scope.ServiceProvider.GetRequiredService<ScrapeDbContext>();
 
+        // Building the materialized view runs every source's laterals once
+        // over the full data set; give it room beyond the default 30s.
+        db.Database.SetCommandTimeout(TimeSpan.FromMinutes(5));
+
         if (schemas.Count == 0)
         {
             // Empty views keep the MCP server answering "no recipes" rather than
@@ -38,7 +54,7 @@ public class UnionViewBuilder(ILogger<UnionViewBuilder> logger)
 
         var sql = string.Join(
             "\n",
-            CreateView("v_recipe", schemas.Select(s => s.RecipeViewSql)),
+            RecipeView(string.Join("\nUNION ALL\n", schemas.Select(s => s.RecipeViewSql.Trim()))),
             CreateView("v_recipe_ingredient", schemas.Select(s => s.RecipeIngredientViewSql)));
 
         await db.Database.ExecuteSqlRawAsync(sql, ct);
@@ -47,6 +63,46 @@ public class UnionViewBuilder(ILogger<UnionViewBuilder> logger)
             "Cross-source views rebuilt over {Sources}",
             string.Join(", ", schemas.Select(s => s.Source)));
     }
+
+    private static string RecipeView(string union) =>
+        $"""
+        {DropRecipeView}
+        CREATE MATERIALIZED VIEW public.v_recipe AS
+        SELECT u.*, to_tsvector('english', u.search_text) AS search_tsv
+        FROM (
+        {union}
+        ) u;
+        {RecipeViewIndexes}
+        ANALYZE public.v_recipe;
+        """;
+
+    /// <summary>
+    /// The name may be held by the plain view of an older deployment or by the
+    /// current materialized one, and each kind refuses the other's DROP.
+    /// </summary>
+    private const string DropRecipeView = """
+        DO $$ BEGIN
+            IF EXISTS (SELECT FROM pg_views
+                       WHERE schemaname = 'public' AND viewname = 'v_recipe') THEN
+                DROP VIEW public.v_recipe;
+            END IF;
+        END $$;
+        DROP MATERIALIZED VIEW IF EXISTS public.v_recipe;
+        """;
+
+    /// <summary>
+    /// The unique key doubles as the get_recipe lookup path; portions serves
+    /// every search's base filter; the GIN and GiST pair back the two text
+    /// predicates. Statistics refresh alongside because the planner chose
+    /// catastrophic plans off stale ones.
+    /// </summary>
+    private const string RecipeViewIndexes = """
+        CREATE UNIQUE INDEX ux_v_recipe_identity ON public.v_recipe (source, recipe_id, portions);
+        CREATE INDEX ix_v_recipe_portions ON public.v_recipe (portions);
+        CREATE INDEX ix_v_recipe_search_tsv ON public.v_recipe USING gin (search_tsv);
+        CREATE INDEX ix_v_recipe_search_trgm ON public.v_recipe
+            USING gist (search_text gist_trgm_ops(siglen=256));
+        """;
 
     private static string CreateView(string name, IEnumerable<string> parts) =>
         $"""
@@ -60,7 +116,10 @@ public class UnionViewBuilder(ILogger<UnionViewBuilder> logger)
         var ingredient = Typed(RecipeViewColumns.RecipeIngredient);
 
         return $"""
-            CREATE OR REPLACE VIEW public.v_recipe AS SELECT {recipe} WHERE false;
+            {DropRecipeView}
+            CREATE MATERIALIZED VIEW public.v_recipe AS
+            SELECT {recipe}, NULL::tsvector AS search_tsv WHERE false;
+            {RecipeViewIndexes}
             CREATE OR REPLACE VIEW public.v_recipe_ingredient AS SELECT {ingredient} WHERE false;
             """;
     }
