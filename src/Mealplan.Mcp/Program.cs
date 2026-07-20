@@ -1,5 +1,7 @@
 using Mealplan.Infrastructure;
+using Mealplan.Infrastructure.Audit;
 using Mealplan.Infrastructure.Persistence;
+using Mealplan.Mcp.Audit;
 using Mealplan.Mcp.Prompts;
 using Mealplan.Mcp.Tools;
 using Microsoft.AspNetCore.HttpOverrides;
@@ -7,18 +9,27 @@ using Microsoft.AspNetCore.HttpOverrides;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddMealplanInfrastructure(builder.Configuration);
+builder.Services.AddMealplanAudit(builder.Configuration);
 builder.Services.AddHealthChecks();
 builder.Services.AddScoped<PromptCompletions>();
+builder.Services.AddSingleton<McpCallAuditor>();
+
+// The audit's address hash reads the connection's remote address, which
+// forwarding must first correct.
+builder.Services.AddHttpContextAccessor();
 
 // The proxy terminates TLS and forwards plain HTTP, so without these the app
 // takes every request for http:// on an internal host and any absolute URL it
 // builds points somewhere unreachable. OAuth metadata is the case that breaks
 // outright: a resource URI advertised as http:// is rejected by MCP clients.
+// XForwardedFor makes RemoteIpAddress the real client rather than the proxy -
+// without it every caller would hash to the proxy's address.
 // The allowlist is cleared because the proxy's address on the Docker network is
 // not stable, and nothing else can reach this container to spoof the headers.
 builder.Services.Configure<ForwardedHeadersOptions>(options =>
 {
-    options.ForwardedHeaders = ForwardedHeaders.XForwardedProto | ForwardedHeaders.XForwardedHost;
+    options.ForwardedHeaders = ForwardedHeaders.XForwardedFor
+        | ForwardedHeaders.XForwardedProto | ForwardedHeaders.XForwardedHost;
     options.KnownIPNetworks.Clear();
     options.KnownProxies.Clear();
 });
@@ -63,18 +74,30 @@ builder.Services
     .WithPrompts<PlanningPrompts>()
     .WithCompleteHandler(async (context, ct) =>
         await context.Services!.GetRequiredService<PromptCompletions>()
-            .CompleteAsync(context.Params, ct));
+            .CompleteAsync(context.Params, ct))
+
+    // The usage audit captures once here rather than per tool. Completions
+    // stay unlogged: per-keystroke volume, partial typing, no insight.
+    .WithRequestFilters(filters => filters
+        .AddCallToolFilter(next => (context, ct) =>
+            context.Services!.GetRequiredService<McpCallAuditor>()
+                .CallToolAsync(next, context, ct))
+        .AddGetPromptFilter(next => (context, ct) =>
+            context.Services!.GetRequiredService<McpCallAuditor>()
+                .GetPromptAsync(next, context, ct)));
 
 var app = builder.Build();
 
-// First in the pipeline: everything downstream reads the corrected scheme and
-// host off the request.
+// First in the pipeline: everything downstream reads the corrected scheme,
+// host and client address off the request.
 app.UseForwardedHeaders();
 
 // The scraper owns the migrations. This host only reads, but it does own the
 // cross-source views, which are derived from the registered sources rather than
-// migrated - see UnionViewBuilder.
+// migrated - see UnionViewBuilder - and the audit tables, which no other host
+// touches.
 await app.Services.GetRequiredService<UnionViewBuilder>().BuildAsync(app.Services);
+await AuditSchema.EnsureAsync(app.Services);
 
 app.MapMcp("/mcp");
 app.MapHealthChecks("/health");

@@ -1,4 +1,5 @@
 using Mealplan.Domain.Scraping;
+using Mealplan.Infrastructure.Audit;
 using Mealplan.Infrastructure.Jobs;
 using Mealplan.Infrastructure.Persistence;
 using Mealplan.Infrastructure.Reading;
@@ -50,6 +51,29 @@ public static class DependencyInjection
             .ToList();
 
         services.AddSingleton(new DatabaseMigrator(contextTypes));
+
+        return services;
+    }
+
+    /// <summary>
+    /// Registers the usage audit: queue, background writer, address hashing
+    /// and the retention sweep. Only the MCP host calls this - the scraper
+    /// has no public surface to audit.
+    /// </summary>
+    public static IServiceCollection AddMealplanAudit(
+        this IServiceCollection services,
+        IConfiguration configuration)
+    {
+        services
+            .AddOptions<AuditOptions>()
+            .Bind(configuration.GetSection(AuditOptions.SectionName))
+            .ValidateDataAnnotations()
+            .ValidateOnStart();
+
+        services.AddSingleton<AuditQueue>();
+        services.AddSingleton<AuditIpHasher>();
+        services.AddHostedService<AuditWriter>();
+        services.AddHostedService<AuditRetentionService>();
 
         return services;
     }
