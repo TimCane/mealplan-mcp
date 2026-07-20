@@ -24,7 +24,9 @@ namespace Mealplan.Infrastructure.Persistence;
 /// normalise run. The stored to_tsvector column plus its GIN index is what
 /// makes free text cheap; the trigram GiST index serves the typo fallback.
 /// v_recipe_ingredient stays a plain view - it has no laterals and reads
-/// straight off indexed tables.
+/// straight off indexed tables. The vocabulary views (v_allergen, v_cuisine,
+/// v_tag, v_ingredient) stay plain too: they aggregate over vocabulary tables
+/// of at most a few thousand rows.
 /// </para>
 /// </remarks>
 public class UnionViewBuilder(ILogger<UnionViewBuilder> logger)
@@ -55,7 +57,11 @@ public class UnionViewBuilder(ILogger<UnionViewBuilder> logger)
         var sql = string.Join(
             "\n",
             RecipeView(string.Join("\nUNION ALL\n", schemas.Select(s => s.RecipeViewSql.Trim()))),
-            CreateView("v_recipe_ingredient", schemas.Select(s => s.RecipeIngredientViewSql)));
+            CreateView("v_recipe_ingredient", schemas.Select(s => s.RecipeIngredientViewSql)),
+            CreateView("v_allergen", schemas.Select(s => s.AllergenViewSql)),
+            CreateView("v_cuisine", schemas.Select(s => s.CuisineViewSql)),
+            CreateView("v_tag", schemas.Select(s => s.TagViewSql)),
+            CreateView("v_ingredient", schemas.Select(s => s.IngredientViewSql)));
 
         await db.Database.ExecuteSqlRawAsync(sql, ct);
 
@@ -113,14 +119,25 @@ public class UnionViewBuilder(ILogger<UnionViewBuilder> logger)
     private static string EmptyViews()
     {
         var recipe = Typed(RecipeViewColumns.Recipe);
-        var ingredient = Typed(RecipeViewColumns.RecipeIngredient);
+
+        var plain = new (string Name, IReadOnlyList<string> Columns)[]
+        {
+            ("v_recipe_ingredient", RecipeViewColumns.RecipeIngredient),
+            ("v_allergen", RecipeViewColumns.Allergen),
+            ("v_cuisine", RecipeViewColumns.Cuisine),
+            ("v_tag", RecipeViewColumns.Tag),
+            ("v_ingredient", RecipeViewColumns.Ingredient),
+        };
 
         return $"""
             {DropRecipeView}
             CREATE MATERIALIZED VIEW public.v_recipe AS
             SELECT {recipe}, NULL::tsvector AS search_tsv WHERE false;
             {RecipeViewIndexes}
-            CREATE OR REPLACE VIEW public.v_recipe_ingredient AS SELECT {ingredient} WHERE false;
+            {string.Join(
+                "\n",
+                plain.Select(view =>
+                    $"CREATE OR REPLACE VIEW public.{view.Name} AS SELECT {Typed(view.Columns)} WHERE false;"))}
             """;
     }
 
@@ -133,7 +150,7 @@ public class UnionViewBuilder(ILogger<UnionViewBuilder> logger)
         string.Join(", ", columns.Select(column => column switch
         {
             "portions" or "prep_minutes" or "total_minutes" or "difficulty"
-                or "rating_count" =>
+                or "rating_count" or "recipe_count" or "trace_count" =>
                 $"NULL::integer AS {column}",
             "kcal" or "amount" or "energy_kj" or "fat_g" or "saturates_g"
                 or "carbs_g" or "sugars_g" or "fibre_g" or "protein_g"
