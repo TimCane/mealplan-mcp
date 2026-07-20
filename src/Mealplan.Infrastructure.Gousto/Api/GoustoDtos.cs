@@ -50,7 +50,15 @@ public sealed record GoustoRecipe(
     [property: JsonPropertyName("prep_times")] GoustoPrepTimes? PrepTimes,
     [property: JsonPropertyName("cooking_instructions")] IReadOnlyList<GoustoInstruction>? CookingInstructions,
     [property: JsonPropertyName("nutritional_information")] GoustoNutritionalInformation? Nutrition,
-    [property: JsonPropertyName("media")] GoustoMedia? Media);
+    [property: JsonPropertyName("media")] GoustoMedia? Media,
+    [property: JsonPropertyName("seo")] GoustoSeo? Seo);
+
+/// <summary>
+/// The canonical URL lives here rather than in <c>url</c>, which is only the
+/// slug path without its category segment.
+/// </summary>
+public sealed record GoustoSeo(
+    [property: JsonPropertyName("canonical")] string? Canonical);
 
 public sealed record GoustoRating(
     [property: JsonPropertyName("average")] double? Average,

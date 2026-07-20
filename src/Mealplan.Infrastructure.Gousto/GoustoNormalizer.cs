@@ -41,6 +41,7 @@ public partial class GoustoNormalizer(GoustoDbContext db, TimeProvider clock) : 
         recipe.RatingAverage = source.Rating?.Average;
         recipe.RatingCount = source.Rating?.Count;
         recipe.ImageUrl = LargestImage(source.Media);
+        recipe.WebsiteUrl = source.Seo?.Canonical;
         recipe.UpdatedAt = clock.GetUtcNow();
         recipe.CuisineId = await CuisineIdAsync(source.Cuisine, ct);
 

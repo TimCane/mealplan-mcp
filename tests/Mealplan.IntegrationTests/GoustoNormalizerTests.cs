@@ -36,6 +36,9 @@ public class GoustoNormalizerTests(GoustoFixture postgres)
         recipe.RatingAverage.Should().Be(5);
         recipe.RatingCount.Should().Be(14489);
         recipe.ImageUrl.Should().StartWith("https://");
+        recipe.WebsiteUrl.Should().Be(
+            "https://www.gousto.co.uk/cookbook/beef-recipes/open-steak-sandwich-balsamic-onions-chips",
+            "the canonical carries a category segment the slug alone could not rebuild");
     }
 
     [Fact]

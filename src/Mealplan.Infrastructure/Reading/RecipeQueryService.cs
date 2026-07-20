@@ -33,7 +33,26 @@ public class RecipeQueryService
             ? schema
             : throw new KeyNotFoundException($"No schema registered for source '{source}'.");
 
-    public async Task<SearchResult> SearchAsync(
+    /// <summary>
+    /// Columns a nutrient filter may touch. The enum never reaches the SQL
+    /// string: the column comes from this map and the bounds travel as
+    /// parameters.
+    /// </summary>
+    internal static readonly IReadOnlyDictionary<Nutrient, string> NutrientColumns =
+        new Dictionary<Nutrient, string>
+        {
+            [Nutrient.Kcal] = "kcal",
+            [Nutrient.Kj] = "energy_kj",
+            [Nutrient.Fat] = "fat_g",
+            [Nutrient.Saturates] = "saturates_g",
+            [Nutrient.Carbs] = "carbs_g",
+            [Nutrient.Sugars] = "sugars_g",
+            [Nutrient.Fibre] = "fibre_g",
+            [Nutrient.Protein] = "protein_g",
+            [Nutrient.Salt] = "salt_g",
+        };
+
+    public async Task<Page<RecipeSummary>> SearchAsync(
         RecipeSearchQuery query,
         CancellationToken ct = default)
     {
@@ -43,19 +62,22 @@ public class RecipeQueryService
             new("portions", query.Portions),
         };
 
+        string? trigramClause = null;
+        var textClause = string.Empty;
+
         if (!string.IsNullOrWhiteSpace(query.Query))
         {
-            // Full text first, then trigram word similarity. Plain % compares
-            // whole strings, so one misspelled word against a long recipe title
-            // never reaches the threshold; <% scores the query against the best
-            // matching run of words instead.
-            where.Append("""
-                 AND (
-                    to_tsvector('english', r.search_text)
-                        @@ websearch_to_tsquery('english', @q)
-                    OR @q <% r.search_text
-                 )
-                """);
+            // Full text against the stored tsvector - its GIN index answers in
+            // milliseconds. The trigram arm is not OR-ed in: <% cannot serve
+            // that form from an index, and evaluating it per row put every
+            // text search over the performance gate. It runs as a second pass
+            // instead, only when full text finds nothing.
+            textClause = " AND r.search_tsv @@ websearch_to_tsquery('english', @q)";
+
+            // Plain % compares whole strings, so one misspelled word against a
+            // long recipe title never reaches the threshold; <% scores the
+            // query against the best matching run of words instead.
+            trigramClause = " AND @q <% r.search_text";
 
             parameters.Add(new("q", query.Query));
         }
@@ -78,10 +100,14 @@ public class RecipeQueryService
             parameters.Add(new("max_prep", maxPrep));
         }
 
-        if (query.MaxKcal is { } maxKcal)
+        AppendNutrientFilters(where, parameters, query.NutrientFilters);
+
+        if (query.MinRating is { } minRating)
         {
-            where.Append(" AND r.kcal IS NOT NULL AND r.kcal <= @max_kcal");
-            parameters.Add(new("max_kcal", maxKcal));
+            // An unrated recipe is excluded rather than assumed fine - the
+            // same null-excludes rule as every other filter.
+            where.Append(" AND r.rating_avg IS NOT NULL AND r.rating_avg >= @min_rating");
+            parameters.Add(new("min_rating", minRating));
         }
 
         if (query.IncludeIngredients is { Count: > 0 } ingredients)
@@ -106,20 +132,45 @@ public class RecipeQueryService
         }
 
         var total = await ScalarAsync(
-            $"SELECT count(*) FROM public.v_recipe r WHERE {where}",
+            $"SELECT count(*) FROM public.v_recipe r WHERE {where}{textClause}",
             parameters,
             ct);
 
+        if (total == 0 && trigramClause is not null)
+        {
+            // The typo fallback: same filters, trigram text match.
+            textClause = trigramClause;
+
+            total = await ScalarAsync(
+                $"SELECT count(*) FROM public.v_recipe r WHERE {where}{textClause}",
+                parameters,
+                ct);
+        }
+
         var take = Math.Clamp(query.Take, 1, 100);
+
+        if (query.Sort == RecipeSort.Random && query.Seed is { } seed)
+        {
+            // setseed pins the sequence random() draws from, so the shuffle is
+            // stable within a seed - paging does not tear - and a new seed
+            // reshuffles. Unseeded random stays a fresh draw per call.
+            await ExecuteAsync(
+                "SELECT setseed(@seed)",
+                [new NpgsqlParameter("seed", NormalizeSeed(seed))],
+                ct);
+        }
 
         var rows = await ReadAsync(
             $"""
              SELECT r.source, r.recipe_id, r.external_key, r.name, r.headline,
                     r.portions, r.prep_minutes, r.total_minutes, r.difficulty,
-                    r.kcal, r.cuisines, r.allergens, r.tags, r.image_url
+                    r.kcal, r.energy_kj, r.fat_g, r.saturates_g, r.carbs_g,
+                    r.sugars_g, r.fibre_g, r.protein_g, r.salt_g,
+                    r.rating_avg, r.rating_count,
+                    r.cuisines, r.allergens, r.tags, r.image_url
              FROM public.v_recipe r
-             WHERE {where}
-             ORDER BY r.name, r.source
+             WHERE {where}{textClause}
+             ORDER BY {OrderBy(query.Sort)}
              OFFSET @skip LIMIT @take
              """,
             [.. parameters, new NpgsqlParameter("skip", Math.Max(query.Skip, 0)),
@@ -134,15 +185,64 @@ public class RecipeQueryService
                 Nullable(reader, 6, r => r.GetInt32(6)),
                 Nullable(reader, 7, r => r.GetInt32(7)),
                 Nullable(reader, 8, r => r.GetInt32(8)),
-                Nullable(reader, 9, r => r.GetDouble(9)),
-                reader.GetFieldValue<string[]>(10),
-                reader.GetFieldValue<string[]>(11),
-                reader.GetFieldValue<string[]>(12),
-                Nullable(reader, 13, r => r.GetString(13))),
+                ReadNutrition(reader, 9),
+                Nullable(reader, 18, r => r.GetDouble(18)),
+                Nullable(reader, 19, r => r.GetInt32(19)),
+                reader.GetFieldValue<string[]>(20),
+                reader.GetFieldValue<string[]>(21),
+                reader.GetFieldValue<string[]>(22),
+                Nullable(reader, 23, r => r.GetString(23))),
             ct);
 
-        return new SearchResult(rows, (int)total, query.Skip, take);
+        return new Page<RecipeSummary>(rows, (int)total, query.Skip, take);
     }
+
+    /// <summary>
+    /// A filter on a nutrient excludes recipes with no published value for it,
+    /// even when only one bound is set - the null-excludes rule.
+    /// </summary>
+    internal static void AppendNutrientFilters(
+        StringBuilder where,
+        List<NpgsqlParameter> parameters,
+        IReadOnlyList<NutrientFilter>? filters)
+    {
+        if (filters is not { Count: > 0 })
+        {
+            return;
+        }
+
+        foreach (var (filter, index) in filters.Select((f, i) => (f, i)))
+        {
+            var column = NutrientColumns[filter.Nutrient];
+
+            where.Append($" AND r.{column} IS NOT NULL");
+
+            if (filter.Min is { } min)
+            {
+                where.Append($" AND r.{column} >= @nutrient_min_{index}");
+                parameters.Add(new($"nutrient_min_{index}", min));
+            }
+
+            if (filter.Max is { } max)
+            {
+                where.Append($" AND r.{column} <= @nutrient_max_{index}");
+                parameters.Add(new($"nutrient_max_{index}", max));
+            }
+        }
+    }
+
+    internal static string OrderBy(RecipeSort sort) => sort switch
+    {
+        RecipeSort.Rating =>
+            "r.rating_avg DESC NULLS LAST, r.rating_count DESC NULLS LAST, r.name, r.source",
+        RecipeSort.Kcal => "r.kcal ASC NULLS LAST, r.name, r.source",
+        RecipeSort.Random => "random()",
+        _ => "r.name, r.source",
+    };
+
+    /// <summary>setseed takes a double in [-1, 1); any integer seed folds in.</summary>
+    internal static double NormalizeSeed(int seed) =>
+        (seed % 1_000_000) / 1_000_000d;
 
     public async Task<RecipeDetail?> GetAsync(
         string source,
@@ -161,7 +261,10 @@ public class RecipeQueryService
             """
             SELECT r.source, r.recipe_id, r.external_key, r.name, r.headline,
                    r.description, r.portions, r.prep_minutes, r.total_minutes,
-                   r.difficulty, r.kcal, r.cuisines, r.allergens, r.tags, r.image_url
+                   r.difficulty, r.kcal, r.energy_kj, r.fat_g, r.saturates_g,
+                   r.carbs_g, r.sugars_g, r.fibre_g, r.protein_g, r.salt_g,
+                   r.serving_size_g, r.rating_avg, r.rating_count,
+                   r.cuisines, r.allergens, r.tags, r.image_url, r.website_url
             FROM public.v_recipe r
             WHERE r.source = @source AND r.recipe_id = @recipe_id AND r.portions = @portions
             """,
@@ -178,18 +281,32 @@ public class RecipeQueryService
                 PrepMinutes = Nullable(reader, 7, r => r.GetInt32(7)),
                 TotalMinutes = Nullable(reader, 8, r => r.GetInt32(8)),
                 Difficulty = Nullable(reader, 9, r => r.GetInt32(9)),
-                Kcal = Nullable(reader, 10, r => r.GetDouble(10)),
-                Cuisines = reader.GetFieldValue<string[]>(11),
-                Allergens = reader.GetFieldValue<string[]>(12),
-                Tags = reader.GetFieldValue<string[]>(13),
-                ImageUrl = Nullable(reader, 14, r => r.GetString(14)),
+                Nutrition = ReadNutrition(reader, 10),
+                ServingSizeGrams = Nullable(reader, 19, r => r.GetDouble(19)),
+                RatingAverage = Nullable(reader, 20, r => r.GetDouble(20)),
+                RatingCount = Nullable(reader, 21, r => r.GetInt32(21)),
+                Cuisines = reader.GetFieldValue<string[]>(22),
+                Allergens = reader.GetFieldValue<string[]>(23),
+                Tags = reader.GetFieldValue<string[]>(24),
+                ImageUrl = Nullable(reader, 25, r => r.GetString(25)),
+                WebsiteUrl = Nullable(reader, 26, r => r.GetString(26)),
             },
             ct);
+
+        var offered = await OfferedPortionsAsync(source, recipeId, ct);
 
         var summary = summaries.FirstOrDefault();
         if (summary is null)
         {
-            return null;
+            if (offered.Count == 0)
+            {
+                // Nothing at any portion count: the id is unknown, not-found.
+                return null;
+            }
+
+            // The id is real; only the portion count is wrong. Failing with the
+            // counts that work lets the caller learn the fix from the failure.
+            throw new PortionsNotOfferedException(source, recipeId, portions, offered);
         }
 
         var ingredients = await ReadAsync(
@@ -217,14 +334,20 @@ public class RecipeQueryService
             summary.Headline,
             summary.Description,
             summary.Portions,
+            offered,
             summary.PrepMinutes,
             summary.TotalMinutes,
             summary.Difficulty,
-            summary.Kcal,
+            summary.Nutrition,
+            summary.ServingSizeGrams,
+            summary.RatingAverage,
+            summary.RatingCount,
             summary.Cuisines,
             summary.Allergens,
             summary.Tags,
             summary.ImageUrl,
+            summary.WebsiteUrl,
+            await UpdatedAtAsync(source, summary.RecipeId, ct),
             ingredients,
             await StepsAsync(source, summary.RecipeId, ct),
             await PantryItemsAsync(source, summary.RecipeId, ct),
@@ -235,6 +358,43 @@ public class RecipeQueryService
                     ? null
                     : $"{schema.DisplayName} does not publish ingredient quantities, "
                         + "so amounts are absent rather than zero."));
+    }
+
+    private async Task<IReadOnlyList<int>> OfferedPortionsAsync(
+        string source,
+        Guid recipeId,
+        CancellationToken ct)
+    {
+        return await ReadAsync(
+            """
+            SELECT DISTINCT r.portions FROM public.v_recipe r
+            WHERE r.source = @source AND r.recipe_id = @recipe_id
+            ORDER BY r.portions
+            """,
+            [new NpgsqlParameter("source", source), new NpgsqlParameter("recipe_id", recipeId)],
+            reader => reader.GetInt32(0),
+            ct);
+    }
+
+    /// <summary>
+    /// When the recipe last changed upstream. Normalisation only reruns when a
+    /// crawl stores a payload with a new content hash, so the stamp tracks
+    /// observed upstream change, not crawl frequency.
+    /// </summary>
+    private async Task<DateTimeOffset?> UpdatedAtAsync(
+        string source,
+        Guid recipeId,
+        CancellationToken ct)
+    {
+        var schema = Schema(source).SchemaName;
+
+        var rows = await ReadAsync(
+            $"SELECT updated_at FROM {Quote(schema)}.recipe WHERE id = @recipe_id",
+            [new NpgsqlParameter("recipe_id", recipeId)],
+            reader => reader.GetFieldValue<DateTimeOffset>(0),
+            ct);
+
+        return rows.Count == 0 ? null : rows[0];
     }
 
     /// <summary>
@@ -355,6 +515,16 @@ public class RecipeQueryService
         parameters.Add(new NpgsqlParameter(name, values.ToArray()));
     }
 
+    /// <summary>Reads the nine panel columns laid out consecutively from
+    /// <paramref name="first"/>, in <see cref="NutritionPanel"/> field order.</summary>
+    private static NutritionPanel ReadNutrition(NpgsqlDataReader reader, int first)
+    {
+        double? At(int offset) =>
+            reader.IsDBNull(first + offset) ? null : reader.GetDouble(first + offset);
+
+        return new NutritionPanel(At(0), At(1), At(2), At(3), At(4), At(5), At(6), At(7), At(8));
+    }
+
     private static T? Nullable<T>(NpgsqlDataReader reader, int ordinal, Func<NpgsqlDataReader, T> read)
         where T : struct =>
         reader.IsDBNull(ordinal) ? null : read(reader);
@@ -381,6 +551,15 @@ public class RecipeQueryService
         var result = await command.ExecuteScalarAsync(ct);
 
         return result is long value ? value : 0;
+    }
+
+    private async Task ExecuteAsync(
+        string sql,
+        IReadOnlyList<NpgsqlParameter> parameters,
+        CancellationToken ct)
+    {
+        await using var command = await CommandAsync(sql, parameters, ct);
+        await command.ExecuteNonQueryAsync(ct);
     }
 
     private async Task<IReadOnlyList<T>> ReadAsync<T>(

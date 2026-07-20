@@ -40,6 +40,7 @@ public class GoustoDbContext(DbContextOptions<GoustoDbContext> options) : DbCont
             e.Property(r => r.Title).HasMaxLength(512).IsRequired();
             e.Property(r => r.GoustoUid).HasMaxLength(128);
             e.Property(r => r.GoustoId).HasMaxLength(64);
+            e.Property(r => r.WebsiteUrl).HasMaxLength(1024);
             e.HasIndex(r => r.Slug).IsUnique();
             e.HasOne(r => r.Cuisine).WithMany().HasForeignKey(r => r.CuisineId);
         });

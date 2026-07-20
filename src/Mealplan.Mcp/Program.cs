@@ -22,10 +22,25 @@ builder.Services.Configure<ForwardedHeadersOptions>(options =>
 });
 
 builder.Services
-    .AddMcpServer(options => options.ServerInfo = new()
+    .AddMcpServer(options =>
     {
-        Name = "mealplan",
-        Version = "0.1.0",
+        options.ServerInfo = new()
+        {
+            Name = "mealplan",
+            Version = "0.2.0",
+        };
+
+        // Delivered at initialize, before any tool call - the one channel
+        // guaranteed to reach every agent. Grown in step with the surface.
+        options.ServerInstructions =
+            "Recipe data scraped from UK meal-kit sources. A null field means "
+            + "the source did not publish that value - never zero or none; "
+            + "filters therefore exclude recipes missing the filtered value. "
+            + "Offered portion counts vary by source and recipe: check "
+            + "list_sources, and on a wrong portion count get_recipe fails "
+            + "naming the counts that work. Search results are one page, not "
+            + "the world - total reports the full match count, and nutrition "
+            + "on each summary is per portion.";
     })
     .WithHttpTransport()
     .WithTools<RecipeTools>();
@@ -45,3 +60,6 @@ app.MapMcp("/mcp");
 app.MapHealthChecks("/health");
 
 await app.RunAsync();
+
+/// <summary>Named so WebApplicationFactory can host the server in tests.</summary>
+public partial class Program;

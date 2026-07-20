@@ -15,6 +15,16 @@ using Testcontainers.PostgreSql;
 namespace Mealplan.IntegrationTests;
 
 /// <summary>
+/// Shares one loaded database across the test classes that read it. Any test
+/// that mutates data belongs in its own fixture, not here.
+/// </summary>
+[CollectionDefinition(Name)]
+public class CrossSourceCollection : ICollectionFixture<CrossSourceViewFixture>
+{
+    public const string Name = "cross-source views";
+}
+
+/// <summary>
 /// One database holding both sources' schemas and the views over them, loaded
 /// from the captured fixtures. This is the only place the two sources meet, so
 /// it is where the union has to be proved.
@@ -26,6 +36,9 @@ public class CrossSourceViewFixture : IAsyncLifetime
 
     public IReadOnlyList<ISourceSchema> Schemas { get; } =
         [new GoustoSchema(), new HelloFreshSchema()];
+
+    /// <summary>For tests that host an app of their own against this database.</summary>
+    public string ConnectionString => _container.GetConnectionString();
 
     public async Task InitializeAsync()
     {

@@ -1,4 +1,5 @@
 using Mealplan.Domain.Scraping;
+using Mealplan.Infrastructure.Persistence;
 using Mealplan.Infrastructure.Sources;
 using Microsoft.Extensions.Logging;
 
@@ -12,6 +13,7 @@ namespace Mealplan.Infrastructure.Jobs;
 public class NormalizeJob(
     SourceRegistry registry,
     IRawDocumentStore documents,
+    IRecipeViewRefresher views,
     ILogger<NormalizeJob> logger)
 {
     public async Task<NormalizeResult> RunAsync(
@@ -64,6 +66,13 @@ public class NormalizeJob(
                     failed++;
                 }
             }
+        }
+
+        if (normalized > 0)
+        {
+            // The read layer serves from a materialized view; anything written
+            // above is invisible until it refreshes.
+            await views.RefreshAsync(ct);
         }
 
         logger.LogInformation(

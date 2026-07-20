@@ -10,6 +10,7 @@ namespace Mealplan.Tests;
 public class NormalizeJobTests
 {
     private readonly InMemoryDocumentStore _documents = new();
+    private readonly FakeViewRefresher _views = new();
 
     [Fact]
     public async Task Handled_documents_are_normalised_and_stamped()
@@ -24,6 +25,8 @@ public class NormalizeJobTests
         result.Normalized.Should().Be(2);
         normalizer.Normalized.Select(d => d.SourceKey).Should().BeEquivalentTo("a", "b");
         _documents.Documents.Should().OnlyContain(d => d.NormalizedAt != null);
+        _views.Refreshes.Should().Be(1,
+            "new rows are invisible until the materialized view refreshes");
     }
 
     [Fact]
@@ -39,6 +42,7 @@ public class NormalizeJobTests
         normalizer.Normalized.Should().BeEmpty();
         _documents.Documents.Single().NormalizedAt.Should()
             .NotBeNull("otherwise list pages would be re-examined on every pass, forever");
+        _views.Refreshes.Should().Be(0, "nothing was written, so there is nothing to refresh");
     }
 
     [Fact]
@@ -89,6 +93,17 @@ public class NormalizeJobTests
             [normalizer],
             [new FakeSchema()]);
 
-        return new NormalizeJob(registry, _documents, NullLogger<NormalizeJob>.Instance);
+        return new NormalizeJob(registry, _documents, _views, NullLogger<NormalizeJob>.Instance);
+    }
+
+    private sealed class FakeViewRefresher : Mealplan.Infrastructure.Persistence.IRecipeViewRefresher
+    {
+        public int Refreshes { get; private set; }
+
+        public Task RefreshAsync(CancellationToken ct = default)
+        {
+            Refreshes++;
+            return Task.CompletedTask;
+        }
     }
 }
