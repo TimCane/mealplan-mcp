@@ -54,7 +54,8 @@ public sealed class McpRoundTripTests(CrossSourceViewFixture fixture) : IAsyncLi
 
         tools.Select(t => t.Name).Should().BeEquivalentTo(
             "search_recipes", "get_recipe", "list_sources", "get_scrape_status",
-            "list_allergens", "list_cuisines", "list_tags", "search_ingredients");
+            "list_allergens", "list_cuisines", "list_tags", "search_ingredients",
+            "get_shopping_list");
 
         foreach (var tool in tools)
         {
@@ -179,6 +180,83 @@ public sealed class McpRoundTripTests(CrossSourceViewFixture fixture) : IAsyncLi
             new Dictionary<string, object?> { ["query"] = "garlic" }));
         ingredients.GetProperty("items").EnumerateArray()
             .Should().Contain(i => i.GetProperty("name").GetString() == "Garlic Clove");
+    }
+
+    [Fact]
+    public async Task Shopping_list_round_trips_rows_and_a_bad_ref_names_the_problem()
+    {
+        var search = AsJson(await _client.CallToolAsync(
+            "search_recipes",
+            new Dictionary<string, object?> { ["sources"] = new[] { "gousto" } }));
+        var recipeId = search.GetProperty("items")[0].GetProperty("recipeId").GetString();
+
+        var rows = AsJson(await _client.CallToolAsync(
+                "get_shopping_list",
+                new Dictionary<string, object?>
+                {
+                    ["recipes"] = new[] { new { source = "gousto", recipeId, portions = 2 } },
+                }))
+            .GetProperty("result");
+
+        rows.EnumerateArray().Should().NotBeEmpty()
+            .And.Contain(r => r.GetProperty("isPantryItem").GetBoolean(),
+                "the staples the box will not contain must reach the wire flagged");
+        rows.EnumerateArray().Should().OnlyContain(
+            r => r.GetProperty("recipeName").GetString()!.Length > 0);
+
+        var badPortions = await _client.CallToolAsync(
+            "get_shopping_list",
+            new Dictionary<string, object?>
+            {
+                ["recipes"] = new[] { new { source = "gousto", recipeId, portions = 99 } },
+            });
+
+        badPortions.IsError.Should().BeTrue();
+        badPortions.Content.OfType<TextContentBlock>().Single().Text
+            .Should().Contain("Offered portion counts");
+    }
+
+    [Fact]
+    public async Task Prompts_are_listed_and_render_the_safe_flow()
+    {
+        var prompts = await _client.ListPromptsAsync();
+
+        prompts.Select(p => p.Name).Should().BeEquivalentTo(
+            "plan_week", "find_recipe", "whats_available");
+
+        var planWeek = await _client.GetPromptAsync(
+            "plan_week",
+            new Dictionary<string, object?> { ["allergens"] = "milk" });
+
+        var text = planWeek.Messages.Select(m => m.Content)
+            .OfType<TextContentBlock>().Single().Text;
+
+        text.Should().Contain("list_allergens",
+            "the rendered flow must resolve slugs before filtering");
+
+        var orientation = await _client.GetPromptAsync("whats_available");
+        orientation.Messages.Should().NotBeEmpty();
+    }
+
+    [Fact]
+    public async Task Completions_serve_live_slugs_from_the_vocabulary_views()
+    {
+        var completions = await _client.CompleteAsync(
+            new PromptReference { Name = "plan_week" },
+            argumentName: "allergens",
+            argumentValue: "mu");
+
+        completions.Completion.Values.Should().Contain("mustard",
+            "the values must come from the live vocabulary, not a static list");
+
+        // A list-shaped argument completes its last segment, carrying the
+        // settled ones along.
+        var continued = await _client.CompleteAsync(
+            new PromptReference { Name = "plan_week" },
+            argumentName: "allergens",
+            argumentValue: "gluten, mu");
+
+        continued.Completion.Values.Should().Contain("gluten, mustard");
     }
 
     /// <summary>
