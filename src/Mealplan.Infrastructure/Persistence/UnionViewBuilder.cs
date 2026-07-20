@@ -73,9 +73,13 @@ public class UnionViewBuilder(ILogger<UnionViewBuilder> logger)
     private static string Typed(IReadOnlyList<string> columns) =>
         string.Join(", ", columns.Select(column => column switch
         {
-            "portions" or "prep_minutes" or "total_minutes" or "difficulty" =>
+            "portions" or "prep_minutes" or "total_minutes" or "difficulty"
+                or "rating_count" =>
                 $"NULL::integer AS {column}",
-            "kcal" or "amount" => $"NULL::double precision AS {column}",
+            "kcal" or "amount" or "energy_kj" or "fat_g" or "saturates_g"
+                or "carbs_g" or "sugars_g" or "fibre_g" or "protein_g"
+                or "salt_g" or "serving_size_g" or "rating_avg" =>
+                $"NULL::double precision AS {column}",
             "cuisines" or "allergens" or "tags" => $"NULL::text[] AS {column}",
             "recipe_id" => $"NULL::uuid AS {column}",
             _ => $"NULL::text AS {column}",

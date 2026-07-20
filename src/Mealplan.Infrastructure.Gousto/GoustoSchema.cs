@@ -27,6 +27,8 @@ public class GoustoSchema : ISourceSchema
     /// <summary>
     /// One row per recipe per offered portion count. Prep time comes from the
     /// yield, so it is null for portion counts Gousto does not publish one for.
+    /// Nutrition selects the basis = per_portion row, matching the view's
+    /// per-portion contract; the per-100g row stays unsurfaced.
     /// </summary>
     public string RecipeViewSql => """
         SELECT
@@ -41,16 +43,35 @@ public class GoustoSchema : ISourceSchema
             y.prep_minutes                AS total_minutes,
             NULL::integer                 AS difficulty,
             n.energy_kcal                 AS kcal,
+            n.energy_kj                   AS energy_kj,
+            n.fat_grams                   AS fat_g,
+            n.saturated_fat_grams         AS saturates_g,
+            n.carbs_grams                 AS carbs_g,
+            n.sugars_grams                AS sugars_g,
+            n.fibre_grams                 AS fibre_g,
+            n.protein_grams               AS protein_g,
+            n.salt_grams                  AS salt_g,
+            n.net_weight_grams            AS serving_size_g,
+            r.rating_average              AS rating_avg,
+            r.rating_count                AS rating_count,
             CASE WHEN c.slug IS NULL THEN ARRAY[]::text[] ELSE ARRAY[c.slug::text] END AS cuisines,
             COALESCE(a.slugs, ARRAY[]::text[])  AS allergens,
             COALESCE(g.titles, ARRAY[]::text[]) AS tags,
             r.image_url                   AS image_url,
-            concat_ws(' ', r.title, r.description) AS search_text
+            r.website_url                 AS website_url,
+            concat_ws(' ', r.title, r.description, ing.names) AS search_text
         FROM gousto.recipe r
         JOIN gousto.recipe_yield y ON y.recipe_id = r.id
         LEFT JOIN gousto.cuisine c ON c.id = r.cuisine_id
         LEFT JOIN gousto.recipe_nutrition n
             ON n.recipe_id = r.id AND n.basis = 1
+        LEFT JOIN LATERAL (
+            SELECT string_agg(DISTINCT i.name, ' ') AS names
+            FROM gousto.recipe_yield y2
+            JOIN gousto.recipe_yield_ingredient yi ON yi.yield_id = y2.id
+            JOIN gousto.ingredient i ON i.id = yi.ingredient_id
+            WHERE y2.recipe_id = r.id
+        ) ing ON true
         LEFT JOIN LATERAL (
             SELECT array_agg(al.slug::text ORDER BY al.slug) AS slugs
             FROM gousto.recipe_allergen ra

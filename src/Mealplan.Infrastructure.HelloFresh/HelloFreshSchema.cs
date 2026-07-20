@@ -32,7 +32,9 @@ public class HelloFreshSchema : ISourceSchema
 
     /// <summary>
     /// One row per recipe per portion count. Prep and total time are recipe
-    /// level here, unlike Gousto where they vary by yield.
+    /// level here, unlike Gousto where they vary by yield. Nutrition rows are
+    /// pivoted by their published names - the strings are pinned to what the
+    /// committed fixtures carry, and the projection tests break if they drift.
     /// </summary>
     public string RecipeViewSql => """
         SELECT
@@ -46,16 +48,47 @@ public class HelloFreshSchema : ISourceSchema
             r.prep_minutes        AS prep_minutes,
             r.total_minutes       AS total_minutes,
             r.difficulty          AS difficulty,
-            n.amount              AS kcal,
+            n.kcal                AS kcal,
+            n.energy_kj           AS energy_kj,
+            n.fat_g               AS fat_g,
+            n.saturates_g         AS saturates_g,
+            n.carbs_g             AS carbs_g,
+            n.sugars_g            AS sugars_g,
+            n.fibre_g             AS fibre_g,
+            n.protein_g           AS protein_g,
+            n.salt_g              AS salt_g,
+            r.serving_size_grams  AS serving_size_g,
+            r.average_rating      AS rating_avg,
+            r.ratings_count       AS rating_count,
             COALESCE(cu.slugs, ARRAY[]::text[]) AS cuisines,
             COALESCE(al.slugs, ARRAY[]::text[]) AS allergens,
             COALESCE(tg.names, ARRAY[]::text[]) AS tags,
             r.image_url           AS image_url,
-            concat_ws(' ', r.name, r.headline, r.description) AS search_text
+            r.website_url         AS website_url,
+            concat_ws(' ', r.name, r.headline, r.description, ing.names) AS search_text
         FROM hellofresh.recipe r
         JOIN hellofresh.recipe_yield y ON y.recipe_id = r.id
-        LEFT JOIN hellofresh.recipe_nutrition n
-            ON n.recipe_id = r.id AND n.name = 'Energy (kcal)'
+        LEFT JOIN LATERAL (
+            SELECT
+                max(rn.amount) FILTER (WHERE rn.name = 'Energy (kcal)')      AS kcal,
+                max(rn.amount) FILTER (WHERE rn.name = 'Energy (kJ)')        AS energy_kj,
+                max(rn.amount) FILTER (WHERE rn.name = 'Fat')                AS fat_g,
+                max(rn.amount) FILTER (WHERE rn.name = 'of which saturates') AS saturates_g,
+                max(rn.amount) FILTER (WHERE rn.name = 'Carbohydrate')       AS carbs_g,
+                max(rn.amount) FILTER (WHERE rn.name = 'of which sugars')    AS sugars_g,
+                max(rn.amount) FILTER (WHERE rn.name = 'Dietary Fibre')      AS fibre_g,
+                max(rn.amount) FILTER (WHERE rn.name = 'Protein')            AS protein_g,
+                max(rn.amount) FILTER (WHERE rn.name = 'Salt')               AS salt_g
+            FROM hellofresh.recipe_nutrition rn
+            WHERE rn.recipe_id = r.id
+        ) n ON true
+        LEFT JOIN LATERAL (
+            SELECT string_agg(DISTINCT i.name, ' ') AS names
+            FROM hellofresh.recipe_yield y2
+            JOIN hellofresh.recipe_yield_ingredient yi ON yi.yield_id = y2.id
+            JOIN hellofresh.ingredient i ON i.id = yi.ingredient_id
+            WHERE y2.recipe_id = r.id
+        ) ing ON true
         LEFT JOIN LATERAL (
             SELECT array_agg(c.slug::text ORDER BY c.slug) AS slugs
             FROM hellofresh.recipe_cuisine rc
