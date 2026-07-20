@@ -102,16 +102,18 @@ browsing the repo.
 
 | Tool | Returns |
 |---|---|
-| `search_recipes` | A page of summaries with the per-portion nutrition panel and rating. Filters: free text (name, description, ingredients), sources, portions, cuisines, allergens, ingredients, prep time, nutrient ranges, minimum rating. Sorts by name, rating, kcal, or seeded random. |
-| `get_recipe` | Full detail at one portion count: ingredients, steps, nutrition, serving size, offered portion counts, website URL. A wrong portion count fails naming the counts that work. |
+| `search_recipes` | A page of summaries with the per-portion nutrition panel, rating and allergens split into contains and may-contain-traces. Filters: free text (name, description, ingredients), sources, portions, cuisines, allergens (traces excluded too unless `excludeTraces` is false), ingredients, prep time, nutrient ranges, minimum rating. Sorts by name, rating, kcal, or seeded random. |
+| `get_recipe` | Full detail at one portion count: ingredients, steps, utensils, nutrition, serving size, offered portion counts, website URL. A wrong portion count fails naming the counts that work. |
 | `list_sources` | One row per source: recipe count and capability flags. |
 | `get_scrape_status` | Last crawl and pending-normalisation counts per source. |
 
 Call `list_sources` first. It reports what each source can and cannot say - most
 importantly `hasIngredientQuantities`, which is false for Gousto, because Gousto
 ships boxes and publishes no amounts. An absent quantity there means "not
-published", not "none needed". The same rule runs through every field: null is
-"not published", and filters exclude recipes missing the filtered value.
+published", not "none needed". Likewise `hasTraceAllergens` is false for Gousto:
+an empty `traceAllergens` there means "unknown", not "none". The same rule runs
+through every field: null is "not published", and filters exclude recipes
+missing the filtered value.
 
 ## Adding a recipe source
 
