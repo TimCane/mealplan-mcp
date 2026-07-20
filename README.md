@@ -126,6 +126,30 @@ an empty `traceAllergens` there means "unknown", not "none". The same rule runs
 through every field: null is "not published", and filters exclude recipes
 missing the filtered value.
 
+## Usage audit
+
+Every tool and prompt call lands in `audit.tool_call`, with one
+`audit.session` row per MCP session. This is analytics, not a security trail:
+rows are written in the background and dropped rather than allowed to slow or
+fail a call. Read it with SQL - there is no dashboard and no tool.
+
+```sh
+docker compose exec db psql -U mealplanmcp -c \
+  "SELECT name, count(*), count(*) FILTER (WHERE result_count = 0) AS empty
+   FROM audit.tool_call GROUP BY name ORDER BY 2 DESC"
+```
+
+There is no auth, so "who" is only what the transport provides: the session
+id, the client name and version from the handshake, and the caller's address
+hashed with a salt that rotates daily and is never stored. Within a day those
+hashes group one caller; across days they cannot be linked at all. Arguments
+are stored verbatim on that basis. Rows are swept after 90 days
+(`Audit:RetentionDays`).
+
+Callers are rate limited to 120 requests a minute per address
+(`RateLimit:PermitsPerMinute`) - clear of any real agent, and a cap on a
+runaway loop.
+
 ## Adding a recipe source
 
 Add a project under `src/Mealplan.Infrastructure.<Name>/` implementing
