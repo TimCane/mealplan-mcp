@@ -42,8 +42,14 @@ public class RecipeTools(RecipeQueryService recipes)
         int? maxPrepMinutes = null,
         [Description("Cuisine slugs, e.g. [\"italian\"]. Matches any.")]
         string[]? cuisines = null,
-        [Description("Allergen slugs to avoid, e.g. [\"milk\",\"gluten\"]. Any match excludes the recipe.")]
+        [Description("Allergen slugs to avoid, e.g. [\"milk\",\"gluten\"]. Any match excludes "
+            + "the recipe, in confirmed contains and - by default - may-contain-traces alike.")]
         string[]? excludeAllergens = null,
+        [Description("Whether excludeAllergens also matches may-contain-traces. Defaults to "
+            + "true, the safe direction; false narrows to confirmed contains only. Sources "
+            + "with hasTraceAllergens false publish no traces data, so their recipes are "
+            + "never excluded on traces either way.")]
+        bool excludeTraces = true,
         [Description("Ingredient names that must all appear, e.g. [\"chicken\"]. Substring match.")]
         string[]? includeIngredients = null,
         [Description("Per-portion nutrient ranges, e.g. [{\"nutrient\":\"protein\",\"min\":30}]. "
@@ -70,6 +76,7 @@ public class RecipeTools(RecipeQueryService recipes)
                 MaxPrepMinutes = maxPrepMinutes,
                 Cuisines = cuisines,
                 ExcludeAllergens = excludeAllergens,
+                ExcludeTraces = excludeTraces,
                 IncludeIngredients = includeIngredients,
                 NutrientFilters = nutrientFilters,
                 MinRating = minRating,
@@ -88,11 +95,13 @@ public class RecipeTools(RecipeQueryService recipes)
         OpenWorld = false,
         UseStructuredContent = true)]
     [Description(
-        "Full detail for one recipe: ingredients, method, allergens and per-portion "
-        + "nutrition, at the requested portion count. The notes field reports what "
-        + "the source does not publish, so an absent amount is not mistaken for "
-        + "none needed. Asking for a portion count the recipe is not offered at "
-        + "fails with the counts that would work.")]
+        "Full detail for one recipe: ingredients, method, utensils, allergens and "
+        + "per-portion nutrition, at the requested portion count. Allergens are "
+        + "confirmed contains; traceAllergens are may-contain-traces, and are empty "
+        + "with a caveat for sources that do not publish the distinction - unknown, "
+        + "not none. The notes field reports what the source does not publish, so "
+        + "an absent amount is not mistaken for none needed. Asking for a portion "
+        + "count the recipe is not offered at fails with the counts that would work.")]
     public async Task<RecipeDetail?> GetRecipeAsync(
         [Description("Source slug, as returned by search_recipes or list_sources.")]
         string source,

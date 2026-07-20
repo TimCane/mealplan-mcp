@@ -85,12 +85,16 @@ public class RecipeQueryService
         AddArrayFilter(where, parameters, "sources", query.Sources, "r.source = ANY(@sources)");
         AddArrayFilter(where, parameters, "cuisines", query.Cuisines, "r.cuisines && @cuisines");
 
+        // Traces count as carrying the allergen unless the caller relaxes it -
+        // over-excluding is the only safe default here.
         AddArrayFilter(
             where,
             parameters,
             "exclude_allergens",
             query.ExcludeAllergens,
-            "NOT (r.allergens && @exclude_allergens)");
+            query.ExcludeTraces
+                ? "NOT ((r.allergens || r.trace_allergens) && @exclude_allergens)"
+                : "NOT (r.allergens && @exclude_allergens)");
 
         if (query.MaxPrepMinutes is { } maxPrep)
         {
@@ -167,7 +171,7 @@ public class RecipeQueryService
                     r.kcal, r.energy_kj, r.fat_g, r.saturates_g, r.carbs_g,
                     r.sugars_g, r.fibre_g, r.protein_g, r.salt_g,
                     r.rating_avg, r.rating_count,
-                    r.cuisines, r.allergens, r.tags, r.image_url
+                    r.cuisines, r.allergens, r.trace_allergens, r.tags, r.image_url
              FROM public.v_recipe r
              WHERE {where}{textClause}
              ORDER BY {OrderBy(query.Sort)}
@@ -191,7 +195,8 @@ public class RecipeQueryService
                 reader.GetFieldValue<string[]>(20),
                 reader.GetFieldValue<string[]>(21),
                 reader.GetFieldValue<string[]>(22),
-                Nullable(reader, 23, r => r.GetString(23))),
+                reader.GetFieldValue<string[]>(23),
+                Nullable(reader, 24, r => r.GetString(24))),
             ct);
 
         return new Page<RecipeSummary>(rows, (int)total, query.Skip, take);
@@ -264,7 +269,8 @@ public class RecipeQueryService
                    r.difficulty, r.kcal, r.energy_kj, r.fat_g, r.saturates_g,
                    r.carbs_g, r.sugars_g, r.fibre_g, r.protein_g, r.salt_g,
                    r.serving_size_g, r.rating_avg, r.rating_count,
-                   r.cuisines, r.allergens, r.tags, r.image_url, r.website_url
+                   r.cuisines, r.allergens, r.trace_allergens, r.tags,
+                   r.image_url, r.website_url
             FROM public.v_recipe r
             WHERE r.source = @source AND r.recipe_id = @recipe_id AND r.portions = @portions
             """,
@@ -287,9 +293,10 @@ public class RecipeQueryService
                 RatingCount = Nullable(reader, 21, r => r.GetInt32(21)),
                 Cuisines = reader.GetFieldValue<string[]>(22),
                 Allergens = reader.GetFieldValue<string[]>(23),
-                Tags = reader.GetFieldValue<string[]>(24),
-                ImageUrl = Nullable(reader, 25, r => r.GetString(25)),
-                WebsiteUrl = Nullable(reader, 26, r => r.GetString(26)),
+                TraceAllergens = reader.GetFieldValue<string[]>(24),
+                Tags = reader.GetFieldValue<string[]>(25),
+                ImageUrl = Nullable(reader, 26, r => r.GetString(26)),
+                WebsiteUrl = Nullable(reader, 27, r => r.GetString(27)),
             },
             ct);
 
@@ -324,7 +331,6 @@ public class RecipeQueryService
             ct);
 
         var schema = Schema(source);
-        var capabilities = schema.Capabilities;
 
         return new RecipeDetail(
             summary.Source,
@@ -344,6 +350,7 @@ public class RecipeQueryService
             summary.RatingCount,
             summary.Cuisines,
             summary.Allergens,
+            summary.TraceAllergens,
             summary.Tags,
             summary.ImageUrl,
             summary.WebsiteUrl,
@@ -351,13 +358,8 @@ public class RecipeQueryService
             ingredients,
             await StepsAsync(source, summary.RecipeId, ct),
             await PantryItemsAsync(source, summary.RecipeId, ct),
-            new SourceNotes(
-                capabilities.HasIngredientQuantities,
-                capabilities.HasPantryItems,
-                capabilities.HasIngredientQuantities
-                    ? null
-                    : $"{schema.DisplayName} does not publish ingredient quantities, "
-                        + "so amounts are absent rather than zero."));
+            await UtensilsAsync(source, summary.RecipeId, ct),
+            Notes(schema));
     }
 
     private async Task<IReadOnlyList<int>> OfferedPortionsAsync(
@@ -443,6 +445,60 @@ public class RecipeQueryService
             ct);
     }
 
+    private async Task<IReadOnlyList<string>> UtensilsAsync(
+        string source,
+        Guid recipeId,
+        CancellationToken ct)
+    {
+        if (!Schema(source).Capabilities.HasUtensils)
+        {
+            return [];
+        }
+
+        var schema = Schema(source).SchemaName;
+
+        return await ReadAsync(
+            $"""
+             SELECT u.name FROM {Quote(schema)}.recipe_utensil ru
+             JOIN {Quote(schema)}.utensil u ON u.id = ru.utensil_id
+             WHERE ru.recipe_id = @recipe_id ORDER BY u.name
+             """,
+            [new NpgsqlParameter("recipe_id", recipeId)],
+            reader => reader.GetString(0),
+            ct);
+    }
+
+    /// <summary>
+    /// The caveat spells out each gap in prose because the flags alone are easy
+    /// to skim past when the stakes are allergens.
+    /// </summary>
+    private static SourceNotes Notes(ISourceSchema schema)
+    {
+        var capabilities = schema.Capabilities;
+        var caveats = new List<string>();
+
+        if (!capabilities.HasIngredientQuantities)
+        {
+            caveats.Add(
+                $"{schema.DisplayName} does not publish ingredient quantities, "
+                + "so amounts are absent rather than zero.");
+        }
+
+        if (!capabilities.HasTraceAllergens)
+        {
+            caveats.Add(
+                $"{schema.DisplayName} does not publish may-contain-traces data, "
+                + "so an empty traceAllergens means unknown, not none.");
+        }
+
+        return new SourceNotes(
+            capabilities.HasIngredientQuantities,
+            capabilities.HasPantryItems,
+            capabilities.HasTraceAllergens,
+            capabilities.HasUtensils,
+            caveats.Count == 0 ? null : string.Join(" ", caveats));
+    }
+
     public async Task<IReadOnlyList<SourceInfo>> ListSourcesAsync(CancellationToken ct = default)
     {
         var counts = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
@@ -467,6 +523,8 @@ public class RecipeQueryService
                 s.Capabilities.HasIngredientQuantities,
                 s.Capabilities.HasPantryItems,
                 s.Capabilities.HasNutrition,
+                s.Capabilities.HasTraceAllergens,
+                s.Capabilities.HasUtensils,
                 s.Capabilities.PortionSizes))
             .ToList();
     }

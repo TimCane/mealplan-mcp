@@ -4,7 +4,10 @@ namespace Mealplan.Infrastructure.Reading;
 
 /// <summary>
 /// A recipe as the MCP surface presents it: the same shape whatever source it
-/// came from, so a calling model does not need per-source handling.
+/// came from, so a calling model does not need per-source handling. Allergens
+/// holds confirmed contains; TraceAllergens holds may-contain-traces, and is
+/// always empty for a source that does not publish the distinction - unknown,
+/// not none, per its hasTraceAllergens flag.
 /// </summary>
 public sealed record RecipeSummary(
     string Source,
@@ -21,6 +24,7 @@ public sealed record RecipeSummary(
     int? RatingCount,
     IReadOnlyList<string> Cuisines,
     IReadOnlyList<string> Allergens,
+    IReadOnlyList<string> TraceAllergens,
     IReadOnlyList<string> Tags,
     string? ImageUrl);
 
@@ -62,6 +66,7 @@ public sealed record RecipeDetail(
     int? RatingCount,
     IReadOnlyList<string> Cuisines,
     IReadOnlyList<string> Allergens,
+    IReadOnlyList<string> TraceAllergens,
     IReadOnlyList<string> Tags,
     string? ImageUrl,
     string? WebsiteUrl,
@@ -69,15 +74,19 @@ public sealed record RecipeDetail(
     IReadOnlyList<RecipeIngredient> Ingredients,
     IReadOnlyList<string> Steps,
     IReadOnlyList<string> PantryItems,
+    IReadOnlyList<string> Utensils,
     SourceNotes Notes);
 
 /// <summary>
 /// What this source could not tell us about this recipe. Present so a null
-/// amount reads as "not published" rather than "none needed".
+/// amount reads as "not published" rather than "none needed", and an empty
+/// traces list as "unknown" rather than "none".
 /// </summary>
 public sealed record SourceNotes(
     bool HasIngredientQuantities,
     bool HasPantryItems,
+    bool HasTraceAllergens,
+    bool HasUtensils,
     string? Caveat);
 
 /// <summary>
@@ -97,6 +106,8 @@ public sealed record SourceInfo(
     bool HasIngredientQuantities,
     bool HasPantryItems,
     bool HasNutrition,
+    bool HasTraceAllergens,
+    bool HasUtensils,
     IReadOnlyList<int> PortionSizes);
 
 public sealed record ScrapeStatus(
@@ -161,6 +172,13 @@ public sealed record RecipeSearchQuery
 
     /// <summary>Recipes carrying any of these allergens are excluded.</summary>
     public IReadOnlyList<string>? ExcludeAllergens { get; init; }
+
+    /// <summary>
+    /// Whether <see cref="ExcludeAllergens"/> also matches may-contain-traces.
+    /// Over-excluding is the only safe default in an allergen-bearing dataset;
+    /// false narrows to confirmed contains only.
+    /// </summary>
+    public bool ExcludeTraces { get; init; } = true;
 
     /// <summary>Recipes must contain every one of these ingredients.</summary>
     public IReadOnlyList<string>? IncludeIngredients { get; init; }
