@@ -25,6 +25,13 @@ public class GoustoRecipeEntity
 
     public string? ImageUrl { get; set; }
 
+    /// <summary>
+    /// The canonical cookbook URL from the payload's seo block. Stored rather
+    /// than rebuilt from the slug: the path carries a category segment the slug
+    /// alone cannot supply.
+    /// </summary>
+    public string? WebsiteUrl { get; set; }
+
     public Guid? CuisineId { get; set; }
 
     public GoustoCuisineEntity? Cuisine { get; set; }
